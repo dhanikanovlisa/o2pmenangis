@@ -24,7 +24,7 @@ public class pluginSettings extends Tab {
         HBox wholeLayout = new HBox();
         wholeLayout.setId("wholeLayout");
         wholeLayout.getChildren().addAll(pluginLayout);
-        wholeLayout.getStylesheets().add("file:src/main/java/com/example/tokosinaro2p/style/style.css");
+        wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
         Pane base = new Pane();
         Image illus = new Image("file:src/img/illustration1.png");

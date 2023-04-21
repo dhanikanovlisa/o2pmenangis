@@ -90,17 +90,17 @@ public class catalogMenu extends Tab {
         VBox rightLayout = new VBox();
         HBox searchLayout = new HBox();
         searchLayout.getChildren().addAll(this.searchBar, this.searchDropDown);
-        searchLayout.getStylesheets().add("file:src/main/java/com/example/tokosinaro2p/style/style.css");
+        searchLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
         rightLayout.getChildren().addAll(searchLayout, itemsLayout);
         rightLayout.setSpacing(15);
         searchLayout.setSpacing(15);
-        rightLayout.getStylesheets().add("file:src/main/java/com/example/tokosinaro2p/style/style.css");
+        rightLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
         /*Left layout containing dropdown id, list of printed items, button*/
         VBox leftLayout = new VBox();
         leftLayout.setId("leftLayout");
         leftLayout.getChildren().addAll(this.idDropDown, invoiceLayout, buttonLayout);
-        leftLayout.getStylesheets().add("file:src/main/java/com/example/tokosinaro2p/style/style.css");
+        leftLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
         leftLayout.setPrefWidth(500);
         leftLayout.setPrefHeight(600);
         leftLayout.setSpacing(10);

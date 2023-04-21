@@ -29,7 +29,7 @@ public class dataStoreSettings extends Tab {
         HBox wholeLayout = new HBox();
         wholeLayout.setId("wholeLayout");
         wholeLayout.getChildren().addAll(dataLayout);
-        wholeLayout.getStylesheets().add("file:src/main/java/com/example/tokosinaro2p/style/style.css");
+        wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
 
         Pane base = new Pane();

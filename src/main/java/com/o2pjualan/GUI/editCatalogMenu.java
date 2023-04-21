@@ -95,7 +95,7 @@ public class editCatalogMenu extends Tab {
         bottomButtonLayout.getChildren().addAll(this.saveButton, this.cancelButton);
         bottomButtonLayout.setSpacing(450);
         wholeLayout.getChildren().addAll(this.backButton, editLayout, bottomButtonLayout);
-        wholeLayout.getStylesheets().add("file:src/main/java/com/example/tokosinaro2p/style/style.css");
+        wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
 
         Pane base = new Pane();

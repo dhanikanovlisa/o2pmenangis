@@ -50,9 +50,9 @@ public class Main extends Application {
         TabPane mainTabPane = new TabPane();
         holderTab.setTop(menuBar);
         holderTab.setCenter(mainTabPane);
-        holderTab.getStylesheets().add("file:src/main/java/com/example/tokosinaro2p/style/style.css");
+        holderTab.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
         Scene tabPane = new Scene(holderTab, 800, 700);
-        tabPane.getStylesheets().add("file:src/main/java/com/example/tokosinaro2p/style/style.css");
+        tabPane.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
         primaryStage.setScene(tabPane);
         primaryStage.show();
