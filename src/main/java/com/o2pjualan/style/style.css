@@ -1,0 +1,157 @@
+.root {
+    -fx-background-color: #FAFFFA;
+    -fx-font-family: "Inter";
+}
+
+#h1 {
+    -fx-text-fill: #599962;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+#wholeLayout{
+    -fx-padding: 10;
+}
+#leftLayout {
+    -fx-background-color: #E2F6E5;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(34, 92, 42, 0.25), 0, 4, 3, 2);
+}
+
+#invoiceLayout {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+    -fx-pref-width: 400;
+    -fx-pref-height: 500;
+}
+
+#searchBar {
+    -fx-background-color: #599962;
+    -fx-border-radius: 20;
+    -fx-text-fill: #F3FFE7;
+    -fx-prompt-text-fill: #F3FFE7;
+}
+#searchDropDown {
+    -fx-background-color: #599962;
+    -fx-border-radius: 10;
+    -fx-text-fill: #F3FFE7;
+    -fx-font-size: 14;
+    -fx-pref-width: 150;
+    -fx-pref-height: 40;
+    -fx-prompt-text-fill: #F3FFE7;
+    -fx-tick-label-fill: #F3FFE7;
+    -fx-highlight-text-fill: #F3FFE7;
+}
+
+#idDropDown {
+    -fx-background-color: #599962;
+    -fx-border-radius: 10;
+    -fx-text-fill: #F3FFE7;
+    -fx-font-size: 14;
+    -fx-pref-width: 250;
+    -fx-pref-height: 40;
+    -fx-prompt-text-fill: #F3FFE7;
+    -fx-highlight-text-fill: #F3FFE7;
+}
+
+.button {
+    -fx-background-color: #225C2A;
+    -fx-font-size: 14;
+    -fx-background-radius: 10;
+    -fx-text-fill: #F3FFE7;
+    -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
+    -fx-pref-width: 200;
+    -fx-pref-height: 50;
+}
+
+#textItem{
+    -fx-text-fill: #225C2A;
+    -fx-font-size: 14;
+}
+#layoutCatalog{
+    -fx-padding: 10;
+    -fx-spacing: 20;
+}
+
+#textFieldCatalog{
+    -fx-pref-width: 500;
+    -fx-pref-height: 30;
+    -fx-background-color: #CFFFD4;
+    -fx-border-color: #3ED34D;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+#buttonCatalog{
+    -fx-background-color: #225C2A;
+    -fx-font-size: 14;
+    -fx-background-radius: 10;
+    -fx-text-fill: #F3FFE7;
+    -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
+    -fx-pref-width: 150;
+    -fx-pref-height: 40;
+}
+
+#buttonCatalog:hover{
+    -fx-background-color: #599962;
+    -fx-text-fill: #225C2A;
+
+}
+
+#catalogLabel {
+    -fx-text-fill: #225C2A;
+    -fx-font-size: 16px;
+}
+
+#settingsButton {
+    -fx-background-color: #225C2A;
+    -fx-font-size: 14;
+    -fx-background-radius: 10;
+    -fx-text-fill: #F3FFE7;
+    -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
+    -fx-pref-width: 150;
+    -fx-pref-height: 40;
+}
+
+#settingsButton:hover{
+    -fx-background-color: #599962;
+    -fx-text-fill: #225C2A;
+}
+
+#settingsDropDown{
+    -fx-background-color: #599962;
+    -fx-border-radius: 10;
+    -fx-text-fill: #F3FFE7;
+    -fx-font-size: 14;
+    -fx-prompt-text-fill: #F3FFE7;
+    -fx-pref-height: 30;
+    -fx-pref-width: 250;
+    -fx-tick-label-fill: #F3FFE7;
+    -fx-highlight-fill: #F3FFE7;
+}
+
+#dateLabel {
+    -fx-font-weight: SEMI_BOLD;
+    -fx-font-size : 20;
+    -fx-text-fill: rgb(34, 92, 42);
+}
+
+#timeLabel {
+    -fx-font-weight: BOLD;
+    -fx-font-size: 60;
+    -fx-text-fill: rgb(34, 92, 42);
+}
+
+#namaLabel {
+    -fx-font-size: 16px;
+    -fx-padding: 25 0 100 0;
+    -fx-text-fill: rgb(34, 92, 42);
+}
+
+#nimLabel {
+    -fx-font-size: 16px;
+    -fx-padding: 25 0 100 10;
+    -fx-text-fill: rgb(34, 92, 42);
+}
