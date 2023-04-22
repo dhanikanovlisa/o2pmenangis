@@ -32,10 +32,11 @@ public class Main extends Application {
 
         Menu menu2 = new Menu("Profile");
         MenuItem signUp = new MenuItem("Sign Up");
-        MenuItem updateMembership = new MenuItem("Update Membership");
+        MenuItem updateMembership = new MenuItem("Upgrade Membership");
         MenuItem deactivate = new MenuItem("Deactivate Membership");
         MenuItem history = new MenuItem("History");
-        menu2.getItems().addAll(signUp, updateMembership, deactivate, history);
+        MenuItem clickHistory = new MenuItem("Clicked History");
+        menu2.getItems().addAll(signUp, updateMembership, deactivate, history, clickHistory);
 
         Menu menu3 = new Menu("Settings");
         MenuItem dataStorage = new MenuItem("Change Data Storage");
@@ -76,28 +77,31 @@ public class Main extends Application {
         });
 
         signUp.setOnAction(event -> {
-            Tab signUpTab = new Tab("Sign Up");
-            signUpTab.setContent(new Label("tes"));
+            signUp signUpTab = new signUp();
             mainTabPane.getTabs().add(signUpTab);
         });
 
         updateMembership.setOnAction(event -> {
-            Tab updateMembershipTab = new Tab("Update Membership");
-            updateMembershipTab.setContent(new Label("Update"));
-            mainTabPane.getTabs().add(updateMembershipTab);
+            upgradeMembership upgradeMembershipTab = new upgradeMembership();
+            mainTabPane.getTabs().add(upgradeMembershipTab);
         });
 
         deactivate.setOnAction(event -> {
-            Tab deactivateTab = new Tab("Deactivate Membership");
-            deactivateTab.setContent(new Label("Deactivate"));
+            deactivateMembership deactivateTab = new deactivateMembership();
             mainTabPane.getTabs().add(deactivateTab);
         });
 
         history.setOnAction(event -> {
-            Tab historyTab = new Tab("History");
-            historyTab.setContent(new Label("History"));
+            history historyTab = new history();
             mainTabPane.getTabs().add(historyTab);
         });
+
+        /*Buat keperluan testing clicked history item*/
+        clickHistory.setOnAction(event -> {
+            clickedHistory clickTab = new clickedHistory();
+            mainTabPane.getTabs().add(clickTab);
+        });
+
 
         dataStorage.setOnAction(event -> {
             dataStoreSettings dataStoreTab = new dataStoreSettings();

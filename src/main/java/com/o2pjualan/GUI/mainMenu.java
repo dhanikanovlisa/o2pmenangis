@@ -1,5 +1,9 @@
 package com.o2pjualan.GUI;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,6 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -61,6 +67,17 @@ public class mainMenu extends Tab{
         ImageView logo = new ImageView(new Image("file:src/img/logo.png"));
         logo.setFitWidth(250);
         logo.setPreserveRatio(true);
+
+        TranslateTransition transition = new TranslateTransition();
+        transition.setDuration(Duration.millis(1500));
+        transition.setNode(logo);
+        transition.setToY(-20);
+        transition.setAutoReverse(true);
+        transition.setCycleCount(TranslateTransition.INDEFINITE);
+        transition.play();
+
+
+
 
         // Add components
         hbox.getChildren().addAll(nama, nim);
