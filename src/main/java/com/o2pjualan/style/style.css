@@ -4,10 +4,16 @@
 }
 
 #h1 {
-    -fx-text-fill: #599962;
-    -fx-font-size: 24px;
+    -fx-text-fill: #225C2A;
+    -fx-font-size: 32px;
     -fx-font-weight: bold;
 }
+
+#paragraph {
+    -fx-text-fill: #599962;
+    -fx-font-size: 14px;
+}
+
 
 #wholeLayout{
     -fx-padding: 10;
@@ -63,7 +69,7 @@
     -fx-text-fill: #F3FFE7;
     -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
     -fx-pref-width: 200;
-    -fx-pref-height: 50;
+    -fx-pref-height: 40;
 }
 
 #textItem{
@@ -133,7 +139,7 @@
 }
 
 #dateLabel {
-    -fx-font-weight: SEMI_BOLD;
+    -fx-font-weight: 500;
     -fx-font-size : 20;
     -fx-text-fill: rgb(34, 92, 42);
 }
@@ -154,4 +160,66 @@
     -fx-font-size: 16px;
     -fx-padding: 25 0 100 10;
     -fx-text-fill: rgb(34, 92, 42);
+}
+
+#textFieldSignUp {
+    -fx-pref-width: 350;
+    -fx-pref-height: 30;
+    -fx-background-color: #CFFFD4;
+    -fx-border-color: #3ED34D;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-prompt-text-fill: #FFF;
+}
+
+#signUpLayout {
+    -fx-padding: 20;
+}
+
+#signUpLabel {
+    -fx-text-fill: #225C2A;
+    -fx-font-size: 16px;
+}
+
+#nameDropDown{
+    -fx-background-color: #599962;
+    -fx-border-radius: 10;
+    -fx-text-fill: #F3FFE7;
+    -fx-font-size: 14;
+    -fx-pref-width: 300;
+    -fx-pref-height: 40;
+    -fx-prompt-text-fill: #F3FFE7;
+    -fx-tick-label-fill: #F3FFE7;
+    -fx-highlight-text-fill: #F3FFE7;
+}
+
+#historyItemLabel{
+    -fx-text-fill: #F3FFE7;
+    -fx-font-size: 16px;
+}
+
+#historyItemLayout{
+    -fx-background-color: #6FA977;
+    -fx-padding: 5;
+    -fx-background-radius: 10;
+    -fx-pref-width: 300;
+    -fx-pref-height: 100;
+}
+
+#billLayout{
+    -fx-background-color: #C4ECC4;
+    -fx-padding: 10;
+    -fx-background-radius: 10;
+    -fx-pref-width: 700;
+    -fx-pref-height: 700;
+}
+
+#buttonClickedHistory{
+    -fx-background-color: #225C2A;
+    -fx-font-size: 14;
+    -fx-background-radius: 10;
+    -fx-text-fill: #F3FFE7;
+    -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
+    -fx-pref-width: 200;
+    -fx-pref-height: 60;
 }

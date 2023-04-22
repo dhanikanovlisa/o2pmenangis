@@ -27,6 +27,7 @@ dependencies {
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation 'javax.xml.parsers:jaxp-api:1.4.5'
     implementation 'xerces:xercesImpl:2.12.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
 }
 test {
     useJUnitPlatform()
