@@ -1,44 +1,36 @@
 package com.o2pjualan.Classes;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.*;
 import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import static com.o2pjualan.Main.folderName;
-import static java.nio.file.Files.*;
 
 
 public class JSONController {
     private Customers customers;
     private Products products;
+//    private FixedBills fixedBills;
     public JSONController(){}
 
     public static void main (String [] Args) throws IOException, ParseException {
-
-
         JSONController cont = new JSONController();
-        Products products = cont.getProducts();
+//        Products products = cont.getProducts();
 //        Product A = new Product("produk A", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
 //        Product B = new Product("produk B", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
 //        Product C = new Product("produk C", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
-        Product D = new Product("produk D", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
+//        Product D = new Product("produk D", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
 //        products.addProduct(A);
 //        products.addProduct(B);
 //        products.addProduct(C);
-        products.addProduct(D);
+//        products.addProduct(D);
 //
-        cont.saveDataProduct(products);
-//        cont.loadDataProduct();
 
     }
     public void loadDataCustomer() throws IOException {
@@ -80,17 +72,25 @@ public class JSONController {
         }
     }
 
-    public void loadDataFixedBill() {
+//    public void loadDataFixedBill() throws  IOException{
+//        this.fixedBills = new FixedBills();
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String fileName = folderName + "fixedBill.json";
+//        File file = new File(fileName);
+//        List<FixedBill> billList = Arrays.asList(objectMapper.readValue(file, FixedBill[].class));
+//        List<Object> objects = objectMapper.readValue(file, new TypeReference<List<Object>>(){});
+//        for (Object object: objects) {
+//            FixedBill fixedBill = objectMapper.<FixedBill>convertValue(object, FixedBill.class);
+//            fixedBills.addFixedBill(fixedBill);
+//        }
+//    }
 
-    }
-
-    public void saveDataCustomer(Customers customers) {
-        ArrayList<Customer> data = customers.getCustomers();
+    public <T> void saveData(ArrayList<T> data, String file) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectWriter writer = mapper.writerWithDefaultPrettyPrinter();
         try {
             String json = writer.writeValueAsString(data);
-            String fileName = folderName + "customer.json";
+            String fileName = folderName + file;
             try (FileWriter fileWriter = new FileWriter(fileName)) {
                 fileWriter.write(json);
             } catch (IOException e) {
@@ -100,33 +100,30 @@ public class JSONController {
             e.printStackTrace();
         }
     }
-
-    public void saveDataProduct(Products products) {
-        ArrayList<Product> data = products.getProducts();
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectWriter writer = mapper.writerWithDefaultPrettyPrinter();
-        try {
-            String json = writer.writeValueAsString(data);
-            String fileName = folderName + "product.json";
-            try (FileWriter fileWriter = new FileWriter(fileName)) {
-                fileWriter.write(json);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void saveDataCustomer (Customers customers) {
+        saveData(customers.getCustomers(), "customer.json");
     }
-
-    public Customers getCustomers() throws IOException, ParseException {
+    public void saveDataProduct (Products products) {
+        saveData(products.getProducts(), "product.json");
+    }
+    public void saveDataFixedBill (FixedBills fixedBills) {
+        saveData(fixedBills.getFixedBills(), "fixedBill.json");
+    }
+//    public void saveDataBill (Bills bills) {
+//
+//    }
+    public Customers getCustomers() throws IOException {
         loadDataCustomer();
         return customers;
     }
-
     public Products getProducts() throws IOException {
         loadDataProduct();
         return products;
     }
+//    public FixedBills getFixedBills() throws  IOException {
+//        loadDataFixedBill();
+//        return fixedBills;
+//    }
     public int getTotalCustomers() throws IOException {
         loadDataCustomer();
         return customers.getCustomers().size();
