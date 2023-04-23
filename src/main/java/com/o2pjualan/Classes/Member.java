@@ -12,17 +12,16 @@ public class Member extends Customer implements Serializable, Discount {
     private boolean statusMembership;
 
     public Member(Customer customer, String name, String phoneNumber) throws IOException {
-        super();
         this.idCustomer = customer.getIdCustomer();
         this.idFixedBill = customer.getIdFixedBill();
-
+        this.idBill = customer.getIdBill();
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.point = 0;
         this.membership = "Member";
         this.statusMembership = true;
-
         numberOfCustomer = numberOfCustomer - 1;
+
     }
 
     public Member(@JsonProperty("idCustomer")int idCustomer, @JsonProperty("idFixedBill")ArrayList<Integer> idFixedBill, @JsonProperty("idBill")int idBill, @JsonProperty("membership")String membership, @JsonProperty("name")String name, @JsonProperty("phoneNumber")String phoneNumber, @JsonProperty("point")double point, @JsonProperty("statusMembership")boolean statusMembership) {
