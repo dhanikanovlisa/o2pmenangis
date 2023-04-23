@@ -23,22 +23,24 @@ public class JSONController {
     private Products products;
     public JSONController(){}
 
-//    public static void main (String [] Args) throws IOException, ParseException {
+    public static void main (String [] Args) throws IOException, ParseException {
+
+
+        JSONController cont = new JSONController();
+        Products products = cont.getProducts();
+//        Product A = new Product("produk A", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
+//        Product B = new Product("produk B", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
+//        Product C = new Product("produk C", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
+        Product D = new Product("produk D", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
+//        products.addProduct(A);
+//        products.addProduct(B);
+//        products.addProduct(C);
+        products.addProduct(D);
 //
-//
-////        JSONController cont = new JSONController();
-////        Products products = new Products();
-////        Product A = new Product("produk A", "etc", 100000, 120000, 100,"null");
-////        Product B = new Product("produk B", "etc", 100000, 120000, 100,"null");
-////        Product C = new Product("produk C", "etc", 100000, 120000, 100,"null");
-////        products.addProduct(A);
-////        products.addProduct(B);
-////        products.addProduct(C);
-////
-////        cont.saveDataProduct(products);
-////        cont.loadDataProduct();
-//
-//    }
+        cont.saveDataProduct(products);
+//        cont.loadDataProduct();
+
+    }
     public void loadDataCustomer() throws IOException {
         customers = new Customers();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -76,6 +78,10 @@ public class JSONController {
             Product product = objectMapper.convertValue(object, Product.class);
             this.products.addProduct(product);
         }
+    }
+
+    public void loadDataFixedBill() {
+
     }
 
     public void saveDataCustomer(Customers customers) {

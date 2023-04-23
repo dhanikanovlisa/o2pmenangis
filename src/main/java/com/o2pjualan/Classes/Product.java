@@ -1,6 +1,7 @@
 package com.o2pjualan.Classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 public class Product implements Serializable {
@@ -13,8 +14,8 @@ public class Product implements Serializable {
     public int stock = 0;
     public String imagePath;
 
-    public Product(String name, String category, double buyPrice, double sellPrice, int stock, String imagePath) {
-        numberOfProduct = numberOfProduct + 1;
+    public Product(String name, String category, double buyPrice, double sellPrice, int stock, String imagePath) throws IOException {
+        numberOfProduct = new JSONController().getTotalProducts() + 1;
         this.productCode = numberOfProduct;
         this.productName = name;
         this.productCategory = category;
