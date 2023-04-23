@@ -29,7 +29,7 @@ public class signUp extends Tab {
     private Customers customers;
     private Label message;
     public signUp() throws IOException, ParseException {
-        JSONController cont = new JSONController(fileName);
+        JSONController cont = new JSONController();
         System.out.println("filename:  "+ fileName);
         customers = new Customers();
         customers = cont.getCustomers();
