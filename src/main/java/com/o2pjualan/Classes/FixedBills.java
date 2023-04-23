@@ -30,7 +30,6 @@ public class FixedBills {
         for(FixedBill el: fixedbills){
             if(el.getIdBill() == id){
                 return el;
-                break;
             }
         }
         return null;

@@ -31,13 +31,12 @@ public class Bills {
         for(Bill el: bills){
             if(el.getIdCustomer() == id){
                 return el;
-                break;
             }
         }
         return null;
     }
 
-    public bills getBills(){
+    public ArrayList<Bill> getBills(){
         return bills;
     }
 }
