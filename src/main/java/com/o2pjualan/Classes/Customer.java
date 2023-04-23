@@ -1,11 +1,14 @@
-package com.example.tokosinaro2p.classes;
+package com.o2pjualan.Classes;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.io.Serializable;
 import java.util.*;
 
 public class Customer implements Serializable {
     protected static int numberOfCustomer = 0;
     protected int idCustomer;
-    protected ArrayList<Integer> idFixedBill;
+    protected List<Integer> idFixedBill;
     protected int idBill;
     protected String membership;
 
@@ -18,11 +21,18 @@ public class Customer implements Serializable {
         this.membership = "Customer";
     }
 
+    public Customer(@JsonProperty("idCustomer")int idCustomer, @JsonProperty("idFixedBill")ArrayList<Integer> idFixedBill, @JsonProperty("idBill")int idBill, @JsonProperty("membership")String membership) {
+        this.idCustomer = idCustomer;
+        this.idFixedBill = idFixedBill;
+        this.idBill = idBill;
+        this.membership = membership;
+    }
+
     public int getIdCustomer() {
         return (this.idCustomer);
     }
 
-    public ArrayList<Integer> getIdFixedBill() {
+    public List<Integer> getIdFixedBill() {
         return (this.idFixedBill);
     }
 
@@ -40,5 +50,15 @@ public class Customer implements Serializable {
 
     public void setIdBill(int idBill) {
         this.idBill = idBill;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "idCustomer=" + idCustomer +
+                ", idFixedBill=" + idFixedBill +
+                ", idBill=" + idBill +
+                ", membership='" + membership + '\'' +
+                '}';
     }
 }

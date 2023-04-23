@@ -1,5 +1,8 @@
 package com.o2pjualan;
 
+import com.o2pjualan.Classes.Customer;
+import com.o2pjualan.Classes.Customers;
+import com.o2pjualan.Classes.JSONController;
 import com.o2pjualan.GUI.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -10,11 +13,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Main extends Application {
+    public static String fileName = "src/dataStore/dataStore1/customer.json" ; //ini harusnya folder name tapi buat testing dulu aja
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
+
         primaryStage.setTitle("Toko Sinar 02P");
         primaryStage.setMaximized(true);
         primaryStage.setResizable(false);
@@ -77,7 +87,12 @@ public class Main extends Application {
         });
 
         signUp.setOnAction(event -> {
-            signUp signUpTab = new signUp();
+            signUp signUpTab;
+            try {
+                signUpTab = new signUp();
+            } catch (IOException | ParseException e) {
+                throw new RuntimeException(e);
+            }
             mainTabPane.getTabs().add(signUpTab);
         });
 
@@ -131,9 +146,33 @@ public class Main extends Application {
                 }
             }
         });
+
+//        JSONController controller = new JSONController(fileName);
+//        ArrayList<Customer> newCusts = new ArrayList<Customer>();
+//        System.out.println("hi");
+//        for (int i = 0; i<5; i++) {
+//            System.out.println("hi");
+//            Customer cust = new Customer(i+1);
+//            newCusts.add(cust);
+//            System.out.println("hi");
+//            System.out.println(cust.toString());
+//        }
+//        Customers customers = new Customers(newCusts);
+//        controller.saveDataCustomer(customers);
+
     }
 
+
     public static void main(String[] args) {
+        fileName = "src/dataStore/dataStore1/customer.json";
         Application.launch(args);
+    }
+
+    public static String getFileName() {
+        return fileName;
+    }
+
+    public static void setFileName(String fileName) {
+        Main.fileName = fileName;
     }
 }

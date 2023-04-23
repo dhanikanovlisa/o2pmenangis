@@ -1,4 +1,4 @@
-package com.example.tokosinaro2p.classes;
+package com.o2pjualan.Classes;
 import java.io.Serializable;
 
 public class Product implements Serializable {
