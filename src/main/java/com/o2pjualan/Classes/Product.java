@@ -1,4 +1,6 @@
 package com.o2pjualan.Classes;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 public class Product implements Serializable {
@@ -11,14 +13,25 @@ public class Product implements Serializable {
     public int stock = 0;
     public String imagePath;
 
-    public Product(String name, String category, double buyPrice, double sellPrice) {
+    public Product(String name, String category, double buyPrice, double sellPrice, int stock, String imagePath) {
         numberOfProduct = numberOfProduct + 1;
         this.productCode = numberOfProduct;
-
         this.productName = name;
         this.productCategory = category;
         this.buyPrice = buyPrice;
+        this.stock = stock;
+        this.imagePath = imagePath;
         this.sellPrice = sellPrice;
+    }
+
+    public Product(@JsonProperty("productCode") int productCode, @JsonProperty("productName") String productName, @JsonProperty("productCategory")String productCategory, @JsonProperty("buyPrice")double buyPrice, @JsonProperty("sellPrice")double sellPrice, @JsonProperty("stock")int stock, @JsonProperty("imagePath")String imagePath) {
+        this.productCode = productCode;
+        this.productName = productName;
+        this.productCategory = productCategory;
+        this.buyPrice = buyPrice;
+        this.sellPrice = sellPrice;
+        this.stock = stock;
+        this.imagePath = imagePath;
     }
 
     public int getProductCode() {
@@ -35,5 +48,18 @@ public class Product implements Serializable {
 
     public void setSellPrice(double price) {
         this.sellPrice = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productCode=" + productCode +
+                ", productName='" + productName + '\'' +
+                ", productCategory='" + productCategory + '\'' +
+                ", buyPrice=" + buyPrice +
+                ", sellPrice=" + sellPrice +
+                ", stock=" + stock +
+                ", imagePath='" + imagePath + '\'' +
+                '}';
     }
 }

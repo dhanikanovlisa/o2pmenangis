@@ -1,6 +1,7 @@
 package com.o2pjualan.Classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
@@ -10,8 +11,8 @@ public class Member extends Customer implements Serializable, Discount {
     private double point;
     private boolean statusMembership;
 
-    public Member(Customer customer, String name, String phoneNumber) {
-        super(customer.getIdBill());
+    public Member(Customer customer, String name, String phoneNumber) throws IOException {
+        super();
         this.idCustomer = customer.getIdCustomer();
         this.idFixedBill = customer.getIdFixedBill();
 

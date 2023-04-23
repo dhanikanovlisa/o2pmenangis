@@ -2,22 +2,24 @@ package com.o2pjualan.Classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
 public class Customer implements Serializable {
-    protected static int numberOfCustomer = 0;
+    protected static int numberOfCustomer;
     protected int idCustomer;
     protected List<Integer> idFixedBill;
     protected int idBill;
     protected String membership;
 
-    public Customer(int idBill) {
-        numberOfCustomer = numberOfCustomer + 1;
+    public Customer() throws IOException {
+        JSONController controller = new JSONController();
+        numberOfCustomer = controller.getTotalCustomers() + 1;
         this.idCustomer = numberOfCustomer;
 
         this.idFixedBill = new ArrayList<Integer>();
-        this.idBill = idBill;
+        this.idBill = idCustomer;
         this.membership = "Customer";
     }
 

@@ -1,9 +1,20 @@
 package com.o2pjualan.Classes;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.util.*;
 
 public class Customers {
     private ArrayList<Customer> customers;
 
+
+//    public  static  void main (String [] Args) throws IOException, ParseException {
+//        JSONController controller = new JSONController();
+//        Customers customers = controller.getCustomers();
+//        Customer A = new Customer();
+//        customers.addCustomer(A);
+//        controller.saveDataCustomer(customers);
+//    }
     public Customers() {
         this.customers = new ArrayList<Customer>();
     }
@@ -31,7 +42,7 @@ public class Customers {
         return null;
     }
 
-    public void registerMember (int id, String name, String phone) {
+    public void registerMember (int id, String name, String phone) throws IOException {
         Customer cust = getCustomerByID(id);
         Member newMember = new Member(cust, name, phone);
         customers.remove(cust);

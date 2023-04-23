@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 
 public class Main extends Application {
-    public static String fileName = "src/dataStore/dataStore1/customer.json" ; //ini harusnya folder name tapi buat testing dulu aja
+    public static String folderName = "src/dataStore/dataStore1/" ; //ini harusnya folder name tapi buat testing dulu aja
 
     @Override
     public void start(Stage primaryStage) {
@@ -81,8 +81,7 @@ public class Main extends Application {
         });
 
         report.setOnAction(event -> {
-            Tab reportTab = new Tab("Report");
-            reportTab.setContent(new Label("tes"));
+            report reportTab = new report();
             mainTabPane.getTabs().add(reportTab);
         });
 
@@ -164,15 +163,8 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        fileName = "src/dataStore/dataStore1/customer.json";
+        folderName = "src/dataStore/dataStore1/";
         Application.launch(args);
     }
 
-    public static String getFileName() {
-        return fileName;
-    }
-
-    public static void setFileName(String fileName) {
-        Main.fileName = fileName;
-    }
 }

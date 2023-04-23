@@ -1,0 +1,25 @@
+[ {
+  "productCode" : 1,
+  "productName" : "produk A",
+  "productCategory" : "etc",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "null"
+}, {
+  "productCode" : 2,
+  "productName" : "produk B",
+  "productCategory" : "etc",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "null"
+}, {
+  "productCode" : 3,
+  "productName" : "produk C",
+  "productCategory" : "etc",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "null"
+} ]
