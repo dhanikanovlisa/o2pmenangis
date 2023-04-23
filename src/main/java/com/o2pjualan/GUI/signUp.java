@@ -19,7 +19,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static com.o2pjualan.Main.fileName;
+import static com.o2pjualan.Main.folderName;
 
 public class signUp extends Tab {
     private ComboBox<Integer> idDropDown;
@@ -30,7 +30,6 @@ public class signUp extends Tab {
     private Label message;
     public signUp() throws IOException, ParseException {
         JSONController cont = new JSONController();
-        System.out.println("filename:  "+ fileName);
         customers = new Customers();
         customers = cont.getCustomers();
         ArrayList<Customer> test = customers.getCustomers();

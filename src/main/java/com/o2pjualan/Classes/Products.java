@@ -20,4 +20,10 @@ public class Products {
             }
         }
     }
+
+    public ArrayList<Product> getProducts() {
+        return productCodes;
+    }
+
+
 }
