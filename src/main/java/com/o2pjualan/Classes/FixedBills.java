@@ -36,7 +36,7 @@ public class FixedBills {
         return null;
     }
 
-    public fixedbills getFixedBills(){
+    public ArrayList<FixedBill> getFixedBills(){
         return fixedbills;
     }
 }
