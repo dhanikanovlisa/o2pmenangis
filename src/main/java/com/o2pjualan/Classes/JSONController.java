@@ -7,32 +7,60 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static com.o2pjualan.Main.folderName;
 
 
-public class JSONController {
+public class JSONController implements FileController{
     private Customers customers;
     private Products products;
-//    private FixedBills fixedBills;
-    public JSONController(){}
+    private Bills bills;
+    private FixedBills fixedBills;
 
-    public static void main (String [] Args) throws IOException, ParseException {
-        JSONController cont = new JSONController();
-//        Products products = cont.getProducts();
-//        Product A = new Product("produk A", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
-//        Product B = new Product("produk B", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
-//        Product C = new Product("produk C", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
-//        Product D = new Product("produk D", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
-//        products.addProduct(A);
-//        products.addProduct(B);
-//        products.addProduct(C);
-//        products.addProduct(D);
-//
-
+    //    private FixedBills fixedBills;
+    public JSONController() throws IOException {
+        loadDataCustomer();
+        loadDataProduct();
+        loadDataBill();
+        loadDataFixedBill();
     }
+
+
+    public void saveDataCustomer (Customers customers) {
+        this.customers = customers;
+        saveData(customers.getCustomers(), "customer.json");
+    }
+    public void saveDataProduct (Products products) {
+        this.products = products;
+        saveData(products.getProducts(), "product.json");
+    }
+    public void saveDataFixedBill (FixedBills fixedBills) {
+        this.fixedBills = fixedBills;
+        saveData(fixedBills.getFixedBills(), "fixedBill.json");
+    }
+    public void saveDataBill (Bills bills) {
+        this.bills = bills;
+        saveData(bills.getBills(), "bill.json") ;}
+
+    public Customers getCustomers() {
+        return customers;
+    }
+
+    public Products getProducts() {
+        return products;
+    }
+
+    public Bills getBills() {
+        return bills;
+    }
+
+    public FixedBills getFixedBills() {
+        return fixedBills;
+    }
+
     public void loadDataCustomer() throws IOException {
         customers = new Customers();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -72,18 +100,30 @@ public class JSONController {
         }
     }
 
-//    public void loadDataFixedBill() throws  IOException{
-//        this.fixedBills = new FixedBills();
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        String fileName = folderName + "fixedBill.json";
-//        File file = new File(fileName);
-//        List<FixedBill> billList = Arrays.asList(objectMapper.readValue(file, FixedBill[].class));
-//        List<Object> objects = objectMapper.readValue(file, new TypeReference<List<Object>>(){});
-//        for (Object object: objects) {
-//            FixedBill fixedBill = objectMapper.<FixedBill>convertValue(object, FixedBill.class);
-//            fixedBills.addFixedBill(fixedBill);
-//        }
-//    }
+    public void loadDataBill() throws IOException {
+        this.bills = new Bills();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String fileName = folderName + "bill.json";
+        File file = new File(fileName);
+        List<Bill> billList = Arrays.asList(objectMapper.readValue(file, Bill[].class));
+        List<Object> objects = objectMapper.readValue(file, new TypeReference<List<Object>>(){});
+        for (Object object: objects) {
+            Bill bill = objectMapper.<Bill>convertValue(object, Bill.class);
+            bills.addBill(bill);
+        }
+    }
+    public void loadDataFixedBill() throws  IOException{
+        this.fixedBills = new FixedBills();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String fileName = folderName + "fixedBill.json";
+        File file = new File(fileName);
+        List<FixedBill> billList = Arrays.asList(objectMapper.readValue(file, FixedBill[].class));
+        List<Object> objects = objectMapper.readValue(file, new TypeReference<List<Object>>(){});
+        for (Object object: objects) {
+            FixedBill fixedBill = objectMapper.<FixedBill>convertValue(object, FixedBill.class);
+            fixedBills.addFixedBill(fixedBill);
+        }
+    }
 
     public <T> void saveData(ArrayList<T> data, String file) {
         ObjectMapper mapper = new ObjectMapper();
@@ -100,36 +140,15 @@ public class JSONController {
             e.printStackTrace();
         }
     }
-    public void saveDataCustomer (Customers customers) {
-        saveData(customers.getCustomers(), "customer.json");
-    }
-    public void saveDataProduct (Products products) {
-        saveData(products.getProducts(), "product.json");
-    }
-    public void saveDataFixedBill (FixedBills fixedBills) {
-        saveData(fixedBills.getFixedBills(), "fixedBill.json");
-    }
-//    public void saveDataBill (Bills bills) {
-//
-//    }
-    public Customers getCustomers() throws IOException {
-        loadDataCustomer();
-        return customers;
-    }
-    public Products getProducts() throws IOException {
-        loadDataProduct();
-        return products;
-    }
-//    public FixedBills getFixedBills() throws  IOException {
-//        loadDataFixedBill();
-//        return fixedBills;
-//    }
-    public int getTotalCustomers() throws IOException {
-        loadDataCustomer();
+
+    public int getTotalCustomers()  {
         return customers.getCustomers().size();
     }
-    public  int getTotalProducts() throws  IOException {
-        loadDataProduct();
+    public  int getTotalProducts() {
         return products.getProducts().size();
     }
+    public int getTotalFixedBills() {
+        return fixedBills.getFixedBills().size();
+    }
+
 }

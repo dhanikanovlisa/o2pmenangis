@@ -70,11 +70,10 @@ public class Customers {
         return ret;
     }
 
-
-    @Override
-    public String toString() {
-        return "Customers{" +
-                "customers=" + customers +
-                '}';
+    public void print() {
+        for (Customer c : this.customers) {
+            System.out.println(c.toString());
+        }
     }
+
 }

@@ -1,54 +1,76 @@
 package com.o2pjualan.Classes;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.*;
 
-public class Bill{
+public class Bill {
     protected int idCustomer;
-    protected HashMap<Integer,Integer> ListOfProduct;
-    protected HashMap<Integer,Integer> ListPriceOfProduct;
+    protected HashMap<Integer, Integer> ListOfProduct;
+    protected HashMap<Integer, Integer> ListPriceOfProduct;
 
-    public Bill(int idCustomer){
+    public Bill(int idCustomer) {
         this.idCustomer = idCustomer;
-        this.ListOfProduct = new HashMap<Integer,Integer>();
-        this.ListPriceOfProduct = new HashMap<Integer,Integer>();
+        this.ListOfProduct = new HashMap<Integer, Integer>();
+        this.ListPriceOfProduct = new HashMap<Integer, Integer>();
     }
 
-    public int getIdCustomer(){
+    public Bill(@JsonProperty("idCustomer")int idCustomer, @JsonProperty("listOfProduct")HashMap<Integer, Integer> listOfProduct, @JsonProperty("listPriceOfProduct")HashMap<Integer, Integer> listPriceOfProduct) {
+        this.idCustomer = idCustomer;
+        ListOfProduct = listOfProduct;
+        ListPriceOfProduct = listPriceOfProduct;
+    }
+
+    public int getIdCustomer() {
         return this.idCustomer;
     }
 
-    public HashMap<Integer,Integer> getListOfProduct() {
+    public HashMap<Integer, Integer> getListOfProduct() {
         return this.ListOfProduct;
     }
 
-    public HashMap<Integer,Integer> getListOfPrice(){
+    public HashMap<Integer, Integer> getListPriceOfProduct() {
         return this.ListPriceOfProduct;
     }
 
-    public void AddProduct(int productCode, int quantity, int price){
+    public void setIdCustomer(int idCustomer) {
+        this.idCustomer = idCustomer;
+    }
+
+    public void setListOfProduct(HashMap<Integer, Integer> listOfProduct) {
+        ListOfProduct = listOfProduct;
+    }
+
+    public void setListPriceOfProduct(HashMap<Integer, Integer> listPriceOfProduct) {
+        ListPriceOfProduct = listPriceOfProduct;
+    }
+
+    public void AddProduct(int productCode, int quantity, int price) {
         //if(ListOfProduct.get(ListOfProduct)==0){
-        this.ListOfProduct.put(productCode,quantity);
-        this.ListPriceOfProduct.put(productCode,quantity*price);
+        this.ListOfProduct.put(productCode, quantity);
+        this.ListPriceOfProduct.put(productCode, quantity * price);
         //} else {
         //    this.ListOfProduct.put(productCode,ListOfProduct.get(productCode) + quantity);
         //    this.ListPriceOfProduct.put(productCode, ListPriceOfProduct.get(productCode) + quantity*price);
         //}
     }
 
-    public void RemoveProduct(int productCode){
+    public void RemoveProduct(int productCode) {
         this.ListOfProduct.remove(productCode);
     }
 
+    public void print() {
+    }
     @Override
     public String toString() {
         String result = new String();
-        int i=0;
-        for (Map.Entry<Integer,Integer> product:this.ListOfProduct.entrySet()){
+        int i = 0;
+        for (Map.Entry<Integer, Integer> product : this.ListOfProduct.entrySet()) {
             i++;
-            result = String.format("%d. productCode: %d - quantity: %d - price: %d \n",i,product.getKey(),product.getValue(),ListPriceOfProduct.get(product.getKey()));
+            result = String.format("%d. productCode: %d - quantity: %d - price: %d \n", i, product.getKey(), product.getValue(), ListPriceOfProduct.get(product.getKey()));
         }
         return result;
     }
-
+}
     /*
     public boolean alreadyFound(int K){
         boolean found = false;
@@ -62,14 +84,14 @@ public class Bill{
 
     public void addBill(FixedBill newBill) {
         HashMap<Integer,Integer> newListOfProduct = newBill.getListOfProduct();
-        HashMap<Integer,Integer> newListOfPrice = newBill.getListOfPrice();
+        HashMap<Integer,Integer> newListOfPrice = newBill.getListPriceOfProduct();
         for (Map.Entry<Integer,Integer> product:newListOfProduct.entrySet()){
             if (!alreadyFound(product.getKey())){
                 AddProduct(product.getKey(), product.getValue(), newListOfPrice.get(product.getKey()));
             } else{
                 int key = product.getKey();
                 int quantity = this.getListOfProduct().get(key) + product.getValue();
-                int price = this.getListOfPrice().get(key) + newListOfPrice.get(key);
+                int price = this.getListPriceOfProduct().get(key) + newListOfPrice.get(key);
                 AddProduct(key, quantity, price);
             }
         }
@@ -90,7 +112,6 @@ public class Bill{
         Bill yowas = new Bill(3);
         yowas.addBill(yow);
         yowas.addBill(yowes);
-        yow.printBill();
+//        yow.printBill();
         yowas.printBill();
-    } */
-}
+//    }*/

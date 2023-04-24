@@ -1,42 +1,22 @@
 package com.o2pjualan.Classes;
-import java.util.*;
+
+import java.util.ArrayList;
 
 public class Bills {
     private ArrayList<Bill> bills;
-
-    //default constructor
-    public Bills(){
+    public Bills() {
         this.bills = new ArrayList<Bill>();
     }
-
-    public Bills(ArrayList<Bill> bills){
-        this.bills = bills;
-    }
-
-    public void addBill(Bill bill){
+    public void addBill(Bill bill) {
         this.bills.add(bill);
     }
-
-    public void removeBillbyID(int id){
-        for(int i=0; i<this.bills.size(); i++){
-            Bill el = bills.get(i);
-            if (el.getIdCustomer() == id) {
-                bills.remove(i);
-                break;
-            }
+    public ArrayList<Bill> getBills () {
+        return  this.bills;
+    }
+    public void print() {
+        for (Bill b: this.bills) {
+            b.print();
         }
     }
 
-    public Bill getBillbyID(int id){
-        for(Bill el: bills){
-            if(el.getIdCustomer() == id){
-                return el;
-            }
-        }
-        return null;
-    }
-
-    public ArrayList<Bill> getBills(){
-        return bills;
-    }
 }

@@ -25,5 +25,11 @@ public class Products {
         return productCodes;
     }
 
+    public void print() {
+        for (Product p : this.productCodes) {
+            System.out.println(p.toString());
+        }
+    }
+
 
 }

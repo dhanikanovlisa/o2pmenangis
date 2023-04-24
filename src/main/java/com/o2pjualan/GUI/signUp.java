@@ -19,29 +19,31 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.o2pjualan.Main.controller;
 import static com.o2pjualan.Main.folderName;
 
 public class signUp extends Tab {
-    private ComboBox<Integer> idDropDown;
+    private ComboBox<String> idDropDown;
     private TextField nameField;
     private TextField phoneField;
     private Button register;
     private Customers customers;
     private Label message;
     public signUp() throws IOException, ParseException {
-        JSONController cont = new JSONController();
         customers = new Customers();
-        customers = cont.getCustomers();
+        customers = controller.getCustomers();
         ArrayList<Customer> test = customers.getCustomers();
-        System.out.println("customer size" + test.size());
-        ArrayList<Integer> optionsList = customers.getCustomersId();
-        System.out.println(optionsList.size() );
-        ObservableList<Integer> options = FXCollections.observableArrayList(optionsList);
+        ArrayList<Integer> customersId = customers.getCustomersId();
+        ArrayList<String> optionsList = new ArrayList<String>();
+        for (Integer i : customersId) {
+            optionsList.add(Integer.toString(i));
+        }
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
 
 
         this.setText("Sign Up");
 
-        this.idDropDown = new ComboBox<Integer>(options);
+        this.idDropDown = new ComboBox<String>(options);
         this.idDropDown.setId("idDropDown");
         this.idDropDown.setPromptText("Pick Customer ID...");
 
@@ -117,18 +119,20 @@ public class signUp extends Tab {
             }
         } else {
 
-            int id = idDropDown.getValue();
+            String id = idDropDown.getValue();
             String name = nameField.getText();
             String phone = phoneField.getText();
 
-            JSONController controller = new JSONController();
+
             Customers customers = controller.getCustomers();
-            customers.registerMember(id, name, phone);
+            customers.registerMember(Integer.parseInt(id), name, phone);
             controller.saveDataCustomer(customers);
 
             this.message.setText("Berhasil register!");
             nameField.setText("");
+            nameField.setPromptText("");
             phoneField.setText("");
+            phoneField.setPromptText("");
             idDropDown.getItems().remove(id);
         }
     }

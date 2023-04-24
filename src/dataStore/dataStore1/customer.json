@@ -1,19 +1,15 @@
 [ {
+  "idCustomer" : 4,
+  "idFixedBill" : [ ],
+  "idBill" : 4,
+  "membership" : "Customer"
+}, {
   "idCustomer" : 3,
   "idFixedBill" : [ ],
   "idBill" : 3,
   "membership" : "Member",
-  "name" : "Febryan",
-  "phoneNumber" : "08162343",
-  "point" : 0.0,
-  "statusMembership" : true
-}, {
-  "idCustomer" : 1,
-  "idFixedBill" : [ ],
-  "idBill" : 1,
-  "membership" : "Member",
-  "name" : "Rose",
-  "phoneNumber" : "081234",
+  "name" : "Jennie",
+  "phoneNumber" : "028342",
   "point" : 0.0,
   "statusMembership" : true
 }, {
@@ -21,31 +17,17 @@
   "idFixedBill" : [ ],
   "idBill" : 2,
   "membership" : "Member",
-  "name" : "Jennie",
-  "phoneNumber" : "082342432",
+  "name" : "Rosee",
+  "phoneNumber" : "0238",
   "point" : 0.0,
   "statusMembership" : true
 }, {
-  "idCustomer" : 4,
+  "idCustomer" : 1,
   "idFixedBill" : [ ],
-  "idBill" : 4,
+  "idBill" : 1,
   "membership" : "Member",
-  "name" : "Jisoo",
-  "phoneNumber" : "0812321",
+  "name" : "minal aidin wal faidzin",
+  "phoneNumber" : "23123",
   "point" : 0.0,
   "statusMembership" : true
-}, {
-  "idCustomer" : 5,
-  "idFixedBill" : [ ],
-  "idBill" : 5,
-  "membership" : "Member",
-  "name" : "Lisa",
-  "phoneNumber" : "08213",
-  "point" : 0.0,
-  "statusMembership" : true
-}, {
-  "idCustomer" : 6,
-  "idFixedBill" : [ ],
-  "idBill" : 6,
-  "membership" : "Customer"
 } ]

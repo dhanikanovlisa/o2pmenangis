@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
+import static com.o2pjualan.Main.controller;
+
 public class Customer implements Serializable {
     protected static int numberOfCustomer;
     protected int idCustomer;
@@ -14,7 +16,6 @@ public class Customer implements Serializable {
     protected String membership;
 
     public Customer() throws IOException {
-        JSONController controller = new JSONController();
         numberOfCustomer = controller.getTotalCustomers() + 1;
         this.idCustomer = numberOfCustomer;
 

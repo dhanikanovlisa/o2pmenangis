@@ -1,8 +1,6 @@
 package com.o2pjualan;
 
-import com.o2pjualan.Classes.Customer;
-import com.o2pjualan.Classes.Customers;
-import com.o2pjualan.Classes.JSONController;
+import com.o2pjualan.Classes.*;
 import com.o2pjualan.GUI.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -20,10 +18,12 @@ import java.util.ArrayList;
 
 
 public class Main extends Application {
-    public static String folderName = "src/dataStore/dataStore1/" ; //ini harusnya folder name tapi buat testing dulu aja
+    public static String folderName = "src/dataStore/dataStore1/" ;
+    public static Controller controller;
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
+
 
         primaryStage.setTitle("Toko Sinar 02P");
         primaryStage.setMaximized(true);
@@ -145,26 +145,105 @@ public class Main extends Application {
                 }
             }
         });
-
-//        JSONController controller = new JSONController(fileName);
-//        ArrayList<Customer> newCusts = new ArrayList<Customer>();
-//        System.out.println("hi");
-//        for (int i = 0; i<5; i++) {
-//            System.out.println("hi");
-//            Customer cust = new Customer(i+1);
-//            newCusts.add(cust);
-//            System.out.println("hi");
-//            System.out.println(cust.toString());
-//        }
-//        Customers customers = new Customers(newCusts);
-//        controller.saveDataCustomer(customers);
-
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         folderName = "src/dataStore/dataStore1/";
+        controller = new Controller("json"); // sementara
         Application.launch(args);
+
+
+
+        // sebelum CRUD jgn lupa load, terus tiap create instance langsung save
+        // biar id nya gak duplicate
+
+/*
+        Products products = controller.getProducts();
+        Product A = new Product("produk A", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
+        products.addProduct(A);
+        controller.saveDataProduct(products);
+        Product B = new Product("produk B", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
+        products.addProduct(B);
+        controller.saveDataProduct(products);
+        Product C = new Product("produk C", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
+        products.addProduct(C);
+        controller.saveDataProduct(products);
+        Product D = new Product("produk D", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
+        products.addProduct(D);
+        controller.saveDataProduct(products);
+
+
+        Customers customers = controller.getCustomers();
+        Bills bills = controller.getBills();
+
+        Customer c1 = new Customer();
+        customers.addCustomer(c1);
+        controller.saveDataCustomer(customers);
+        Bill b1 = new Bill(c1.getIdCustomer());
+        b1.AddProduct(1,2,120000);
+        b1.AddProduct(2, 1,12000);
+        bills.addBill(b1);
+        controller.saveDataBill(bills);
+
+        Customer c2 = new Customer();
+        customers.addCustomer(c2);
+        controller.saveDataCustomer(customers);
+        Bill b2 = new Bill(c2.getIdCustomer());
+        b2.AddProduct(1,10,10000);
+        bills.addBill(b2);
+        controller.saveDataBill(bills);
+
+        Customer c3 = new Customer();
+        customers.addCustomer(c3);
+        controller.saveDataCustomer(customers);
+        Bill b3 = new Bill(c3.getIdCustomer());
+        bills.addBill(b3);
+        controller.saveDataBill(bills);
+
+        Customer c4 = new Customer();
+        customers.addCustomer(c4);
+        controller.saveDataCustomer(customers);
+        Bill b4 = new Bill(c4.getIdCustomer());
+        bills.addBill(b4);
+        controller.saveDataBill(bills);
+
+
+        FixedBills fixedBills = controller.getFixedBills();
+        fixedBills.printFixedBills();
+
+        FixedBill f1 = new FixedBill(c1.getIdCustomer());
+        f1.AddProduct(3, 10,30000);
+        f1.AddProduct(5, 90,30000);
+        f1.AddProduct(1, 20,30000);
+        fixedBills.addFixedBill(f1);
+        controller.saveDataFixedBill(fixedBills);
+
+        FixedBill f2 = new FixedBill(c1.getIdCustomer());
+        f2.AddProduct(6,5,10000);
+        fixedBills.addFixedBill(f2);
+        controller.saveDataFixedBill(fixedBills);
+*/
+        /*
+        Bills bills = controller.getBills();
+        bills.print();
+        System.out.println("========\n\n");
+
+        FixedBills fixedBills = controller.getFixedBills();
+        fixedBills.print();
+        System.out.println("========\n\n");
+
+        Customers customers = controller.getCustomers();
+        customers.print();
+        System.out.println("========\n\n");
+
+        Products products = controller.getProducts();
+        products.print();
+        System.out.println("========\n\n");
+
+        System.out.println("DONE");
+        */
+
     }
 
 }

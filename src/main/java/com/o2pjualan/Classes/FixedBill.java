@@ -1,27 +1,94 @@
 package com.o2pjualan.Classes;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.IOException;
 import java.util.*;
 
-public class FixedBill extends Bill {
-    protected int idBill;
-    protected static int countBill = 0;
+import static com.o2pjualan.Main.controller;
 
-    public FixedBill(int idCustomer){
-        super(idCustomer);
-        countBill++;
-        this.idBill = countBill;
+public class FixedBill {
+    protected int idBill;
+    protected int idCustomer;
+    protected static int countBill;
+    protected HashMap<Integer,Integer> ListOfProduct;
+    protected HashMap<Integer,Integer> ListPriceOfProduct;
+
+    public FixedBill(int idCustomer) throws IOException {
+        this.idBill = controller.getTotalFixedBills() + 1;
+        this.idCustomer = idCustomer;
+        this.ListOfProduct = new HashMap<Integer,Integer>();
+        this.ListPriceOfProduct = new HashMap<Integer,Integer>();
+    }
+
+    public FixedBill(@JsonProperty("idBill") int idBill, @JsonProperty("idCustomer")int idCustomer, @JsonProperty("ListOfProduct")HashMap<Integer, Integer> listOfProduct, @JsonProperty("ListPriceOfProduct")HashMap<Integer, Integer> listPriceOfProduct) {
+        this.idBill = idBill;
+        this.idCustomer = idCustomer;
+        ListOfProduct = listOfProduct;
+        ListPriceOfProduct = listPriceOfProduct;
     }
 
     public int getIdBill(){
         return this.idBill;
     }
 
-    /*
-    public void printBill(){
+    public int getIdCustomer(){
+        return this.idCustomer;
+    }
+
+    public HashMap<Integer,Integer> getListOfProduct() {
+        return this.ListOfProduct;
+    }
+
+    public HashMap<Integer,Integer> getListPriceOfProduct(){
+        return this.ListPriceOfProduct;
+    }
+
+    public void setIdBill(int idBill) {
+        this.idBill = idBill;
+    }
+
+    public void setIdCustomer(int idCustomer) {
+        this.idCustomer = idCustomer;
+    }
+
+    public void setListOfProduct(HashMap<Integer, Integer> listOfProduct) {
+        ListOfProduct = listOfProduct;
+    }
+
+    public void setListPriceOfProduct(HashMap<Integer, Integer> listPriceOfProduct) {
+        ListPriceOfProduct = listPriceOfProduct;
+    }
+
+    public void AddProduct(int productCode, int quantity, int price){
+        //if(ListOfProduct.get(ListOfProduct)==0){
+        this.ListOfProduct.put(productCode,quantity);
+        this.ListPriceOfProduct.put(productCode,quantity*price);
+        //} else {
+        //    this.ListOfProduct.put(productCode,ListOfProduct.get(productCode) + quantity);
+        //    this.ListPriceOfProduct.put(productCode, ListPriceOfProduct.get(productCode) + quantity*price);
+        //}
+    }
+
+    public void RemoveProduct(int productCode){
+        this.ListOfProduct.remove(productCode);
+    }
+
+    public void print(){
+        System.out.println(this.toString());
         int i=0;
         for (Map.Entry<Integer,Integer> product:this.ListOfProduct.entrySet()){
             i++;
             System.out.printf("%d. productCode: %d - quantity: %d - price: %d \n",i,product.getKey(),product.getValue(),ListPriceOfProduct.get(product.getKey()));
         }
     }
-    */
+
+    @Override
+    public String toString() {
+        return "FixedBill{" +
+                "idBill=" + idBill +
+                ", idCustomer=" + idCustomer +
+                ", ListOfProduct=" + ListOfProduct +
+                ", ListPriceOfProduct=" + ListPriceOfProduct +
+                '}';
+    }
 }
