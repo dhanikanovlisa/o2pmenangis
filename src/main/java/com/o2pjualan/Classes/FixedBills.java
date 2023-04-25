@@ -18,7 +18,14 @@ public class FixedBills {
     public ArrayList<FixedBill> getFixedBills() {
         return this.fixedBills;
     }
-
+    public FixedBill getFixedBillByID(int ID){
+        for (FixedBill b: fixedBills){
+            if (b.getIdBill() == ID) {
+                return b;
+            }
+        }
+        return null;
+    }
     public void print () {
         for (FixedBill f: this.fixedBills) {
             f.print();
