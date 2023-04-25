@@ -1,29 +1,39 @@
 package com.o2pjualan.GUI;
 
+import com.o2pjualan.Classes.Bill;
+import com.o2pjualan.Classes.Customers;
+import com.o2pjualan.Classes.Product;
+import com.o2pjualan.Classes.Products;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import javafx.scene.layout.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import static com.o2pjualan.Main.controller;
 
 public class catalogMenu extends Tab {
+    private Products listProducts;
+    public Customers customers;
+    public Bill customerBill;
     private TextField searchBar;
     private ComboBox<String> searchDropDown;
-    private ComboBox<Integer> idDropDown;
-    private ArrayList<Label> items;
+    private ComboBox<String> idDropDown;
+
 
     private Button saveButton;
     private Button payButton;
+    private VBox itemLayout;
+    private GridPane itemsLayout;
+    private VBox leftLayout;
+    private HBox buttonLayout;
+    private VBox invoiceLayout;
 
-    public catalogMenu(){
+    public catalogMenu() throws IOException {
         /*Set Tab Name*/
         this.setText("Catalog");
 
@@ -40,51 +50,84 @@ public class catalogMenu extends Tab {
         this.searchDropDown.setId("searchDropDown");
         this.searchDropDown.setPromptText("Search by...");
 
+
+        customers = new Customers();
+        customers = controller.getCustomers();
+        ArrayList<Integer> customersId = customers.getAllCustomersId();
+        ArrayList<String> optionsList = new ArrayList<String>();
+        for (Integer i : customersId) {
+            optionsList.add(Integer.toString(i));
+        }
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
         /*Dropdown to search customer by id*/
-        this.idDropDown = new ComboBox<>();
-        idDropDown.setItems(FXCollections.observableArrayList(1, 2, 3, 4));
+        this.idDropDown = new ComboBox<>(options);
         this.idDropDown.setId("idDropDown");
         this.idDropDown.setPromptText("Customer ID");
-
         /*Button to save bill*/
         this.saveButton = new Button("Save Bill");
         this.payButton = new Button("Pay Bill");
 
 
-        /*Label*/
-        Label placeholder = new Label();
-        Image placeHolderImg = new Image("file:src/img/placeholderimg.png");
-        placeholder.setGraphic(new ImageView(placeHolderImg));
 
-        Label textHolder = new Label("Item 1");
-        textHolder.setId("textItem");
+        /*Get Products*/
+        listProducts = new Products();
+        listProducts = controller.getProducts();
 
+        itemsLayout = new GridPane();
+        itemsLayout.addColumn(5);
+        itemsLayout.setHgap(15);
+        itemsLayout.setVgap(15);
+        int rowCount = 0;
+        int colCount = 0;
 
-        /*Per item layout*/
-        VBox itemLayout = new VBox();
-        itemLayout.getChildren().addAll(placeholder, textHolder);
-        itemLayout.setSpacing(10);
-        itemLayout.getStylesheets().add("file:src/main/java/com/example/tokosinaro2p/style/style.css");
+        for(Product a: listProducts.getProducts()){
+            itemsLayout.addRow(10);
+            String getImageUrl = a.imagePath;
+            Image placeHolderImg = new Image(getImageUrl);
+            ImageView placeImg = new ImageView();
+            placeImg.setImage(placeHolderImg);
+            placeImg.setFitHeight(150);
+            placeImg.setFitWidth(150);
 
-        /*All Item Layout*/
-        HBox itemsLayout = new HBox();
-        itemsLayout.setPrefWidth(500);
-        itemsLayout.setPrefHeight(500);
-        itemsLayout.getChildren().add(itemLayout);
-
+            String getProductName = a.productName;
+            Label textHolder = new Label(getProductName);
+            textHolder.setId("textItem");
+            /*Per item layout*/
+            itemLayout = new VBox();
+            itemLayout.getChildren().addAll(placeImg, textHolder);
+            itemLayout.setSpacing(10);
+            /*Col = 0 Row = 0*/
+            itemsLayout.add(itemLayout, colCount, rowCount);
+            colCount++;
+            if(colCount >= 5){
+                colCount = 0;
+                rowCount++;
+            }
+        }
 
         /*Button layout displaying side by side*/
-        HBox buttonLayout = new HBox();
+        buttonLayout = new HBox();
         buttonLayout.getChildren().addAll(this.saveButton, this.payButton);
         buttonLayout.setSpacing(100);
+
+        /*Layout to display shopping cart*/
+        invoiceLayout = new VBox();
+        invoiceLayout.setId("invoiceLayout");
+
+        /*Left layout containing dropdown id, list of printed items, button*/
+        leftLayout = new VBox();
+        leftLayout.setId("leftLayout");
+        leftLayout.getChildren().addAll(this.idDropDown, invoiceLayout, buttonLayout);
+        leftLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
+        leftLayout.setPrefWidth(500);
+        leftLayout.setPrefHeight(600);
+        leftLayout.setSpacing(10);
+
 
         /*Whole Layout*/
         HBox wholeLayout = new HBox();
         wholeLayout.setFillHeight(true);
 
-        /*Layout to display shopping cart*/
-        VBox invoiceLayout = new VBox();
-        invoiceLayout.setId("invoiceLayout");
 
         /*Right Layout containing search bar, dropdown, and list of items*/
         VBox rightLayout = new VBox();
@@ -96,14 +139,6 @@ public class catalogMenu extends Tab {
         searchLayout.setSpacing(15);
         rightLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
-        /*Left layout containing dropdown id, list of printed items, button*/
-        VBox leftLayout = new VBox();
-        leftLayout.setId("leftLayout");
-        leftLayout.getChildren().addAll(this.idDropDown, invoiceLayout, buttonLayout);
-        leftLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
-        leftLayout.setPrefWidth(500);
-        leftLayout.setPrefHeight(600);
-        leftLayout.setSpacing(10);
 
         wholeLayout.getChildren().addAll(rightLayout, leftLayout);
         wholeLayout.setSpacing(50);
@@ -116,5 +151,7 @@ public class catalogMenu extends Tab {
         base.getChildren().add(wholeLayout);
         this.setContent(base);
 
+
     }
+
 }

@@ -70,6 +70,14 @@ public class Customers {
         return ret;
     }
 
+    public ArrayList<Integer> getAllCustomersId(){
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        for (Customer cust : customers){
+            ret.add(cust.getIdCustomer());
+        }
+        return ret;
+    }
+
     public void print() {
         for (Customer c : this.customers) {
             System.out.println(c.toString());

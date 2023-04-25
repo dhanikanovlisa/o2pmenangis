@@ -70,7 +70,12 @@ public class Main extends Application {
 
         /*Create Instances Here*/
         catalog.setOnAction(event -> {
-            catalogMenu catalogTab = new catalogMenu();
+            catalogMenu catalogTab;
+            try{
+                catalogTab = new catalogMenu();
+            } catch (IOException e){
+                throw new RuntimeException(e);
+            }
             mainTabPane.getTabs().add(catalogTab);
         });
 

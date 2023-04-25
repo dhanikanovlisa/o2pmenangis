@@ -1,33 +1,49 @@
 [ {
   "productCode" : 1,
-  "productName" : "produk A",
-  "productCategory" : "etc",
+  "productName" : "Cawan Petri",
+  "productCategory" : "Alat",
   "buyPrice" : 100000.0,
   "sellPrice" : 120000.0,
   "stock" : 100,
-  "imagePath" : "file:src/img/placeholderimg.png"
+  "imagePath" : "file:src/img/cawanpetri.jpg"
 }, {
   "productCode" : 2,
-  "productName" : "produk B",
+  "productName" : "Gelas Beker",
   "productCategory" : "etc",
   "buyPrice" : 100000.0,
   "sellPrice" : 120000.0,
   "stock" : 100,
-  "imagePath" : "file:src/img/placeholderimg.png"
+  "imagePath" : "file:src/img/gelasbeker.jpg"
 }, {
   "productCode" : 3,
-  "productName" : "produk C",
+  "productName" : "Pipet",
   "productCategory" : "etc",
   "buyPrice" : 100000.0,
   "sellPrice" : 120000.0,
   "stock" : 100,
-  "imagePath" : "file:src/img/placeholderimg.png"
+  "imagePath" : "file:src/img/pipet.jpg"
 }, {
   "productCode" : 4,
-  "productName" : "produk D",
+  "productName" : "Tabung Reaksi",
   "productCategory" : "etc",
   "buyPrice" : 100000.0,
   "sellPrice" : 120000.0,
   "stock" : 100,
-  "imagePath" : "file:src/img/placeholderimg.png"
-} ]
+  "imagePath" : "file:src/img/tabungreaksi.jpg"
+}, {
+  "productCode" : 5,
+  "productName" : "Rak Tabung Reaksi",
+  "productCategory" : "etc",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/raktabungreaksi.jpg"
+}, {
+    "productCode" : 6,
+    "productName" : "Labu Erlenmeyer",
+    "productCategory" : "etc",
+    "buyPrice" : 100000.0,
+    "sellPrice" : 120000.0,
+    "stock" : 100,
+    "imagePath" : "file:src/img/labuerlenmeyer.png"
+  }]
