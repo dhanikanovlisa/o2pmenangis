@@ -1,9 +1,6 @@
 package com.o2pjualan.GUI;
 
-import com.o2pjualan.Classes.Bill;
-import com.o2pjualan.Classes.Customers;
-import com.o2pjualan.Classes.Product;
-import com.o2pjualan.Classes.Products;
+import com.o2pjualan.Classes.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -19,7 +16,7 @@ import static com.o2pjualan.Main.controller;
 public class catalogMenu extends Tab {
     private Products listProducts;
     public Customers customers;
-    public Bill customerBill;
+    public Bills customerBill;
     private TextField searchBar;
     private ComboBox<String> searchDropDown;
     private ComboBox<String> idDropDown;
@@ -123,6 +120,25 @@ public class catalogMenu extends Tab {
         leftLayout.setPrefHeight(600);
         leftLayout.setSpacing(10);
 
+        final Label[] previousLabel = {null};
+
+        customerBill = new Bills();
+        customerBill = controller.getBills();
+
+        idDropDown.setOnAction(event -> {
+            String selectedOption = idDropDown.getValue();
+            Integer idInt = Integer.parseInt(selectedOption);
+            Bill b = customerBill.getBillByID(idInt);
+
+            Label newLabel = new Label("tes");
+
+            if (previousLabel[0] != null) {
+                invoiceLayout.getChildren().remove(previousLabel[0]);
+            }
+
+            invoiceLayout.getChildren().add(newLabel);
+            previousLabel[0] = newLabel;
+        });
 
         /*Whole Layout*/
         HBox wholeLayout = new HBox();
@@ -153,5 +169,6 @@ public class catalogMenu extends Tab {
 
 
     }
+
 
 }

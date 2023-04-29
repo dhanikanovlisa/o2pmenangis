@@ -42,6 +42,7 @@ public class Customers {
         return null;
     }
 
+
     public void registerMember (int id, String name, String phone) throws IOException {
         Customer cust = getCustomerByID(id);
         Member newMember = new Member(cust, name, phone);
@@ -77,6 +78,8 @@ public class Customers {
         }
         return ret;
     }
+
+
 
     public void print() {
         for (Customer c : this.customers) {
