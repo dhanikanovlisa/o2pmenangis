@@ -1,7 +1,14 @@
 package com.o2pjualan.Classes;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.*;
 
-public class Products {
+@XmlRootElement(name = "products")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Products implements Serializable {
     private ArrayList<Product> productCodes;
 
     public Products() {
@@ -30,6 +37,4 @@ public class Products {
             System.out.println(p.toString());
         }
     }
-
-
 }

@@ -8,15 +8,7 @@
   "imagePath" : "file:src/img/placeholderimg.png"
 }, {
   "productCode" : 2,
-  "productName" : "produk B",
-  "productCategory" : "etc",
-  "buyPrice" : 100000.0,
-  "sellPrice" : 120000.0,
-  "stock" : 100,
-  "imagePath" : "file:src/img/placeholderimg.png"
-}, {
-  "productCode" : 3,
-  "productName" : "produk C",
+  "productName" : "produk A",
   "productCategory" : "etc",
   "buyPrice" : 100000.0,
   "sellPrice" : 120000.0,
@@ -24,10 +16,34 @@
   "imagePath" : "file:src/img/placeholderimg.png"
 }, {
   "productCode" : 4,
+  "productName" : "produk C",
+  "productCategory" : "etc",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/placeholderimg.png"
+}, {
+  "productCode" : 5,
   "productName" : "produk D",
   "productCategory" : "etc",
   "buyPrice" : 100000.0,
   "sellPrice" : 120000.0,
   "stock" : 100,
   "imagePath" : "file:src/img/placeholderimg.png"
+}, {
+  "productCode" : 6,
+  "productName" : "produk A",
+  "productCategory" : "etc",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/placeholderimg.png"
+}, {
+  "productCode" : 7,
+  "productName" : "test",
+  "productCategory" : "tis",
+  "buyPrice" : 9999999.0,
+  "sellPrice" : 100.0,
+  "stock" : 0,
+  "imagePath" : "yyyy.png"
 } ]

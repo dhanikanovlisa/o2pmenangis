@@ -1,20 +1,20 @@
 package com.o2pjualan.Classes;
-import org.json.simple.parser.ParseException;
+import lombok.Data;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
-public class Customers {
+@Data
+@XmlRootElement(name = "customers")
+@XmlSeeAlso({Member.class, VIP.class})
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Customers implements Serializable {
     private ArrayList<Customer> customers;
-
-
-//    public  static  void main (String [] Args) throws IOException, ParseException {
-//        JSONController controller = new JSONController();
-//        Customers customers = controller.getCustomers();
-//        Customer A = new Customer();
-//        customers.addCustomer(A);
-//        controller.saveDataCustomer(customers);
-//    }
     public Customers() {
         this.customers = new ArrayList<Customer>();
     }
@@ -33,6 +33,7 @@ public class Customers {
             }
         }
     }
+
     public Customer getCustomerByID (int id) {
         for (Customer cust: customers) {
             if (cust.getIdCustomer() == id) {
@@ -42,20 +43,11 @@ public class Customers {
         return null;
     }
 
-    public void registerMember (int id, String name, String phone) throws IOException {
+    public void registerMember (int id, String name, String phone)  {
         Customer cust = getCustomerByID(id);
         Member newMember = new Member(cust, name, phone);
         customers.remove(cust);
         customers.add((newMember));
-
-    }
-
-    public ArrayList<Customer> getCustomers() {
-        return customers;
-    }
-
-    public void setCustomers(ArrayList<Customer> customers) {
-        this.customers = customers;
     }
 
     public ArrayList<Integer> getCustomersId() {

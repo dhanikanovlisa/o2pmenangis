@@ -1,6 +1,5 @@
 package com.o2pjualan.Classes;
 
-import java.io.File;
 import java.io.IOException;
 
 public class Controller implements FileController {
@@ -12,16 +11,16 @@ public class Controller implements FileController {
                 fileController = new JSONController();
                 break;
             case "xml" :
+                fileController = new XMLController();
                 break;
-
             case "obj" :
+                fileController = new OBJController();
                 break;
 
             default:
                 throw new IllegalArgumentException("Unsupported file format: " + fileFormat);
         }
     }
-
     @Override
     public void saveDataCustomer(Customers customers) {
         fileController.saveDataCustomer(customers);

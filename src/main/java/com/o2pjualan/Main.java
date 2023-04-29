@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import jdk.vm.ci.code.site.ConstantReference;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class Main extends Application {
     public static Controller controller;
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage)  {
 
 
         primaryStage.setTitle("Toko Sinar 02P");
@@ -150,99 +151,35 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         folderName = "src/dataStore/dataStore1/";
-        controller = new Controller("json"); // sementara
-        Application.launch(args);
+        controller = new Controller("json");
+//        Application.launch(args);
 
-
-
-        // sebelum CRUD jgn lupa load, terus tiap create instance langsung save
-        // biar id nya gak duplicate
-
-/*
         Products products = controller.getProducts();
-        Product A = new Product("produk A", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
-        products.addProduct(A);
-        controller.saveDataProduct(products);
-        Product B = new Product("produk B", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
-        products.addProduct(B);
-        controller.saveDataProduct(products);
-        Product C = new Product("produk C", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
-        products.addProduct(C);
-        controller.saveDataProduct(products);
-        Product D = new Product("produk D", "etc", 100000, 120000, 100,"file:src/img/placeholderimg.png");
-        products.addProduct(D);
-        controller.saveDataProduct(products);
-
-
-        Customers customers = controller.getCustomers();
-        Bills bills = controller.getBills();
-
-        Customer c1 = new Customer();
-        customers.addCustomer(c1);
-        controller.saveDataCustomer(customers);
-        Bill b1 = new Bill(c1.getIdCustomer());
-        b1.AddProduct(1,2,120000);
-        b1.AddProduct(2, 1,12000);
-        bills.addBill(b1);
-        controller.saveDataBill(bills);
-
-        Customer c2 = new Customer();
-        customers.addCustomer(c2);
-        controller.saveDataCustomer(customers);
-        Bill b2 = new Bill(c2.getIdCustomer());
-        b2.AddProduct(1,10,10000);
-        bills.addBill(b2);
-        controller.saveDataBill(bills);
-
-        Customer c3 = new Customer();
-        customers.addCustomer(c3);
-        controller.saveDataCustomer(customers);
-        Bill b3 = new Bill(c3.getIdCustomer());
-        bills.addBill(b3);
-        controller.saveDataBill(bills);
-
-        Customer c4 = new Customer();
-        customers.addCustomer(c4);
-        controller.saveDataCustomer(customers);
-        Bill b4 = new Bill(c4.getIdCustomer());
-        bills.addBill(b4);
-        controller.saveDataBill(bills);
-
-
         FixedBills fixedBills = controller.getFixedBills();
-        fixedBills.printFixedBills();
-
-        FixedBill f1 = new FixedBill(c1.getIdCustomer());
-        f1.AddProduct(3, 10,30000);
-        f1.AddProduct(5, 90,30000);
-        f1.AddProduct(1, 20,30000);
-        fixedBills.addFixedBill(f1);
-        controller.saveDataFixedBill(fixedBills);
-
-        FixedBill f2 = new FixedBill(c1.getIdCustomer());
-        f2.AddProduct(6,5,10000);
-        fixedBills.addFixedBill(f2);
-        controller.saveDataFixedBill(fixedBills);
-*/
-        /*
         Bills bills = controller.getBills();
-        bills.print();
-        System.out.println("========\n\n");
+        Customers customers= controller.getCustomers();
 
-        FixedBills fixedBills = controller.getFixedBills();
-        fixedBills.print();
-        System.out.println("========\n\n");
+        Product Z = new Product("test", "tis", 9999999, 100, 0, "yyyy.png");
+        System.out.println(Z.getProductCode());
+        products.addProduct(Z);
 
-        Customers customers = controller.getCustomers();
         customers.print();
-        System.out.println("========\n\n");
 
-        Products products = controller.getProducts();
-        products.print();
-        System.out.println("========\n\n");
+        // kalo create new customer pake id 0 aj soalnya gabisa handle di no args constractor, dipake buat library parser
+        Customer X = new Customer(0);
+        VIP V = new VIP(X, "saipul", "08123");
+        System.out.println(V.getIdCustomer());
 
+        customers.addCustomer(X);
+
+        controller.saveDataCustomer(customers);
+        controller.saveDataBill(bills);
+        controller.saveDataProduct(products);
+        controller.saveDataFixedBill(fixedBills);
+
+
+//        products.print();
         System.out.println("DONE");
-        */
 
     }
 

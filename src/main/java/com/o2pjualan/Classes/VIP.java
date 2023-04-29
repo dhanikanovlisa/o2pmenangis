@@ -1,28 +1,36 @@
 package com.o2pjualan.Classes;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
 import java.util.*;
 
+@Data
+@XmlAccessorType(XmlAccessType.FIELD)
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class VIP extends Customer implements Serializable, Discount {
+    @XmlElement
     private String name;
     private String phoneNumber;
     private double point;
     private boolean statusMembership;
 
-    public VIP(Customer customer, String name, String phoneNumber) throws IOException {
+    public VIP(Customer customer, String name, String phoneNumber)  {
         super();
         this.idCustomer = customer.getIdCustomer();
         this.idFixedBill = customer.getIdFixedBill();
-
+        this.idBill = customer.getIdBill();
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.point = 0;
         this.membership = "VIP";
         this.statusMembership = true;
-
-        numberOfCustomer = numberOfCustomer - 1;
     }
     public VIP(@JsonProperty("idCustomer")int idCustomer, @JsonProperty("idFixedBill")ArrayList<Integer> idFixedBill, @JsonProperty("idBill")int idBill, @JsonProperty("membership")String membership, @JsonProperty("name")String name, @JsonProperty("phoneNumber")String phoneNumber, @JsonProperty("point")double point, @JsonProperty("statusMembership")boolean statusMembership) {
         super(idCustomer, idFixedBill, idBill, membership);
@@ -30,25 +38,6 @@ public class VIP extends Customer implements Serializable, Discount {
         this.phoneNumber = phoneNumber;
         this.point = point;
         this.statusMembership = statusMembership;
-    }
-    public int getIdFixedBill(int idx) {
-        return (this.getIdFixedBill().get(idx));
-    }
-
-    public String getName() {
-        return (this.name);
-    }
-
-    public String getPhoneNumber() {
-        return (this.phoneNumber);
-    }
-
-    public double getPoint() {
-        return (this.point);
-    }
-
-    public boolean getStatusMembership() {
-        return (this.statusMembership);
     }
 
     @Override

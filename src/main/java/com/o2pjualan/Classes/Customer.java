@@ -1,24 +1,27 @@
 package com.o2pjualan.Classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
 import static com.o2pjualan.Main.controller;
 
-public class Customer implements Serializable {
-    protected static int numberOfCustomer;
+@Data
+@NoArgsConstructor
+public  class Customer implements Serializable {
+//    protected static int numberOfCustomer;
     protected int idCustomer;
     protected List<Integer> idFixedBill;
     protected int idBill;
     protected String membership;
 
-    public Customer() throws IOException {
-        numberOfCustomer = controller.getTotalCustomers() + 1;
-        this.idCustomer = numberOfCustomer;
-
+    // kalo mau create new Customer gabisa pake yg no args constructor, soalnya dipake buat library parsing
+    // jadi create aja new Customer(0) .... id nya tetep kehandle di custructornya harusnya
+    public Customer(Integer idCust)  {
+        idCust = controller.getCustomers().getCustomers().size() + 1;
+        this.idCustomer = idCust;
         this.idFixedBill = new ArrayList<Integer>();
         this.idBill = idCustomer;
         this.membership = "Customer";
@@ -29,30 +32,6 @@ public class Customer implements Serializable {
         this.idFixedBill = idFixedBill;
         this.idBill = idBill;
         this.membership = membership;
-    }
-
-    public int getIdCustomer() {
-        return (this.idCustomer);
-    }
-
-    public List<Integer> getIdFixedBill() {
-        return (this.idFixedBill);
-    }
-
-    public void addFixedBill(int id) {
-        this.idFixedBill.add(id);
-    }
-
-    public String getMembership() {
-        return (this.membership);
-    }
-
-    public int getIdBill() {
-        return (this.idBill);
-    }
-
-    public void setIdBill(int idBill) {
-        this.idBill = idBill;
     }
 
     @Override

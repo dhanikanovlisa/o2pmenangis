@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<customers>
+    <customers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="member">
+        <idBill>1</idBill>
+        <idCustomer>1</idCustomer>
+        <membership>Member</membership>
+        <name>Febryan</name>
+        <phoneNumber>0812323</phoneNumber>
+        <point>0.0</point>
+        <statusMembership>true</statusMembership>
+    </customers>
+    <customers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="vip">
+        <idBill>2</idBill>
+        <idCustomer>2</idCustomer>
+        <idFixedBill>1</idFixedBill>
+        <idFixedBill>2</idFixedBill>
+        <membership>VIP</membership>
+        <name>Jennie</name>
+        <phoneNumber>082323</phoneNumber>
+        <point>0.0</point>
+        <statusMembership>true</statusMembership>
+    </customers>
+    <customers>
+        <idBill>3</idBill>
+        <idCustomer>3</idCustomer>
+        <membership>Customer</membership>
+    </customers>
+    <customers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="member">
+        <idBill>5</idBill>
+        <idCustomer>5</idCustomer>
+        <membership>Member</membership>
+        <name>Febryan</name>
+        <phoneNumber>0812323</phoneNumber>
+        <point>0.0</point>
+        <statusMembership>true</statusMembership>
+    </customers>
+    <customers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="vip">
+        <idBill>6</idBill>
+        <idCustomer>6</idCustomer>
+        <idFixedBill>1</idFixedBill>
+        <idFixedBill>2</idFixedBill>
+        <membership>VIP</membership>
+        <name>Jennie</name>
+        <phoneNumber>082323</phoneNumber>
+        <point>0.0</point>
+        <statusMembership>true</statusMembership>
+    </customers>
+    <customers>
+        <idBill>7</idBill>
+        <idCustomer>7</idCustomer>
+        <membership>Customer</membership>
+    </customers>
+    <customers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="member">
+        <idBill>4</idBill>
+        <idCustomer>4</idCustomer>
+        <membership>Member</membership>
+        <name>Teeee</name>
+        <phoneNumber>23231</phoneNumber>
+        <point>0.0</point>
+        <statusMembership>true</statusMembership>
+    </customers>
+    <customers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="member">
+        <idBill>8</idBill>
+        <idCustomer>8</idCustomer>
+        <membership>Member</membership>
+        <name>Yeah</name>
+        <phoneNumber>0812312</phoneNumber>
+        <point>0.0</point>
+        <statusMembership>true</statusMembership>
+    </customers>
+</customers>

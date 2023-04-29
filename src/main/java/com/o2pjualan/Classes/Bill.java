@@ -1,9 +1,17 @@
 package com.o2pjualan.Classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 import java.util.*;
 
-public class Bill {
+@Data
+@NoArgsConstructor
+@XmlRootElement(name = "bill")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Bill implements Serializable {
     protected int idCustomer;
     protected HashMap<Integer, Integer> ListOfProduct;
     protected HashMap<Integer, Integer> ListPriceOfProduct;
@@ -20,38 +28,9 @@ public class Bill {
         ListPriceOfProduct = listPriceOfProduct;
     }
 
-    public int getIdCustomer() {
-        return this.idCustomer;
-    }
-
-    public HashMap<Integer, Integer> getListOfProduct() {
-        return this.ListOfProduct;
-    }
-
-    public HashMap<Integer, Integer> getListPriceOfProduct() {
-        return this.ListPriceOfProduct;
-    }
-
-    public void setIdCustomer(int idCustomer) {
-        this.idCustomer = idCustomer;
-    }
-
-    public void setListOfProduct(HashMap<Integer, Integer> listOfProduct) {
-        ListOfProduct = listOfProduct;
-    }
-
-    public void setListPriceOfProduct(HashMap<Integer, Integer> listPriceOfProduct) {
-        ListPriceOfProduct = listPriceOfProduct;
-    }
-
     public void AddProduct(int productCode, int quantity, int price) {
-        //if(ListOfProduct.get(ListOfProduct)==0){
         this.ListOfProduct.put(productCode, quantity);
         this.ListPriceOfProduct.put(productCode, quantity * price);
-        //} else {
-        //    this.ListOfProduct.put(productCode,ListOfProduct.get(productCode) + quantity);
-        //    this.ListPriceOfProduct.put(productCode, ListPriceOfProduct.get(productCode) + quantity*price);
-        //}
     }
 
     public void RemoveProduct(int productCode) {
@@ -59,6 +38,11 @@ public class Bill {
     }
 
     public void print() {
+        System.out.println("idCustomer: " + this.idCustomer);
+        System.out.println("ListOfProducts: ");
+        ListOfProduct.forEach((key, value) -> System.out.println("   " + key + ":" + value));
+        System.out.println("ListPriceOfProdcuts: ");
+        ListPriceOfProduct.forEach((key, value) -> System.out.println("   " + key + ":" + value));
     }
     @Override
     public String toString() {

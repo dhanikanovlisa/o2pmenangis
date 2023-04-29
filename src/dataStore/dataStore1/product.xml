@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<products>
+    <productCodes>
+        <productCode>1</productCode>
+        <productName>produk A</productName>
+        <productCategory>etc</productCategory>
+        <buyPrice>100000.0</buyPrice>
+        <sellPrice>120000.0</sellPrice>
+        <stock>100</stock>
+        <imagePath>file:src/img/placeholderimg.png</imagePath>
+    </productCodes>
+    <productCodes>
+        <productCode>2</productCode>
+        <productName>produk A</productName>
+        <productCategory>etc</productCategory>
+        <buyPrice>100000.0</buyPrice>
+        <sellPrice>120000.0</sellPrice>
+        <stock>100</stock>
+        <imagePath>file:src/img/placeholderimg.png</imagePath>
+    </productCodes>
+    <productCodes>
+        <productCode>4</productCode>
+        <productName>produk C</productName>
+        <productCategory>etc</productCategory>
+        <buyPrice>100000.0</buyPrice>
+        <sellPrice>120000.0</sellPrice>
+        <stock>100</stock>
+        <imagePath>file:src/img/placeholderimg.png</imagePath>
+    </productCodes>
+    <productCodes>
+        <productCode>5</productCode>
+        <productName>produk D</productName>
+        <productCategory>etc</productCategory>
+        <buyPrice>100000.0</buyPrice>
+        <sellPrice>120000.0</sellPrice>
+        <stock>100</stock>
+        <imagePath>file:src/img/placeholderimg.png</imagePath>
+    </productCodes>
+    <productCodes>
+        <productCode>6</productCode>
+        <productName>produk A</productName>
+        <productCategory>etc</productCategory>
+        <buyPrice>100000.0</buyPrice>
+        <sellPrice>120000.0</sellPrice>
+        <stock>100</stock>
+        <imagePath>file:src/img/placeholderimg.png</imagePath>
+    </productCodes>
+</products>
