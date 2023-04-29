@@ -1,8 +1,6 @@
 package com.o2pjualan.Classes;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
-import org.json.simple.parser.ParseException;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import static com.o2pjualan.Main.folderName;
 
 
@@ -19,15 +16,12 @@ public class JSONController implements FileController{
     private Products products;
     private Bills bills;
     private FixedBills fixedBills;
-
-    //    private FixedBills fixedBills;
     public JSONController() throws IOException {
         loadDataCustomer();
         loadDataProduct();
         loadDataBill();
         loadDataFixedBill();
     }
-
 
     public void saveDataCustomer (Customers customers) {
         this.customers = customers;

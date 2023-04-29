@@ -1,19 +1,29 @@
 package com.o2pjualan.Classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 import static com.o2pjualan.Main.controller;
 
-public class FixedBill {
+@Data
+@XmlRootElement(name = "fixedBill")
+@XmlAccessorType(XmlAccessType.FIELD)
+@NoArgsConstructor
+public class FixedBill implements Serializable {
     protected int idBill;
     protected int idCustomer;
     protected static int countBill;
     protected HashMap<Integer,Integer> ListOfProduct;
     protected HashMap<Integer,Integer> ListPriceOfProduct;
 
-    public FixedBill(int idCustomer) throws IOException {
+    public FixedBill(int idCustomer)  {
         this.idBill = controller.getTotalFixedBills() + 1;
         this.idCustomer = idCustomer;
         this.ListOfProduct = new HashMap<Integer,Integer>();
@@ -60,13 +70,8 @@ public class FixedBill {
     }
 
     public void AddProduct(int productCode, int quantity, int price){
-        //if(ListOfProduct.get(ListOfProduct)==0){
         this.ListOfProduct.put(productCode,quantity);
         this.ListPriceOfProduct.put(productCode,quantity*price);
-        //} else {
-        //    this.ListOfProduct.put(productCode,ListOfProduct.get(productCode) + quantity);
-        //    this.ListPriceOfProduct.put(productCode, ListPriceOfProduct.get(productCode) + quantity*price);
-        //}
     }
 
     public void RemoveProduct(int productCode){

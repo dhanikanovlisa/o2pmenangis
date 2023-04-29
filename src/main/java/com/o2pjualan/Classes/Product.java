@@ -1,10 +1,21 @@
 package com.o2pjualan.Classes;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import static com.o2pjualan.Main.controller;
+
+@XmlRootElement(name = "product")
+@XmlAccessorType(XmlAccessType.FIELD)
+@NoArgsConstructor
+@Data
 
 public class Product implements Serializable {
     public static int numberOfProduct = 0;
@@ -16,8 +27,11 @@ public class Product implements Serializable {
     public int stock = 0;
     public String imagePath;
 
-    public Product(String name, String category, double buyPrice, double sellPrice, int stock, String imagePath) throws IOException {
-        numberOfProduct = controller.getTotalProducts() + 1;
+    public Product(String name, String category, double buyPrice, double sellPrice, int stock, String imagePath) {
+        ArrayList<Product> prodList= controller.getProducts().getProducts();
+        int maxID = prodList.stream().mapToInt(Product::getProductCode).max().orElse(0);
+        numberOfProduct = maxID + 1;
+
         this.productCode = numberOfProduct;
         this.productName = name;
         this.productCategory = category;
@@ -35,22 +49,6 @@ public class Product implements Serializable {
         this.sellPrice = sellPrice;
         this.stock = stock;
         this.imagePath = imagePath;
-    }
-
-    public int getProductCode() {
-        return (this.productCode);
-    }
-    
-    public void changeStock(int val) {
-        this.stock = val;
-    }
-
-    public void setImage(String path) {
-        this.imagePath = path;
-    }
-
-    public void setSellPrice(double price) {
-        this.sellPrice = price;
     }
 
     @Override

@@ -1,17 +1,27 @@
 package com.o2pjualan.Classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import java.io.IOException;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
 import java.util.*;
 
+@Data
+@XmlAccessorType(XmlAccessType.FIELD)
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class Member extends Customer implements Serializable, Discount {
+    @XmlElement
     private String name;
     private String phoneNumber;
     private double point;
     private boolean statusMembership;
 
-    public Member(Customer customer, String name, String phoneNumber) throws IOException {
+    public Member(Customer customer, String name, String phoneNumber) {
         this.idCustomer = customer.getIdCustomer();
         this.idFixedBill = customer.getIdFixedBill();
         this.idBill = customer.getIdBill();
@@ -20,7 +30,6 @@ public class Member extends Customer implements Serializable, Discount {
         this.point = 0;
         this.membership = "Member";
         this.statusMembership = true;
-        numberOfCustomer = numberOfCustomer - 1;
 
     }
 
@@ -30,26 +39,6 @@ public class Member extends Customer implements Serializable, Discount {
         this.phoneNumber = phoneNumber;
         this.point = point;
         this.statusMembership = statusMembership;
-    }
-
-    public int getIdFixedBill(int idx) {
-        return (this.getIdFixedBill().get(idx));
-    }
-
-    public String getName() {
-        return (this.name);
-    }
-
-    public String getPhoneNumber() {
-        return (this.phoneNumber);
-    }
-
-    public double getPoint() {
-        return (this.point);
-    }
-
-    public boolean getStatusMembership() {
-        return (this.statusMembership);
     }
 
     @Override

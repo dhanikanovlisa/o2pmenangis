@@ -1,5 +1,5 @@
 [ {
-  "idCustomer" : 1,
+  "idCustomer" : 0,
   "listOfProduct" : {
     "1" : 2,
     "2" : 1
@@ -9,7 +9,7 @@
     "2" : 12000
   }
 }, {
-  "idCustomer" : 2,
+  "idCustomer" : 0,
   "listOfProduct" : {
     "1" : 10
   },
@@ -17,11 +17,21 @@
     "1" : 100000
   }
 }, {
-  "idCustomer" : 3,
-  "listOfProduct" : { },
-  "listPriceOfProduct" : { }
+  "idCustomer" : 0,
+  "listOfProduct" : {
+    "1" : 2,
+    "2" : 1
+  },
+  "listPriceOfProduct" : {
+    "1" : 240000,
+    "2" : 12000
+  }
 }, {
-  "idCustomer" : 4,
-  "listOfProduct" : { },
-  "listPriceOfProduct" : { }
+  "idCustomer" : 0,
+  "listOfProduct" : {
+    "1" : 10
+  },
+  "listPriceOfProduct" : {
+    "1" : 100000
+  }
 } ]
