@@ -1,37 +1,37 @@
 [ {
-  "idCustomer" : 0,
+  "idCustomer" : 1,
   "listOfProduct" : {
-    "1" : 2,
-    "2" : 1
+    "102" : 2,
+    "103" : 1
   },
   "listPriceOfProduct" : {
-    "1" : 240000,
-    "2" : 12000
+    "102" : 100000,
+    "103" : 70000
   }
 }, {
-  "idCustomer" : 0,
+  "idCustomer" : 2,
   "listOfProduct" : {
-    "1" : 10
+    "101" : 10
   },
   "listPriceOfProduct" : {
-    "1" : 100000
+    "101" : 600000
   }
 }, {
-  "idCustomer" : 0,
+  "idCustomer" : 3,
   "listOfProduct" : {
-    "1" : 2,
-    "2" : 1
+    "116" : 2,
+    "117" : 1
   },
   "listPriceOfProduct" : {
-    "1" : 240000,
-    "2" : 12000
+    "116" : 160000,
+    "117" : 140000
   }
 }, {
-  "idCustomer" : 0,
+  "idCustomer" : 4,
   "listOfProduct" : {
-    "1" : 10
+    "119" : 5
   },
   "listPriceOfProduct" : {
-    "1" : 100000
+    "119" : 500000
   }
 } ]

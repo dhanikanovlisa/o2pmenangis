@@ -173,6 +173,9 @@ public class addItemCatalog extends Tab {
             } else {
                 categoryName = this.categoryTextField.getText();
             }
+            if(finalPath.equals(null)){
+                finalPath = "";
+            }
 
             Product newProduct = new Product(productName, categoryName, buyPrice, sellPrice, stock, finalPath);
             Products products = controller.getProducts();

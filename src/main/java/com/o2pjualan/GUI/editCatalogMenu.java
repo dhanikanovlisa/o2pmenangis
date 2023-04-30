@@ -104,7 +104,5 @@ public class editCatalogMenu extends Tab {
 
         base.getChildren().add(wholeLayout);
         this.setContent(base);
-
-
     }
 }

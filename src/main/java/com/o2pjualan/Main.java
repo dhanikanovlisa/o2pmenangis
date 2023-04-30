@@ -57,7 +57,8 @@ public class Main extends Application {
         MenuItem deactivate = new MenuItem("Deactivate Membership");
         MenuItem history = new MenuItem("History");
         MenuItem clickHistory = new MenuItem("Clicked History");
-        menu2.getItems().addAll(signUp, updateMembership, deactivate, history, clickHistory);
+        MenuItem billCustomer = new MenuItem("Bills");
+        menu2.getItems().addAll(signUp, updateMembership, deactivate, billCustomer, history, clickHistory);
 
         menu3 = new Menu("Settings");
         MenuItem dataStorage = new MenuItem("Change Data Storage");
@@ -84,22 +85,17 @@ public class Main extends Application {
         catalog.setOnAction(event -> {
             catalogMenu catalogTab;
             try{
-                catalogTab = new catalogMenu();
+                catalogTab = new catalogMenu(mainTabPane);
                 Button a = catalogTab.addNewItem();
                 a.setOnAction(e-> {
                     addItemCatalog addCatalogItem = new addItemCatalog();
                     mainTabPane.getTabs().add(addCatalogItem);
                 });
+
             } catch (IOException e){
                 throw new RuntimeException(e);
             }
             mainTabPane.getTabs().add(catalogTab);
-        });
-
-        /*Sementara buat testing edit per item*/
-        editCatalog.setOnAction(event -> {
-            editCatalogMenu editCatalogTab = new editCatalogMenu();
-            mainTabPane.getTabs().add(editCatalogTab);
         });
 
         report.setOnAction(event -> {
@@ -150,6 +146,10 @@ public class Main extends Application {
             mainTabPane.getTabs().add(pluginTab);
         });
 
+        billCustomer.setOnAction(event -> {
+            BillGUI billTab = new BillGUI();
+            mainTabPane.getTabs().add(billTab);
+        });
 
         mainMenuItem.setOnAction(event -> {
             mainMenu mainMenuTab = new mainMenu();

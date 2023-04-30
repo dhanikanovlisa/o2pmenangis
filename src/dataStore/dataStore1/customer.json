@@ -63,4 +63,39 @@
   "idFixedBill" : [ ],
   "idBill" : 9,
   "membership" : "Customer"
+}, {
+  "idCustomer" : 10,
+  "idFixedBill" : [ ],
+  "idBill" : 10,
+  "membership" : "Customer"
+}, {
+  "idCustomer" : 11,
+  "idFixedBill" : [ ],
+  "idBill" : 11,
+  "membership" : "Customer"
+}, {
+  "idCustomer" : 12,
+  "idFixedBill" : [ ],
+  "idBill" : 12,
+  "membership" : "Customer"
+}, {
+  "idCustomer" : 13,
+  "idFixedBill" : [ ],
+  "idBill" : 13,
+  "membership" : "Customer"
+}, {
+  "idCustomer" : 14,
+  "idFixedBill" : [ ],
+  "idBill" : 14,
+  "membership" : "Customer"
+}, {
+  "idCustomer" : 15,
+  "idFixedBill" : [ ],
+  "idBill" : 15,
+  "membership" : "Customer"
+}, {
+  "idCustomer" : 16,
+  "idFixedBill" : [ ],
+  "idBill" : 16,
+  "membership" : "Customer"
 } ]
