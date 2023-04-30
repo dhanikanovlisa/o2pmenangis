@@ -1,0 +1,41 @@
+[ {
+  "productCode" : 1,
+  "productName" : "produk A",
+  "productCategory" : "etc",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/placeholderimg.png"
+}, {
+  "productCode" : 2,
+  "productName" : "produk A",
+  "productCategory" : "etc",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/placeholderimg.png"
+}, {
+  "productCode" : 4,
+  "productName" : "produk C",
+  "productCategory" : "etc",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/placeholderimg.png"
+}, {
+  "productCode" : 5,
+  "productName" : "produk D",
+  "productCategory" : "etc",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/placeholderimg.png"
+}, {
+  "productCode" : 6,
+  "productName" : "produk A",
+  "productCategory" : "etc",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/placeholderimg.png"
+} ]
