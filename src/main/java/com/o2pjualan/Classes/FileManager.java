@@ -10,7 +10,7 @@ import static com.o2pjualan.Main.controller;
 public class FileManager {
     public static void initiateDataStore() throws IOException {
         String[] fileNames = {"customer.xml", "customer.json", "customer.ser"};
-        Boolean found = false;
+        boolean found = false;
         for (String fileName : fileNames) {
             File file = new File(folderName + fileName);
             if (file.exists()) {
@@ -44,13 +44,17 @@ public class FileManager {
         String folderPath = folderName.substring(0, folderName.length()-1);
         File folder = new File(folderPath);
         File[] files = folder.listFiles();
-        return(ext.equals(files[0].getName().substring(files[0].getName().lastIndexOf(".") + 1)));
+        if (files[0] != null) {
+            return (ext.equals(files[0].getName().substring(files[0].getName().lastIndexOf(".") + 1)));
+        } else {
+            return false;
+        }
     }
 
     public static void setUpFolder(String ext) {
         deleteCurrentFiles();
 
-        if (ext == "obj") {
+        if (ext.equals("obj")) {
             ext = "ser";
         }
 
@@ -86,18 +90,23 @@ public class FileManager {
                 FileWriter writer = new FileWriter(folderName + fileName);
                 String content = fileName.substring(0, fileName.indexOf('.'));
                 System.out.println(content);
-                if (content.equals("customer") ) {
-                    writer.write(customer);
-                    writer.close();
-                } else if ( content.equals("bill")) {
-                    writer.write(bill);
-                    writer.close();
-                } else if ( content.equals("product")) {
-                    writer.write(product);
-                    writer.close();
-                } else if ( content.equals("fixedBill")) {
-                    writer.write(fixedBill);
-                    writer.close();
+                switch (content) {
+                    case "customer":
+                        writer.write(customer);
+                        writer.close();
+                        break;
+                    case "bill":
+                        writer.write(bill);
+                        writer.close();
+                        break;
+                    case "product":
+                        writer.write(product);
+                        writer.close();
+                        break;
+                    case "fixedBill":
+                        writer.write(fixedBill);
+                        writer.close();
+                        break;
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -107,7 +116,7 @@ public class FileManager {
 
     //retcode 0 = success, 1 = already true, -1 = fail
     public static Integer changeExt(String ext) {
-        Integer retcode = -1;
+        int retcode = -1;
         if (!isExtExist(ext)) {
             Customers tempCustomers = controller.getCustomers();
             Products tempProducts = controller.getProducts();
