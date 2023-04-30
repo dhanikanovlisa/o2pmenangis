@@ -1,9 +1,12 @@
 package com.o2pjualan.GUI;
 
 import com.o2pjualan.Classes.*;
+import com.o2pjualan.Main;
+import com.sun.rowset.internal.Row;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,16 +17,20 @@ import java.util.ArrayList;
 import static com.o2pjualan.Main.controller;
 
 public class catalogMenu extends Tab {
+    private Main mainPage;
     private Products listProducts;
     public Customers customers;
     public Bills customerBill;
     private TextField searchBar;
     private ComboBox<String> searchDropDown;
     private ComboBox<String> idDropDown;
-
+    private ImageView placeImg;
+    private Label textHolder;
+    private ScrollPane scrollPane;
 
     private Button saveButton;
     private Button payButton;
+    private Button addItem;
     private VBox itemLayout;
     private GridPane itemsLayout;
     private VBox leftLayout;
@@ -38,19 +45,21 @@ public class catalogMenu extends Tab {
         this.searchBar = new TextField();
         this.searchBar.setId("searchBar");
         this.searchBar.setPromptText("Search");
-        this.searchBar.setPrefWidth(600);
+        this.searchBar.setPrefWidth(450);
         this.searchBar.setPrefHeight(40);
 
         /*Dropdown to search by category*/
         this.searchDropDown = new ComboBox<>();
-        searchDropDown.setItems(FXCollections.observableArrayList("All", "Name", "Price", "Category"));
+        searchDropDown.setItems(FXCollections.observableArrayList("All",
+                "Alat Laboratorium", "Seragam Medis", "Masker"));
         this.searchDropDown.setId("searchDropDown");
-        this.searchDropDown.setPromptText("Search by...");
+        this.searchDropDown.setPromptText("All");
+        this.searchDropDown.setValue("All");
 
 
         customers = new Customers();
         customers = controller.getCustomers();
-        ArrayList<Integer> customersId = customers.getAllCustomersId();
+        ArrayList<Integer> customersId = customers.getCustomersId();
         ArrayList<String> optionsList = new ArrayList<String>();
         for (Integer i : customersId) {
             optionsList.add(Integer.toString(i));
@@ -64,6 +73,11 @@ public class catalogMenu extends Tab {
         this.saveButton = new Button("Save Bill");
         this.payButton = new Button("Pay Bill");
 
+        this.addItem = new Button("+ Add Item");
+        this.addItem.setId("buttonItem");
+
+
+
 
 
         /*Get Products*/
@@ -71,37 +85,43 @@ public class catalogMenu extends Tab {
         listProducts = controller.getProducts();
 
         itemsLayout = new GridPane();
+//        RowConstraints row = new RowConstraints(50);
+//        ColumnConstraints col = new ColumnConstraints(15);
         itemsLayout.addColumn(5);
+        itemsLayout.addRow(10);
         itemsLayout.setHgap(15);
         itemsLayout.setVgap(15);
-        int rowCount = 0;
-        int colCount = 0;
+        itemsLayout.addRow(10);
 
-        for(Product a: listProducts.getProducts()){
-            itemsLayout.addRow(10);
-            String getImageUrl = a.imagePath;
-            Image placeHolderImg = new Image(getImageUrl);
-            ImageView placeImg = new ImageView();
-            placeImg.setImage(placeHolderImg);
-            placeImg.setFitHeight(150);
-            placeImg.setFitWidth(150);
+        scrollPane = new ScrollPane();
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setContent(itemsLayout);
+        ScrollBar scrollBar = new ScrollBar();
+        scrollBar.setOrientation(Orientation.VERTICAL);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setVmax(1);
+        scrollPane.setVvalue(0);
+        scrollPane.setPrefViewportHeight(500);
+        scrollPane.setPrefViewportWidth(400);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setContent(itemsLayout);
+        scrollPane.setId("scrollCatalog");
 
-            String getProductName = a.productName;
-            Label textHolder = new Label(getProductName);
-            textHolder.setId("textItem");
-            /*Per item layout*/
-            itemLayout = new VBox();
-            itemLayout.getChildren().addAll(placeImg, textHolder);
-            itemLayout.setSpacing(10);
-            /*Col = 0 Row = 0*/
-            itemsLayout.add(itemLayout, colCount, rowCount);
-            colCount++;
-            if(colCount >= 5){
-                colCount = 0;
-                rowCount++;
-            }
+        try{
+            displayItem(searchDropDown.getValue());
+        } catch(IOException error){
+            throw new RuntimeException(error);
         }
-
+        searchDropDown.setOnAction(event ->{
+            String value = searchDropDown.getValue();
+            itemsLayout.getChildren().clear();
+            try{
+                displayItem(value);
+            } catch(IOException error){
+                throw new RuntimeException(error);
+            }
+        });
         /*Button layout displaying side by side*/
         buttonLayout = new HBox();
         buttonLayout.getChildren().addAll(this.saveButton, this.payButton);
@@ -115,7 +135,6 @@ public class catalogMenu extends Tab {
         leftLayout = new VBox();
         leftLayout.setId("leftLayout");
         leftLayout.getChildren().addAll(this.idDropDown, invoiceLayout, buttonLayout);
-        leftLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
         leftLayout.setPrefWidth(500);
         leftLayout.setPrefHeight(600);
         leftLayout.setSpacing(10);
@@ -148,17 +167,16 @@ public class catalogMenu extends Tab {
         /*Right Layout containing search bar, dropdown, and list of items*/
         VBox rightLayout = new VBox();
         HBox searchLayout = new HBox();
-        searchLayout.getChildren().addAll(this.searchBar, this.searchDropDown);
-        searchLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
-        rightLayout.getChildren().addAll(searchLayout, itemsLayout);
+        searchLayout.getChildren().addAll(this.searchBar, this.searchDropDown, this.addItem);
+        rightLayout.getChildren().addAll(searchLayout, scrollPane);
         rightLayout.setSpacing(15);
         searchLayout.setSpacing(15);
-        rightLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
 
         wholeLayout.getChildren().addAll(rightLayout, leftLayout);
         wholeLayout.setSpacing(50);
-        wholeLayout.setPadding(new Insets(20,20,20,20));
+        wholeLayout.setPadding(new Insets(20, 20, 20, 20));
+        wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
         Pane base = new Pane();
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
@@ -167,7 +185,63 @@ public class catalogMenu extends Tab {
         base.getChildren().add(wholeLayout);
         this.setContent(base);
 
+    }
 
+    public Button addNewItem(){
+        return addItem;
+    }
+    public void displayItem(String value) throws IOException{
+        int rowCount = 0;
+        int colCount = 0;
+
+        for (Product a : listProducts.getProducts()) {
+            String category = a.productCategory;
+            if (value.equals("All") || value.equals("")) {
+                String getImageUrl = a.imagePath;
+                Image placeHolderImg = new Image(getImageUrl);
+                placeImg = new ImageView();
+                placeImg.setImage(placeHolderImg);
+                placeImg.setFitHeight(120);
+                placeImg.setFitWidth(120);
+
+                String getProductName = a.productName;
+                textHolder = new Label(getProductName);
+                textHolder.setId("textItem");
+                /*Per item layout*/
+                itemLayout = new VBox();
+                itemLayout.getChildren().addAll(placeImg, textHolder);
+                itemLayout.setSpacing(10);
+                /*Col = 0 Row = 0*/
+                itemsLayout.add(itemLayout, colCount, rowCount);
+                colCount++;
+                if (colCount >= 5) {
+                    colCount = 0;
+                    rowCount++;
+                }
+            } else if(value.equals(category)){
+                String getImageUrl = a.imagePath;
+                Image placeHolderImg = new Image(getImageUrl);
+                placeImg = new ImageView();
+                placeImg.setImage(placeHolderImg);
+                placeImg.setFitHeight(120);
+                placeImg.setFitWidth(120);
+
+                String getProductName = a.productName;
+                textHolder = new Label(getProductName);
+                textHolder.setId("textItem");
+                /*Per item layout*/
+                itemLayout = new VBox();
+                itemLayout.getChildren().addAll(placeImg, textHolder);
+                itemLayout.setSpacing(10);
+                /*Col = 0 Row = 0*/
+                itemsLayout.add(itemLayout, colCount, rowCount);
+                colCount++;
+                if (colCount >= 5) {
+                    colCount = 0;
+                    rowCount++;
+                }
+            }
+        }
     }
 
 

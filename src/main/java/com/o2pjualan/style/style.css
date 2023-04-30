@@ -105,6 +105,16 @@
     -fx-text-fill: #225C2A;
 
 }
+#buttonAddItem{
+    -fx-background-color: #225C2A;
+    -fx-font-size: 14;
+    -fx-background-radius: 10;
+    -fx-text-fill: #F3FFE7;
+    -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
+    -fx-pref-width: 120;
+    -fx-pref-height: 40;
+}
+
 
 #catalogLabel {
     -fx-text-fill: #225C2A;
@@ -222,4 +232,15 @@
     -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
     -fx-pref-width: 200;
     -fx-pref-height: 60;
+}
+#scrollCatalog{
+    -fx-background-color: #FBFFFB;
+    -fx-border-width: 0;
+    -fx-padding: 10;
+}
+.scroll-bar{
+    -fx-progress-color: #225C2A;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+
 }

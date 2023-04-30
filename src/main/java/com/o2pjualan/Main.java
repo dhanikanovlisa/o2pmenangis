@@ -21,6 +21,16 @@ import java.util.ArrayList;
 public class Main extends Application {
     public static String folderName = "src/dataStore/dataStore1/" ;
     public static Controller controller;
+    public Menu menu1;
+    public Menu menu2;
+    public Menu menu3;
+    public MenuBar menuBar;
+
+    public BorderPane holderTab;
+    public TabPane mainTabPane;
+    public Scene tabPane;
+
+
 
     @Override
     public void start(Stage primaryStage)  {
@@ -34,14 +44,14 @@ public class Main extends Application {
         primaryStage.setWidth(1450);
         primaryStage.show();
 
-        Menu menu1 = new Menu("Menu");
+        menu1 = new Menu("Menu");
         MenuItem mainMenuItem = new MenuItem("Main Menu");
         MenuItem catalog = new MenuItem("Catalog");
         MenuItem editCatalog = new Menu("Edit Catalog");
         MenuItem report = new MenuItem("Report");
         menu1.getItems().addAll(mainMenuItem, catalog, editCatalog, report);
 
-        Menu menu2 = new Menu("Profile");
+        menu2 = new Menu("Profile");
         MenuItem signUp = new MenuItem("Sign Up");
         MenuItem updateMembership = new MenuItem("Upgrade Membership");
         MenuItem deactivate = new MenuItem("Deactivate Membership");
@@ -49,21 +59,22 @@ public class Main extends Application {
         MenuItem clickHistory = new MenuItem("Clicked History");
         menu2.getItems().addAll(signUp, updateMembership, deactivate, history, clickHistory);
 
-        Menu menu3 = new Menu("Settings");
+        menu3 = new Menu("Settings");
         MenuItem dataStorage = new MenuItem("Change Data Storage");
         MenuItem loadPlugin = new MenuItem("Load Plugin");
         menu3.getItems().addAll(dataStorage, loadPlugin);
 
-        MenuBar menuBar = new MenuBar();
+        menuBar = new MenuBar();
         menuBar.getMenus().addAll(menu1, menu2, menu3);
 
 
-        BorderPane holderTab = new BorderPane();
-        TabPane mainTabPane = new TabPane();
+        holderTab = new BorderPane();
+        mainTabPane = new TabPane();
+        mainTabPane.setId("tabPane");
         holderTab.setTop(menuBar);
         holderTab.setCenter(mainTabPane);
         holderTab.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
-        Scene tabPane = new Scene(holderTab, 800, 700);
+        tabPane = new Scene(holderTab, 800, 700);
         tabPane.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
         primaryStage.setScene(tabPane);
@@ -74,6 +85,11 @@ public class Main extends Application {
             catalogMenu catalogTab;
             try{
                 catalogTab = new catalogMenu();
+                Button a = catalogTab.addNewItem();
+                a.setOnAction(e-> {
+                    addItemCatalog addCatalogItem = new addItemCatalog();
+                    mainTabPane.getTabs().add(addCatalogItem);
+                });
             } catch (IOException e){
                 throw new RuntimeException(e);
             }
@@ -124,6 +140,7 @@ public class Main extends Application {
 
 
         dataStorage.setOnAction(event -> {
+
             dataStoreSettings dataStoreTab = new dataStoreSettings();
             mainTabPane.getTabs().add(dataStoreTab);
         });
@@ -157,35 +174,7 @@ public class Main extends Application {
     public static void main(String[] args) throws IOException {
         folderName = "src/dataStore/dataStore1/";
         controller = new Controller("json");
-//        Application.launch(args);
-
-        Products products = controller.getProducts();
-        FixedBills fixedBills = controller.getFixedBills();
-        Bills bills = controller.getBills();
-        Customers customers= controller.getCustomers();
-
-        Product Z = new Product("test", "tis", 9999999, 100, 0, "yyyy.png");
-        System.out.println(Z.getProductCode());
-        products.addProduct(Z);
-
-        customers.print();
-
-        // kalo create new customer pake id 0 aj soalnya gabisa handle di no args constractor, dipake buat library parser
-        Customer X = new Customer(0);
-        VIP V = new VIP(X, "saipul", "08123");
-        System.out.println(V.getIdCustomer());
-
-        customers.addCustomer(X);
-
-        controller.saveDataCustomer(customers);
-        controller.saveDataBill(bills);
-        controller.saveDataProduct(products);
-        controller.saveDataFixedBill(fixedBills);
-
-
-//        products.print();
-        System.out.println("DONE");
+        Application.launch(args);
 
     }
-
 }

@@ -1,49 +1,161 @@
 [ {
-  "productCode" : 1,
-  "productName" : "produk A",
-  "productCategory" : "etc",
+  "productCode" : 101,
+  "productName" : "Cawan Petri",
+  "productCategory" : "Alat Laboratorium",
+  "buyPrice" : 10000.0,
+  "sellPrice" : 12000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/cawanpetri.jpg"
+}, {
+  "productCode" : 102,
+  "productName" : "Gelas Beker",
+  "productCategory" : "Alat Laboratorium",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 150000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/gelasbeker.jpg"
+}, {
+  "productCode" : 103,
+  "productName" : "Jas Laboratorium",
+  "productCategory" : "Seragam Medis",
   "buyPrice" : 100000.0,
   "sellPrice" : 120000.0,
   "stock" : 100,
-  "imagePath" : "file:src/img/placeholderimg.png"
+  "imagePath" : "file:src/img/jaslab.jpg"
 }, {
-  "productCode" : 2,
-  "productName" : "produk A",
-  "productCategory" : "etc",
+  "productCode" : 104,
+  "productName" : "Kacamata Medis",
+  "productCategory" : "Seragam Medis",
   "buyPrice" : 100000.0,
   "sellPrice" : 120000.0,
   "stock" : 100,
-  "imagePath" : "file:src/img/placeholderimg.png"
+  "imagePath" : "file:src/img/kakitiga.jpg"
 }, {
-  "productCode" : 4,
-  "productName" : "produk C",
-  "productCategory" : "etc",
+  "productCode" : 106,
+  "productName" : "Labu Erlenmeyer",
+  "productCategory" : "Alat Laboratorium",
   "buyPrice" : 100000.0,
   "sellPrice" : 120000.0,
   "stock" : 100,
-  "imagePath" : "file:src/img/placeholderimg.png"
+  "imagePath" : "file:src/img/labuerlenmeyer.png"
 }, {
-  "productCode" : 5,
-  "productName" : "produk D",
-  "productCategory" : "etc",
+  "productCode" : 107,
+  "productName" : "Masker Medis",
+  "productCategory" : "Masker",
   "buyPrice" : 100000.0,
   "sellPrice" : 120000.0,
   "stock" : 100,
-  "imagePath" : "file:src/img/placeholderimg.png"
+  "imagePath" : "file:src/img/masker.jpeg"
 }, {
-  "productCode" : 6,
-  "productName" : "produk A",
-  "productCategory" : "etc",
+  "productCode" : 108,
+  "productName" : "Pipet",
+  "productCategory" : "Alat Laboratorium",
   "buyPrice" : 100000.0,
   "sellPrice" : 120000.0,
   "stock" : 100,
-  "imagePath" : "file:src/img/placeholderimg.png"
+  "imagePath" : "file:src/img/pipet.jpg"
 }, {
-  "productCode" : 7,
-  "productName" : "test",
-  "productCategory" : "tis",
-  "buyPrice" : 9999999.0,
-  "sellPrice" : 100.0,
-  "stock" : 0,
-  "imagePath" : "yyyy.png"
+  "productCode" : 109,
+  "productName" : "Rak Tabung Reaksi",
+  "productCategory" : "Alat Laboratorium",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/raktabungreaksi.jpg"
+}, {
+  "productCode" : 110,
+  "productName" : "Tabung Reaksi",
+  "productCategory" : "Alat Laboratorium",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/tabungreaksi.jpg"
+}, {
+  "productCode" : 111,
+  "productName" : "Sarung Tangan",
+  "productCategory" : "Seragam Medis",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/sarungtangan.jpg"
+}, {
+  "productCode" : 112,
+  "productName" : "Kacamata Medis",
+  "productCategory" : "Seragam Medis",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/kacamata.jpg"
+}, {
+  "productCode" : 113,
+  "productName" : "Mortar",
+  "productCategory" : "Alat Laboratorium",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/mortar.jpg"
+}, {
+  "productCode" : 114,
+  "productName" : "Kertas Lakmus",
+  "productCategory" : "Alat Laboratorium",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/kertaslakmus.jpg"
+}, {
+  "productCode" : 115,
+  "productName" : "Batang Pengaduk",
+  "productCategory" : "Alat Laboratorium",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/batangpengaduk.jpg"
+}, {
+  "productCode" : 116,
+  "productName" : "Pycnometer 5ml",
+  "productCategory" : "Alat Laboratorium",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/pycnometer5ml.jpg"
+}, {
+  "productCode" : 117,
+  "productName" : "Pycnometer 25ml",
+  "productCategory" : "Alat Laboratorium",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/pycnometer25ml.jpg"
+}, {
+  "productCode" : 118,
+  "productName" : "Pycnometer 50ml",
+  "productCategory" : "Alat Laboratorium",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/pycnometer50ml.jpg"
+}, {
+  "productCode" : 119,
+  "productName" : "Pycnometer 250ml",
+  "productCategory" : "Alat Laboratorium",
+  "buyPrice" : 100000.0,
+  "sellPrice" : 120000.0,
+  "stock" : 100,
+  "imagePath" : "file:src/img/pycnometer250ml.jpg"
+}, {
+  "productCode" : 120,
+  "productName" : "tes",
+  "productCategory" : "",
+  "buyPrice" : 10000.0,
+  "sellPrice" : 10000.0,
+  "stock" : 10000,
+  "imagePath" : null
+}, {
+  "productCode" : 121,
+  "productName" : "tes",
+  "productCategory" : "",
+  "buyPrice" : 10000.0,
+  "sellPrice" : 10000.0,
+  "stock" : 10000,
+  "imagePath" : null
 } ]
