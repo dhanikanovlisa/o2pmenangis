@@ -3,23 +3,17 @@ package com.o2pjualan;
 import com.o2pjualan.Classes.*;
 import com.o2pjualan.GUI.*;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
-import jdk.vm.ci.code.site.ConstantReference;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
-import java.util.ArrayList;
 
 
 public class Main extends Application {
-    public static String folderName = "src/dataStore/dataStore1/" ;
+    public static String folderName;
     public static Controller controller;
 
     @Override
@@ -137,6 +131,8 @@ public class Main extends Application {
         mainMenu mainMenuTab = new mainMenu();
         mainTabPane.getTabs().add(mainMenuTab);
 
+//        dataStoreSettings tabsetting = new dataStoreSettings();
+//        mainTabPane.getTabs().add(tabsetting);
 
         // stop all thread clock when closing the app
         primaryStage.setOnCloseRequest(event -> {
@@ -148,39 +144,11 @@ public class Main extends Application {
         });
     }
 
-
     public static void main(String[] args) throws IOException {
-        folderName = "src/dataStore/dataStore1/";
-        controller = new Controller("json");
-//        Application.launch(args);
-
-        Products products = controller.getProducts();
-        FixedBills fixedBills = controller.getFixedBills();
-        Bills bills = controller.getBills();
-        Customers customers= controller.getCustomers();
-
-        Product Z = new Product("test", "tis", 9999999, 100, 0, "yyyy.png");
-        System.out.println(Z.getProductCode());
-        products.addProduct(Z);
-
-        customers.print();
-
-        // kalo create new customer pake id 0 aj soalnya gabisa handle di no args constractor, dipake buat library parser
-        Customer X = new Customer(0);
-        VIP V = new VIP(X, "saipul", "08123");
-        System.out.println(V.getIdCustomer());
-
-        customers.addCustomer(X);
-
-        controller.saveDataCustomer(customers);
-        controller.saveDataBill(bills);
-        controller.saveDataProduct(products);
-        controller.saveDataFixedBill(fixedBills);
-
-
-//        products.print();
+        folderName = "src/dataStore/dataStore2/";
+        FileManager.initiateDataStore();
+        Application.launch(args);
         System.out.println("DONE");
-
     }
 
 }

@@ -10,10 +10,10 @@ public class OBJController implements FileController{
     private Bills bills;
     private FixedBills fixedBills;
     public OBJController() {
-        this.customers = getData("customer.ser");
-        this.products = getData("product.ser");
-        this.bills = getData("bill.ser");
-        this.fixedBills = getData("fixedBill.ser");
+//        this.customers = getData("customer.ser");
+//        this.products = getData("product.ser");
+//        this.bills = getData("bill.ser");
+//        this.fixedBills = getData("fixedBill.ser");
     }
     @Override
     public void saveDataCustomer(Customers customers) {
@@ -54,20 +54,24 @@ public class OBJController implements FileController{
 
     @Override
     public Customers getCustomers() {
+        this.customers = getData("customer.ser");
         return this.customers;
     }
 
     @Override
     public Products getProducts() {
+        this.products = getData("product.ser");
         return this.products;
     }
 
     @Override
     public Bills getBills() {
+        this.bills = getData("bill.ser");
         return this.bills;
     }
     @Override
     public FixedBills getFixedBills() {
+        this.fixedBills = getData("fixedBill.ser");
         return this.fixedBills;
     }
 
@@ -75,7 +79,7 @@ public class OBJController implements FileController{
         String path = folderName + fileName;
         try {
             FileInputStream fileIn = new FileInputStream(path);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
+            ObjectInputStream in = new  ObjectInputStream(fileIn);
             T data = (T) in.readObject();
             in.close();
             fileIn.close();

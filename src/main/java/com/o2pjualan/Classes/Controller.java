@@ -1,11 +1,15 @@
 package com.o2pjualan.Classes;
 
+import lombok.Data;
 import java.io.IOException;
 
+@Data
 public class Controller implements FileController {
     private FileController fileController;
+    private String type;
 
     public Controller(String fileFormat) throws IOException {
+        this.type = fileFormat;
         switch (fileFormat) {
             case "json":
                 fileController = new JSONController();
@@ -14,6 +18,7 @@ public class Controller implements FileController {
                 fileController = new XMLController();
                 break;
             case "obj" :
+            case "ser" :
                 fileController = new OBJController();
                 break;
 
