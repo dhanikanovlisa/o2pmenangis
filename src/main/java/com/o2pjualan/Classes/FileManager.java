@@ -142,4 +142,14 @@ public class FileManager {
 
         return retcode;
     }
+
+    public static int changeFolder(String newFolderPath) {
+        folderName = newFolderPath;
+        try {
+            initiateDataStore();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
 }

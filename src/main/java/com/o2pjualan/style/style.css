@@ -72,6 +72,12 @@
     -fx-pref-height: 40;
 }
 
+#infoBtn {
+    -fx-background-color: transparent;
+    -fx-pref-width: 40;
+    -fx-font-size: 20;
+}
+
 #textItem{
     -fx-text-fill: #225C2A;
     -fx-font-size: 14;
