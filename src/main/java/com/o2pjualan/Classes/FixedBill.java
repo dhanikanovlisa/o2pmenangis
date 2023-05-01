@@ -24,7 +24,7 @@ public class FixedBill implements Serializable {
     protected HashMap<Integer,Integer> ListPriceOfProduct;
 
     public FixedBill(int idCustomer)  {
-        this.idBill = controller.getTotalFixedBills() + 1;
+        this.idBill = controller.getTotalFixedBills() + 2001;
         this.idCustomer = idCustomer;
         this.ListOfProduct = new HashMap<Integer,Integer>();
         this.ListPriceOfProduct = new HashMap<Integer,Integer>();
