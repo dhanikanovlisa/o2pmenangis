@@ -142,8 +142,7 @@ public class BillGUI extends Tab{
         Bill b = bills.getBillByID(idInt);
         HashMap<Integer, Integer> listProd = b.getListOfProduct();
         wholePriceLayout.addRow(listProd.size());
-        System.out.println(listProd.size());
-        System.out.println(listProducts.getProducts().size());
+
         for(Map.Entry<Integer, Integer> entry : listProd.entrySet()){
             for(Product a: listProducts.getProducts()){
                 if(a.getProductCode() == entry.getKey()){

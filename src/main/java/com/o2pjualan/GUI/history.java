@@ -40,9 +40,10 @@ public class history extends Tab {
     private ScrollPane scrollPane;
     private ArrayList<String> optionsList;
     private ObservableList<String> options;
-    public history(TabPane mainTabPane){
+    public history(TabPane mainTabPane) throws IOException{
 
         this.setText("History");
+        this.mainTabPane = mainTabPane;
         historyTitle = new Label("History");
         historyTitle.setId("h1");
 
@@ -75,8 +76,8 @@ public class history extends Tab {
         }
 
         name.setOnAction(e -> {
-            historyLayout.getChildren().clear();
             try {
+                historyLayout.getChildren().clear();
                 displayFixedBill(name.getValue());
             } catch (IOException err){
                 throw new RuntimeException(err);
@@ -98,23 +99,10 @@ public class history extends Tab {
         scrollPane.setContent(historyLayout);
         scrollPane.setId("scrollCatalog");
 
-        int rowCount = 0;
         upperLayout = new HBox();
         upperLayout.getChildren().addAll(historyTitle, this.name);
         upperLayout.setSpacing(900);
 
-        fixedBill = fixedBills.getFixedBills();
-        for(FixedBill fix: fixedBill){
-            this.idTransaction = new Label(Integer.toString(fix.getIdBill()));
-
-            this.totalPrice = new Label("Total: " + fix.getTotalFixedBill());
-            historyItemLayout = new VBox();
-            historyItemLayout.setId("historyItemLayout");
-            historyItemLayout.getChildren().addAll(this.idTransaction,this.totalPrice);
-
-            historyLayout.add(historyItemLayout, 0, rowCount);
-            rowCount++;
-        }
 
         this.idTransaction = new Label("");
         this.firstItem = new Label("");
@@ -143,9 +131,6 @@ public class history extends Tab {
 
     public void displayFixedBill(String idCust) throws IOException  {
         int rowCount = 0;
-        upperLayout = new HBox();
-        upperLayout.getChildren().addAll(historyTitle, this.name);
-        upperLayout.setSpacing(900);
 
         fixedBill = fixedBills.getFixedBills();
 
@@ -169,7 +154,7 @@ public class history extends Tab {
         historyItemLayout.setId("historyItemLayout");
         historyItemLayout.getChildren().addAll(this.idTransaction, this.totalPrice);
         historyItemLayout.setOnMouseClicked(e -> {
-            clickedHistory clickedHistoryTab = new clickedHistory();
+            clickedHistory clickedHistoryTab = new clickedHistory(Integer.parseInt(idFixedBill));
             mainTabPane.getTabs().add(clickedHistoryTab);
         });
         historyLayout.add(historyItemLayout, 0, rowCount);
