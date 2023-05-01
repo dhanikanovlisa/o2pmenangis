@@ -1,5 +1,12 @@
 package com.o2pjualan.Classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.stage.FileChooser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +15,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
@@ -111,22 +119,34 @@ public class FixedBill implements Serializable, printToPDF {
         return total;
     }
 
-    public void printPDF() throws IOException {
-        PDDocument document = new PDDocument();
+    public void printPDF()  {
+        Document document = new Document();
 
-        PDPage page = new PDPage(PDRectangle.A4);
-        document.addPage(page);
+        try{
+            String pdfName = this.idBill + "_" + "namaCustomer" + ".pdf";
+            PdfWriter.getInstance(document, new FileOutputStream(pdfName));
+            document.open();
 
-        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+            PdfPTable table = new PdfPTable(1);
+            table.setWidthPercentage(100);
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save PDF File");
-        FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("PDF Files", "*.pdf");
-        fileChooser.getExtensionFilters().add(pdfFilter);
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            document.save(file);
+            PdfPCell cell = new PdfPCell();
+            cell.setBorder(PdfPCell.NO_BORDER);
+
+            Font font = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+
+            Paragraph p = new Paragraph("My PDF Header", font);
+            p.setAlignment(Element.ALIGN_CENTER);
+
+            cell.addElement(p);
+
+            table.addCell(cell);
+            document.add(table);
+
+            document.add(new Paragraph("This is some content."));
+            document.close();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-        document.close();
     }
 }

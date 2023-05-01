@@ -99,6 +99,15 @@ public class clickedHistory extends Tab {
                 }
             }
         }
+
+        this.printBill.setOnAction(err -> {
+            FixedBill printFixedBill = fixedBills.getFixedBillByID(idBill);
+            try{
+                printFixedBill.printPDF();
+            } catch (Exception e){
+                System.out.println(e);
+            }
+        });
         totalLayout = new HBox();
         Label total = new Label("Total");
         totalPrice = new Label(Integer.toString(fixBillCustomer.getTotalFixedBill()));
