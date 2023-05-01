@@ -40,7 +40,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
     testCompileOnly 'org.projectlombok:lombok:1.18.26'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
-
+    implementation 'org.apache.pdfbox:pdfbox:2.0.24'
+    implementation 'org.apache.pdfbox:pdfbox-tools:2.0.24'
+    implementation 'com.itextpdf:itextpdf:5.5.13'
 }
 test {
     useJUnitPlatform()

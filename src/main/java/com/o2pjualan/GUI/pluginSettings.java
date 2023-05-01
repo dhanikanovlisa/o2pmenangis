@@ -5,23 +5,33 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
+
+import java.io.File;
 
 public class pluginSettings extends Tab {
     private Button loadPlugin;
+    private VBox pluginLayout;
+    private HBox wholeLayout;
+
 
     public pluginSettings(){
         this.setText("Load Plugin");
 
-        VBox pluginLayout = new VBox();
+        pluginLayout = new VBox();
         Label titlePlugin = new Label("Load Plugin");
         titlePlugin.setId("h1");
         this.loadPlugin = new Button("Load Plugin");
         this.loadPlugin.setId("settingsButton");
 
+        loadPlugin.setOnAction(e-> {
+            openFileDialog();
+        });
+
         pluginLayout.getChildren().addAll(titlePlugin, this.loadPlugin);
         pluginLayout.setSpacing(20);
 
-        HBox wholeLayout = new HBox();
+        wholeLayout = new HBox();
         wholeLayout.setId("wholeLayout");
         wholeLayout.getChildren().addAll(pluginLayout);
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
@@ -34,8 +44,20 @@ public class pluginSettings extends Tab {
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
         base.getChildren().add(wholeLayout);
         this.setContent(base);
-
-        /*To Do: open file dialog to load plugin*/
     }
 
+    public void openFileDialog(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open JAR File");
+
+        FileChooser.ExtensionFilter jarFilter = new FileChooser.ExtensionFilter("JAR Files", "*.jar");
+        fileChooser.getExtensionFilters().add(jarFilter);
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            // Do something with the selected file
+        }
+
+    }
 }
