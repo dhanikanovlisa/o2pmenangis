@@ -39,4 +39,12 @@ public class Bills implements Serializable {
         }
     }
 
+    public ArrayList<Integer> getBillCustomerID(){
+        ArrayList<Integer> customerBills = new ArrayList<>();
+        for(Bill b: bills){
+            customerBills.add(b.getIdCustomer());
+        }
+        return customerBills;
+    }
+
 }

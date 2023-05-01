@@ -44,11 +44,9 @@ public class BillGUI extends Tab{
         addNewCustomer = new Button("+ Add Customer");
 
         Bills bills = controller.getBills();
-        ArrayList<Integer> customersId = customers.getCustomersId();
-        ArrayList<Bill> listBills = bills.getBills();
-        ArrayList<Integer> validId = new ArrayList<>();
+        ArrayList<Integer> customersId = bills.getBillCustomerID();
         ArrayList<String> optionsList = new ArrayList<String>();
-        for (Integer i : validId) {
+        for (Integer i : customersId) {
             optionsList.add(Integer.toString(i));
         }
         ObservableList<String> options = FXCollections.observableArrayList(optionsList);
