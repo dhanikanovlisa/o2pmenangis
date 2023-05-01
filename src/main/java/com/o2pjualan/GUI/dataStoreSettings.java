@@ -1,36 +1,33 @@
 package com.o2pjualan.GUI;
 
+import com.o2pjualan.Classes.*;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import javafx.util.Duration;
+
+import java.io.File;
+
+import static com.o2pjualan.Main.folderName;
 
 public class dataStoreSettings extends Tab {
     private ComboBox<String> dataDropDown;
+    private Button buttonChange;
+    private Button buttonFolder;
+    private Label message;
+    private Label message2;
 
     public dataStoreSettings(){
-        this.setText("Change Data Store");
-
-        VBox dataLayout = new VBox();
-        Label titleDataStore = new Label("Change Data Store");
-        titleDataStore.setId("h1");
-        this.dataDropDown = new ComboBox<>();
-        this.dataDropDown.setItems(
-                FXCollections.observableArrayList("JSON", "XML", "OBJ"));
-        this.dataDropDown.setId("settingsDropDown");
-        dataLayout.getChildren().addAll(titleDataStore, this.dataDropDown);
-        dataLayout.setSpacing(20);
-
-
-
-        HBox wholeLayout = new HBox();
-        wholeLayout.setId("wholeLayout");
-        wholeLayout.getChildren().addAll(dataLayout);
-        wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
-
+        this.setText("Data Store Setting");
 
         Pane base = new Pane();
         Image illus = new Image("file:src/img/illustration1.png");
@@ -38,9 +35,120 @@ public class dataStoreSettings extends Tab {
                 false, false, true, true);
         base.setBackground(new Background(new BackgroundImage(illus, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
-        base.getChildren().add(wholeLayout);
-        this.setContent(base);
 
+        VBox baseWrapper = new VBox();
+        baseWrapper.setFillWidth(true);
+        baseWrapper.prefWidthProperty().bind(base.widthProperty());
+        baseWrapper.prefHeightProperty().bind(base.heightProperty());
+
+        VBox dataLayout = new VBox();
+        HBox titleLayout = new HBox();
+        Label titleDataStore = new Label("Change Data Store");
+        titleDataStore.setId("h1");
+        Button informationBtn = new Button();
+        informationBtn.setId("infoBtn");
+        Tooltip tooltip = new Tooltip("Choose empty folder to create a new data store");
+        tooltip.setShowDelay(Duration.millis(100));
+        Tooltip.install(informationBtn, tooltip);
+        informationBtn.setGraphic(new FontAwesomeIconView(FontAwesomeIcon.INFO_CIRCLE));
+        this.buttonFolder =  new Button("Choose Folder");
+        this.buttonFolder.setId("settingsButton");
+        this.buttonFolder.setOnAction(e -> changeFolder());
+        this.message2 = new Label("");
+
+        titleLayout.getChildren().addAll(titleDataStore, informationBtn);
+        titleLayout.setAlignment(Pos.CENTER);
+        dataLayout.setPadding(new Insets(0, 0, 50, 0));
+        dataLayout.getChildren().addAll(titleLayout, buttonFolder, message2);
+        dataLayout.setSpacing(20);
+
+        VBox dataLayout2 = new VBox();
+        HBox buttonLayout = new HBox();
+        Label labelExt = new Label("Change Extension");
+        labelExt.setId("h1");
+        this.dataDropDown = new ComboBox<>();
+        this.dataDropDown.setItems(
+                FXCollections.observableArrayList("JSON", "XML", "OBJ"));
+        this.dataDropDown.setId("settingsDropDown");
+        this.buttonChange = new Button("change");
+        this.buttonChange.setId("settingsButton");
+        this.buttonChange.setOnAction(e -> convertData());
+        this.message = new Label("");
+        this.message.setFont(new Font(14));
+        buttonLayout.getChildren().addAll(dataDropDown, buttonChange);
+        buttonLayout.setAlignment(Pos.CENTER);
+        buttonLayout.setSpacing(20);
+        dataLayout2.getChildren().addAll(labelExt, buttonLayout, message);
+        dataLayout2.setSpacing(20);
+
+        dataLayout.setAlignment(Pos.CENTER);
+        dataLayout2.setAlignment(Pos.CENTER);
+        baseWrapper.setAlignment(Pos.CENTER);
+        baseWrapper.getChildren().addAll(dataLayout, dataLayout2);
+
+        base.getChildren().add(baseWrapper);
+        this.setContent(base);
     }
 
+    public void convertData() {
+        if (dataDropDown.getValue() != null) {
+            String newFormat = dataDropDown.getValue().toLowerCase();
+            newFormat = newFormat.toLowerCase();
+            if (newFormat.equals("obj")) {
+                newFormat = "ser";
+            }
+            Integer retcode = FileManager.changeExt(newFormat);
+            if (retcode == 0) {
+                this.message.setText("The file extension has been updated.");
+                this.message.setTextFill(Paint.valueOf("#599962"));
+            } else if (retcode == 1) {
+                this.message.setText("Files already in the requested extension.");
+                this.message.setTextFill(Paint.valueOf("#599962"));
+            } else {
+                this.message.setText("An error occurred. Please try again later.");
+                this.message.setTextFill(Paint.valueOf("#d0342c"));
+            }
+        } else {
+            this.message.setText("Please choose the extension");
+            this.message.setTextFill(Paint.valueOf("#878787"));
+        }
+    }
+
+    public void changeFolder() {
+        File currentFile = new File(".");
+        File relativeFolder  = new File(currentFile.getAbsolutePath() + "/src/dataStore");
+
+        System.out.println(relativeFolder.getName());
+        if (!relativeFolder.canRead()) {
+            this.message2.setText("You do not have permission to access the target folder");
+            this.message2.setTextFill(Paint.valueOf("#d0342c"));
+        }
+
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setInitialDirectory(relativeFolder);
+        File selectedDirectory = directoryChooser.showDialog(new Stage());
+
+        if (selectedDirectory != null) {
+            String newFolderPath = selectedDirectory.getAbsolutePath();
+            if (newFolderPath.contains("dataStore/")) {
+                newFolderPath = "src/" + newFolderPath.substring(newFolderPath.indexOf("src/") + 4) + '/';
+
+                if (!newFolderPath.equals(folderName)) {
+                    FileManager.changeFolder(newFolderPath);
+                    this.message2.setText("The data store directory has been updated");
+                    this.message2.setTextFill(Paint.valueOf("#599962"));
+                } else {
+                    this.message2.setText("Currently using this data store");
+                    this.message2.setTextFill(Paint.valueOf("#878787"));
+                }
+
+            } else {
+                this.message2.setText("Please choose directory inside 'dataStore' directory");
+                this.message2.setTextFill(Paint.valueOf("#d0342c"));
+            }
+        } else {
+            this.message2.setText("No directory selected");
+            this.message2.setTextFill(Paint.valueOf("#878787"));
+        }
+    }
 }

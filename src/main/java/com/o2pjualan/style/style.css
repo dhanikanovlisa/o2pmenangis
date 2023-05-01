@@ -72,6 +72,12 @@
     -fx-pref-height: 40;
 }
 
+#infoBtn {
+    -fx-background-color: transparent;
+    -fx-pref-width: 40;
+    -fx-font-size: 20;
+}
+
 #textItem{
     -fx-text-fill: #225C2A;
     -fx-font-size: 14;
@@ -142,11 +148,13 @@
     -fx-text-fill: #F3FFE7;
     -fx-font-size: 14;
     -fx-prompt-text-fill: #F3FFE7;
-    -fx-pref-height: 30;
+    -fx-pref-height: 40;
     -fx-pref-width: 250;
     -fx-tick-label-fill: #F3FFE7;
     -fx-highlight-fill: #F3FFE7;
 }
+
+
 
 #dateLabel {
     -fx-font-weight: 500;
