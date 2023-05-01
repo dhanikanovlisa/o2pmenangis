@@ -54,4 +54,8 @@ public class Member extends Customer implements Serializable, Discount {
                 ", membership='" + membership + '\'' +
                 '}';
     }
+
+    public String getName(){
+        return this.name;
+    }
 }

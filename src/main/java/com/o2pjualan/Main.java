@@ -3,18 +3,34 @@ package com.o2pjualan;
 import com.o2pjualan.Classes.*;
 import com.o2pjualan.GUI.*;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import jdk.vm.ci.code.site.ConstantReference;
 import org.json.simple.parser.ParseException;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Main extends Application {
-    public static String folderName;
+    public static String folderName = "src/dataStore/dataStore1/" ;
     public static Controller controller;
+    public Menu menu1;
+    public Menu menu2;
+    public Menu menu3;
+    public MenuBar menuBar;
+
+    public BorderPane holderTab;
+    public TabPane mainTabPane;
+    public Scene tabPane;
+
+
 
     @Override
     public void start(Stage primaryStage)  {
@@ -28,36 +44,38 @@ public class Main extends Application {
         primaryStage.setWidth(1450);
         primaryStage.show();
 
-        Menu menu1 = new Menu("Menu");
+        menu1 = new Menu("Menu");
         MenuItem mainMenuItem = new MenuItem("Main Menu");
         MenuItem catalog = new MenuItem("Catalog");
         MenuItem editCatalog = new Menu("Edit Catalog");
         MenuItem report = new MenuItem("Report");
         menu1.getItems().addAll(mainMenuItem, catalog, editCatalog, report);
 
-        Menu menu2 = new Menu("Profile");
+        menu2 = new Menu("Profile");
         MenuItem signUp = new MenuItem("Sign Up");
         MenuItem updateMembership = new MenuItem("Upgrade Membership");
         MenuItem deactivate = new MenuItem("Deactivate Membership");
         MenuItem history = new MenuItem("History");
         MenuItem clickHistory = new MenuItem("Clicked History");
-        menu2.getItems().addAll(signUp, updateMembership, deactivate, history, clickHistory);
+        MenuItem billCustomer = new MenuItem("Bills");
+        menu2.getItems().addAll(signUp, updateMembership, deactivate, billCustomer, history, clickHistory);
 
-        Menu menu3 = new Menu("Settings");
+        menu3 = new Menu("Settings");
         MenuItem dataStorage = new MenuItem("Change Data Storage");
         MenuItem loadPlugin = new MenuItem("Load Plugin");
         menu3.getItems().addAll(dataStorage, loadPlugin);
 
-        MenuBar menuBar = new MenuBar();
+        menuBar = new MenuBar();
         menuBar.getMenus().addAll(menu1, menu2, menu3);
 
 
-        BorderPane holderTab = new BorderPane();
-        TabPane mainTabPane = new TabPane();
+        holderTab = new BorderPane();
+        mainTabPane = new TabPane();
+        mainTabPane.setId("tabPane");
         holderTab.setTop(menuBar);
         holderTab.setCenter(mainTabPane);
         holderTab.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
-        Scene tabPane = new Scene(holderTab, 800, 700);
+        tabPane = new Scene(holderTab, 800, 700);
         tabPane.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
         primaryStage.setScene(tabPane);
@@ -65,14 +83,19 @@ public class Main extends Application {
 
         /*Create Instances Here*/
         catalog.setOnAction(event -> {
-            catalogMenu catalogTab = new catalogMenu();
-            mainTabPane.getTabs().add(catalogTab);
-        });
+            catalogMenu catalogTab;
+            try{
+                catalogTab = new catalogMenu(mainTabPane);
+                Button a = catalogTab.addNewItem();
+                a.setOnAction(e-> {
+                    addItemCatalog addCatalogItem = new addItemCatalog();
+                    mainTabPane.getTabs().add(addCatalogItem);
+                });
 
-        /*Sementara buat testing edit per item*/
-        editCatalog.setOnAction(event -> {
-            editCatalogMenu editCatalogTab = new editCatalogMenu();
-            mainTabPane.getTabs().add(editCatalogTab);
+            } catch (IOException e){
+                throw new RuntimeException(e);
+            }
+            mainTabPane.getTabs().add(catalogTab);
         });
 
         report.setOnAction(event -> {
@@ -101,7 +124,7 @@ public class Main extends Application {
         });
 
         history.setOnAction(event -> {
-            history historyTab = new history();
+            history historyTab = new history(mainTabPane);
             mainTabPane.getTabs().add(historyTab);
         });
 
@@ -113,6 +136,7 @@ public class Main extends Application {
 
 
         dataStorage.setOnAction(event -> {
+
             dataStoreSettings dataStoreTab = new dataStoreSettings();
             mainTabPane.getTabs().add(dataStoreTab);
         });
@@ -122,6 +146,10 @@ public class Main extends Application {
             mainTabPane.getTabs().add(pluginTab);
         });
 
+        billCustomer.setOnAction(event -> {
+            BillGUI billTab = new BillGUI();
+            mainTabPane.getTabs().add(billTab);
+        });
 
         mainMenuItem.setOnAction(event -> {
             mainMenu mainMenuTab = new mainMenu();
@@ -131,8 +159,6 @@ public class Main extends Application {
         mainMenu mainMenuTab = new mainMenu();
         mainTabPane.getTabs().add(mainMenuTab);
 
-//        dataStoreSettings tabsetting = new dataStoreSettings();
-//        mainTabPane.getTabs().add(tabsetting);
 
         // stop all thread clock when closing the app
         primaryStage.setOnCloseRequest(event -> {
@@ -144,11 +170,11 @@ public class Main extends Application {
         });
     }
 
-    public static void main(String[] args) throws IOException {
-        folderName = "src/dataStore/dataStore2/";
-        FileManager.initiateDataStore();
-        Application.launch(args);
-        System.out.println("DONE");
-    }
 
+    public static void main(String[] args) throws IOException {
+        folderName = "src/dataStore/dataStore1/";
+        controller = new Controller("json");
+        Application.launch(args);
+
+    }
 }

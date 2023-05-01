@@ -55,7 +55,7 @@ public class mainMenu extends Tab{
 
         Label nama = new Label();
         nama.setId("namaLabel");
-        nama.setText("Kevin John Weasly\nFebryan Arota Hia\nDhanika Novlisariyanti\nCetta Reswara Parahita\nRyan Samuel Chandra");
+        nama.setText("Kevin John Wesley\nFebryan Arota Hia\nDhanika Novlisariyanti\nCetta Reswara Parahita\nRyan Samuel Chandra");
         nama.setWrapText(true);
 
         Label nim = new Label();

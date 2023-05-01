@@ -96,4 +96,12 @@ public class FixedBill implements Serializable {
                 ", ListPriceOfProduct=" + ListPriceOfProduct +
                 '}';
     }
+
+    public int getTotalFixedBill(){
+        int total = 0;
+        for (Map.Entry<Integer,Integer> product:this.ListPriceOfProduct.entrySet()){
+            total += product.getValue();
+        }
+        return total;
+    }
 }

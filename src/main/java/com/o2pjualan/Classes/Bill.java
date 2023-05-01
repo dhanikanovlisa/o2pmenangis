@@ -14,21 +14,21 @@ import java.util.*;
 public class Bill implements Serializable {
     protected int idCustomer;
     protected HashMap<Integer, Integer> ListOfProduct;
-    protected HashMap<Integer, Integer> ListPriceOfProduct;
+    protected HashMap<Integer, Double> ListPriceOfProduct;
 
     public Bill(int idCustomer) {
         this.idCustomer = idCustomer;
         this.ListOfProduct = new HashMap<Integer, Integer>();
-        this.ListPriceOfProduct = new HashMap<Integer, Integer>();
+        this.ListPriceOfProduct = new HashMap<Integer, Double>();
     }
 
-    public Bill(@JsonProperty("idCustomer")int idCustomer, @JsonProperty("listOfProduct")HashMap<Integer, Integer> listOfProduct, @JsonProperty("listPriceOfProduct")HashMap<Integer, Integer> listPriceOfProduct) {
+    public Bill(@JsonProperty("idCustomer")int idCustomer, @JsonProperty("listOfProduct")HashMap<Integer, Integer> listOfProduct, @JsonProperty("listPriceOfProduct")HashMap<Integer, Double> listPriceOfProduct) {
         this.idCustomer = idCustomer;
         ListOfProduct = listOfProduct;
         ListPriceOfProduct = listPriceOfProduct;
     }
 
-    public void AddProduct(int productCode, int quantity, int price) {
+    public void AddProduct(int productCode, int quantity, double price) {
         this.ListOfProduct.put(productCode, quantity);
         this.ListPriceOfProduct.put(productCode, quantity * price);
     }

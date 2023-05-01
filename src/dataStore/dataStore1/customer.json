@@ -62,4 +62,14 @@
   "phoneNumber" : "0812312",
   "point" : 0.0,
   "statusMembership" : true
+}, {
+  "idCustomer" : 9,
+  "idFixedBill" : [ ],
+  "idBill" : 9,
+  "membership" : "Customer"
+}, {
+  "idCustomer" : 10,
+  "idFixedBill" : [ ],
+  "idBill" : 10,
+  "membership" : "Customer"
 } ]

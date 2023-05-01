@@ -3,15 +3,14 @@ package com.o2pjualan.GUI;
 import com.o2pjualan.Classes.Product;
 import com.o2pjualan.Classes.Products;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.skin.TextInputControlSkin;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -20,47 +19,42 @@ import java.text.ParseException;
 
 import static com.o2pjualan.Main.controller;
 
-public class editCatalogMenu extends Tab {
+public class addItemCatalog extends Tab {
     private Button saveButton;
     private Button cancelButton;
-
+    private Label imagePath;
     private Image imageItem;
-    private ImageView imageView;
     private TextField nameTextField;
     private TextField categoryTextField;
-    private TextField sellPriceTextField;
     private TextField buyPriceTextField;
+    private TextField sellPriceTextField;
     private TextField stockTextField;
     private Button changeImage;
-    private Products listProducts;
-    private Product getProd;
+    private ImageView imageView;
+    private Image image;
     private String finalPath;
+    private TextField itemTotal;
 
-
-    public editCatalogMenu(Integer productCode){
+    public addItemCatalog(){
+        this.setText("Add Catalog Item");
 
         /*Whole Layout*/
         VBox wholeLayout = new VBox();
         wholeLayout.setId("layoutCatalog");
-        listProducts = new Products();
-        listProducts = controller.getProducts();
 
-        getProd = new Product();
-        getProd = listProducts.getProductById(productCode);
-        this.setText("Edit " + getProd.getProductName());
         /*Edit Whole Item Layout*/
         HBox editLayout = new HBox();
 
         /*Edit Image Layout*/
         VBox editImageLayout = new VBox();
-        this.imageItem = new Image(getProd.getImagePath());
-
+        finalPath = "file:src/img/placeholderimg.png";
+        image = new Image(finalPath);
         imageView = new ImageView();
-        imageView.setImage(imageItem);
+        imageView.setImage(image);
         imageView.setFitHeight(150);
         imageView.setFitWidth(150);
 
-        this.changeImage = new Button("Change Image");
+        this.changeImage = new Button("Upload Image");
         this.changeImage.setId("buttonCatalog");
 
         this.changeImage.setOnAction(e -> {
@@ -72,12 +66,14 @@ public class editCatalogMenu extends Tab {
                 String image = path.substring(crop);
                 this.finalPath = "file:" + image;
 //                System.out.println(finalPath);
-                this.imageItem = new Image(finalPath);
-                imageView.setImage(this.imageItem);
+                this.image = new Image(finalPath);
+                imageView.setImage(this.image);
+            } else {
+                this.finalPath = "file:src/img/placeholderimg.png";
             }
         });
 
-        editImageLayout.getChildren().addAll(imageView, this.changeImage);
+        editImageLayout.getChildren().addAll(this.imageView, this.changeImage);
         editImageLayout.setAlignment(Pos.CENTER);
         editImageLayout.setSpacing(20);
 
@@ -90,7 +86,6 @@ public class editCatalogMenu extends Tab {
         nameText.setId("catalogLabel");
         this.nameTextField = new TextField();
         this.nameTextField.setId("textFieldCatalog");
-        this.nameTextField.setText(getProd.getProductName());
         nameLayout.getChildren().addAll(nameText, this.nameTextField);
         nameLayout.setSpacing(15);
 
@@ -98,7 +93,6 @@ public class editCatalogMenu extends Tab {
         Label categoryText = new Label("Category");
         categoryText.setId("catalogLabel");
         this.categoryTextField = new TextField();
-        this.categoryTextField.setText(getProd.getProductCategory());
         this.categoryTextField.setId("textFieldCatalog");
         categoryLayout.getChildren().addAll(categoryText, this.categoryTextField);
         categoryLayout.setSpacing(15);
@@ -108,7 +102,6 @@ public class editCatalogMenu extends Tab {
         buyPriceText.setId("catalogLabel");
         this.buyPriceTextField = new TextField();
         this.buyPriceTextField.setId("textFieldCatalog");
-        this.buyPriceTextField.setText(Double.toString(getProd.getBuyPrice()));
         buyPriceLayout.getChildren().addAll(buyPriceText, this.buyPriceTextField);
         buyPriceLayout.setSpacing(15);
         buyPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
@@ -124,7 +117,6 @@ public class editCatalogMenu extends Tab {
         sellPriceText.setId("catalogLabel");
         this.sellPriceTextField = new TextField();
         this.sellPriceTextField.setId("textFieldCatalog");
-        this.sellPriceTextField.setText(Double.toString(getProd.getSellPrice()));
         sellPriceLayout.getChildren().addAll(sellPriceText, this.sellPriceTextField);
         sellPriceLayout.setSpacing(15);
         sellPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
@@ -140,7 +132,6 @@ public class editCatalogMenu extends Tab {
         stockText.setId("catalogLabel");
         this.stockTextField = new TextField();
         this.stockTextField.setId("textFieldCatalog");
-        this.stockTextField.setText(Integer.toString(getProd.getStock()));
         stockLayout.getChildren().addAll(stockText, this.stockTextField);
         stockLayout.setSpacing(15);
         stockTextField.setTextFormatter(new TextFormatter<>(change -> {
@@ -159,19 +150,18 @@ public class editCatalogMenu extends Tab {
         /*Bottom Button Layout*/
         HBox bottomButtonLayout = new HBox();
 
-        this.saveButton = new Button("Save Button");
-        this.saveButton.setId("buttonCatalog");
 
+
+        this.saveButton = new Button("Add Item");
+        this.saveButton.setId("buttonCatalog");
 
         this.saveButton.setOnAction(e -> {
             try{
-                editItem();
+                addNewItem();
             }catch (IOException | ParseException err){
                 throw new RuntimeException(err);
             }
         });
-/*        this.cancelButton = new Button("Cancel Button");
-        this.cancelButton.setId("buttonCatalog");*/
 
         bottomButtonLayout.getChildren().addAll(this.saveButton);
         bottomButtonLayout.setSpacing(450);
@@ -180,13 +170,10 @@ public class editCatalogMenu extends Tab {
 
 
         Pane base = new Pane();
-        BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
-                false, false, true, true);
-
         base.getChildren().add(wholeLayout);
         this.setContent(base);
     }
-    public void editItem() throws IOException, ParseException {
+    public void addNewItem() throws IOException, ParseException {
         if(this.nameTextField.getText().equals("")){
             nameTextField.setPromptText("Please enter product's name");
             nameTextField.setStyle("-fx-prompt-text-fill: red;");
@@ -210,16 +197,10 @@ public class editCatalogMenu extends Tab {
             } else {
                 categoryName = this.categoryTextField.getText();
             }
-            if(finalPath.equals(null)){
-                finalPath = "file:src/img/placeholderimg.png";
-            }
-            getProd.setProductName(productName);
-            getProd.setProductCategory(categoryName);
-            getProd.setBuyPrice(buyPrice);
-            getProd.setSellPrice(sellPrice);
-            getProd.setImagePath(finalPath);
-            getProd.setStock(stock);
+
+            Product newProduct = new Product(productName, categoryName, buyPrice, sellPrice, stock, finalPath);
             Products products = controller.getProducts();
+            products.addProduct(newProduct);
             controller.saveDataProduct(products);
         }
     }

@@ -32,6 +32,15 @@ public class Products implements Serializable {
         return productCodes;
     }
 
+    public Product getProductById(int id){
+        for (int i = 0; i < this.productCodes.size(); i++) {
+            if (this.productCodes.get(i).getProductCode() == id) {
+                return this.productCodes.get(i);
+            }
+        }
+        return null;
+    }
+
     public void print() {
         for (Product p : this.productCodes) {
             System.out.println(p.toString());

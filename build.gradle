@@ -23,6 +23,7 @@ javafx{
 dependencies {
     implementation 'org.openjfx:javafx:18'
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    implementation 'org.controlsfx:controlsfx:11.0.0'
     implementation 'org.testng:testng:7.1.0'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation 'javax.xml.parsers:jaxp-api:1.4.5'
@@ -43,4 +44,7 @@ dependencies {
 }
 test {
     useJUnitPlatform()
+}
+run {
+    jvmArgs = ['--add-exports', 'javafx.base/com.sun.javafx.event=ALL-UNNAMED']
 }
