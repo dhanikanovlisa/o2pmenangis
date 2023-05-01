@@ -1,23 +1,50 @@
 [ {
-  "idBill" : 2,
-  "idCustomer" : 1,
+  "idBill" : 2001,
+  "idCustomer" : 2,
   "listOfProduct" : {
-    "1" : 20,
-    "3" : 10,
-    "5" : 90
+    "101" : 20,
+    "103" : 10,
+    "106" : 90
   },
   "listPriceOfProduct" : {
-    "1" : 600000,
-    "3" : 300000,
-    "5" : 2700000
+    "101" : 1200000,
+    "103" : 210000,
+    "106" : 10890000
   }
 }, {
-  "idBill" : 2,
-  "idCustomer" : 1,
+  "idBill" : 2002,
+  "idCustomer" : 2,
   "listOfProduct" : {
-    "6" : 5
+    "110" : 5
   },
   "listPriceOfProduct" : {
-    "6" : 50000
+    "110" : 600000
   }
-} ]
+} , {
+  "idBill" : 2003,
+  "idCustomer" : 4,
+  "listOfProduct" : {
+    "111" : 2
+  },
+  "listPriceOfProduct" : {
+    "111" : 40000
+  }
+}, {
+  "idBill" : 2004,
+  "idCustomer" : 4,
+  "listOfProduct" : {
+    "110" : 5
+  },
+  "listPriceOfProduct" : {
+    "110" : 600000
+  }
+}, {
+  "idBill" : 2005,
+  "idCustomer" : 4,
+  "listOfProduct" : {
+    "119" : 5
+  },
+  "listPriceOfProduct" : {
+    "110" : 50000
+  }
+}]
