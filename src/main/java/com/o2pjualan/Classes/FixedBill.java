@@ -1,14 +1,20 @@
 package com.o2pjualan.Classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javafx.stage.FileChooser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 
 import static com.o2pjualan.Main.controller;
 
@@ -16,7 +22,7 @@ import static com.o2pjualan.Main.controller;
 @XmlRootElement(name = "fixedBill")
 @XmlAccessorType(XmlAccessType.FIELD)
 @NoArgsConstructor
-public class FixedBill implements Serializable {
+public class FixedBill implements Serializable, printToPDF {
     protected int idBill;
     protected int idCustomer;
     protected static int countBill;
@@ -103,5 +109,24 @@ public class FixedBill implements Serializable {
             total += product.getValue();
         }
         return total;
+    }
+
+    public void printPDF() throws IOException {
+        PDDocument document = new PDDocument();
+
+        PDPage page = new PDPage(PDRectangle.A4);
+        document.addPage(page);
+
+        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save PDF File");
+        FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("PDF Files", "*.pdf");
+        fileChooser.getExtensionFilters().add(pdfFilter);
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            document.save(file);
+        }
+        document.close();
     }
 }
