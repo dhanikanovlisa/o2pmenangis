@@ -47,4 +47,9 @@ public class Bills implements Serializable {
         return customerBills;
     }
 
+    public ArrayList<String> getAllCustomersName(Customers customers){
+        ArrayList<String> customersName = new ArrayList<>();
+        return customersName;
+
+    }
 }

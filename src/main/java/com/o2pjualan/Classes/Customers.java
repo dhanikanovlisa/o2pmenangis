@@ -43,6 +43,7 @@ public class Customers implements Serializable {
         return null;
     }
 
+
     public void registerMember (int id, String name, String phone)  {
         Customer cust = getCustomerByID(id);
         Member newMember = new Member(cust, name, phone);

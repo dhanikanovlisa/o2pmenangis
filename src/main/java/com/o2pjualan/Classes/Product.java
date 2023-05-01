@@ -63,4 +63,8 @@ public class Product implements Serializable {
                 ", imagePath='" + imagePath + '\'' +
                 '}';
     }
+
+    public void reduceStock(int stock){
+        this.stock -= stock;
+    }
 }

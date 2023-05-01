@@ -33,14 +33,14 @@
 }, {
   "idCustomer" : 4,
   "listOfProduct" : {
+    "112" : 2,
     "109" : 5,
-    "111" : 2,
-    "112" : 2
+    "111" : 2
   },
   "listPriceOfProduct" : {
+    "112" : 14000,
     "109" : 100000,
-    "111" : 40000,
-    "112" : 14000
+    "111" : 40000
   }
 }, {
   "idCustomer" : 5,
@@ -100,4 +100,12 @@
   "listPriceOfProduct" : {
     "107" : 350000
   }
+}, {
+  "idCustomer" : 9,
+  "listOfProduct" : { },
+  "listPriceOfProduct" : { }
+}, {
+  "idCustomer" : 10,
+  "listOfProduct" : { },
+  "listPriceOfProduct" : { }
 } ]

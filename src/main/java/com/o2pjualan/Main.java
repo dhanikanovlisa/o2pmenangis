@@ -124,7 +124,7 @@ public class Main extends Application {
         });
 
         history.setOnAction(event -> {
-            history historyTab = new history();
+            history historyTab = new history(mainTabPane);
             mainTabPane.getTabs().add(historyTab);
         });
 

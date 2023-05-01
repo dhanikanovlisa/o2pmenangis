@@ -35,6 +35,7 @@ public class catalogMenu extends Tab {
     private TabPane mainTabPane;
     private ToggleButton toggleButton;
 
+
     public catalogMenu(TabPane mainTabPane) throws IOException {
         /*Set Tab Name*/
         this.setText("Catalog");
@@ -74,7 +75,6 @@ public class catalogMenu extends Tab {
         itemsLayout.addRow(10);
         itemsLayout.setHgap(15);
         itemsLayout.setVgap(15);
-        itemsLayout.addRow(10);
 
         scrollPane = new ScrollPane();
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -226,7 +226,4 @@ public class catalogMenu extends Tab {
             }
         });
     }
-
-
-
 }
