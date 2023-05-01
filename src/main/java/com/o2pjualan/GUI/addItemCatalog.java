@@ -4,10 +4,7 @@ import com.o2pjualan.Classes.Product;
 import com.o2pjualan.Classes.Products;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BackgroundSize;
@@ -36,6 +33,7 @@ public class addItemCatalog extends Tab {
     private ImageView imageView;
     private Image image;
     private String finalPath;
+    private TextField itemTotal;
 
     public addItemCatalog(){
         this.setText("Add Catalog Item");
@@ -49,7 +47,8 @@ public class addItemCatalog extends Tab {
 
         /*Edit Image Layout*/
         VBox editImageLayout = new VBox();
-        image = new Image("file:src/img/placeholderimg.png");
+        finalPath = "file:src/img/placeholderimg.png";
+        image = new Image(finalPath);
         imageView = new ImageView();
         imageView.setImage(image);
         imageView.setFitHeight(150);
@@ -69,6 +68,8 @@ public class addItemCatalog extends Tab {
 //                System.out.println(finalPath);
                 this.image = new Image(finalPath);
                 imageView.setImage(this.image);
+            } else {
+                this.finalPath = "file:src/img/placeholderimg.png";
             }
         });
 
@@ -103,6 +104,13 @@ public class addItemCatalog extends Tab {
         this.buyPriceTextField.setId("textFieldCatalog");
         buyPriceLayout.getChildren().addAll(buyPriceText, this.buyPriceTextField);
         buyPriceLayout.setSpacing(15);
+        buyPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*")) {
+                return change;
+            }
+            return null;
+        }));
 
         HBox sellPriceLayout = new HBox();
         Label sellPriceText = new Label("Sell Price");
@@ -111,6 +119,13 @@ public class addItemCatalog extends Tab {
         this.sellPriceTextField.setId("textFieldCatalog");
         sellPriceLayout.getChildren().addAll(sellPriceText, this.sellPriceTextField);
         sellPriceLayout.setSpacing(15);
+        sellPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*")) {
+                return change;
+            }
+            return null;
+        }));
 
         HBox stockLayout = new HBox();
         Label stockText = new Label("Stock");
@@ -119,6 +134,13 @@ public class addItemCatalog extends Tab {
         this.stockTextField.setId("textFieldCatalog");
         stockLayout.getChildren().addAll(stockText, this.stockTextField);
         stockLayout.setSpacing(15);
+        stockTextField.setTextFormatter(new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*")) {
+                return change;
+            }
+            return null;
+        }));
 
         editValueLayout.getChildren().addAll(nameLayout, categoryLayout, buyPriceLayout, sellPriceLayout, stockLayout);
         editValueLayout.setSpacing(20);
@@ -127,6 +149,8 @@ public class addItemCatalog extends Tab {
         editLayout.setSpacing(20);
         /*Bottom Button Layout*/
         HBox bottomButtonLayout = new HBox();
+
+
 
         this.saveButton = new Button("Add Item");
         this.saveButton.setId("buttonCatalog");
@@ -172,9 +196,6 @@ public class addItemCatalog extends Tab {
                 categoryName = "etc";
             } else {
                 categoryName = this.categoryTextField.getText();
-            }
-            if(finalPath.equals(null)){
-                finalPath = "";
             }
 
             Product newProduct = new Product(productName, categoryName, buyPrice, sellPrice, stock, finalPath);

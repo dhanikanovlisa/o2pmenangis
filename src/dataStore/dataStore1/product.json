@@ -142,4 +142,12 @@
   "sellPrice" : 100000.0,
   "stock" : 100,
   "imagePath" : "file:src/img/pycnometer250ml.jpg"
-}]
+}, {
+  "productCode" : 120,
+  "productName" : "tes",
+  "productCategory" : "",
+  "buyPrice" : 10000.0,
+  "sellPrice" : 10000.0,
+  "stock" : 10000,
+  "imagePath" : "file:src/img/placeholderimg.png"
+} ]

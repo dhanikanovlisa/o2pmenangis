@@ -33,6 +33,7 @@ public class catalogMenu extends Tab {
     private VBox leftLayout;
     private ArrayList<String> allSugestions;
     private TabPane mainTabPane;
+    private ToggleButton toggleButton;
 
     public catalogMenu(TabPane mainTabPane) throws IOException {
         /*Set Tab Name*/
@@ -55,8 +56,7 @@ public class catalogMenu extends Tab {
         this.searchDropDown.setPromptText("All");
         this.searchDropDown.setValue("All");
 
-
-
+        toggleButton = new ToggleButton("Edit Item");
         /*Get Products*/
         listProducts = new Products();
         listProducts = controller.getProducts();
@@ -68,6 +68,7 @@ public class catalogMenu extends Tab {
         AutoCompletionBinding<String> autoCompleteText = TextFields.bindAutoCompletion(searchBar, sugg);
         autoCompleteText.setVisibleRowCount(5);
 
+        VBox itemsWholeLayout = new VBox();
         itemsLayout = new GridPane();
         itemsLayout.addColumn(5);
         itemsLayout.addRow(10);
@@ -98,7 +99,13 @@ public class catalogMenu extends Tab {
         searchDropDown.setOnAction(event ->{
             String value = searchDropDown.getValue();
             itemsLayout.getChildren().clear();
-            searchBar.setOnKeyTyped(e->{
+            try{
+                itemsLayout.getChildren().clear();
+                displayItem(value, searchBar.getText());
+            } catch(IOException err) {
+                throw new RuntimeException(err);
+            }
+            searchBar.setOnAction(e->{
                 try{
                     itemsLayout.getChildren().clear();
                     displayItem(value, searchBar.getText());
@@ -108,11 +115,6 @@ public class catalogMenu extends Tab {
             });
         });
 
-        leftLayout = new VBox();
-        leftLayout.setId("leftLayout");
-        leftLayout.setPrefWidth(500);
-        leftLayout.setPrefHeight(600);
-        leftLayout.setSpacing(10);
 
         customerBill = new Bills();
         customerBill = controller.getBills();
@@ -125,24 +127,27 @@ public class catalogMenu extends Tab {
 
 
         /*Right Layout containing search bar, dropdown, and list of items*/
-        VBox rightLayout = new VBox();
-        HBox searchLayout = new HBox();
-        searchLayout.getChildren().addAll(this.searchBar, this.searchDropDown, this.addItem);
-        rightLayout.getChildren().addAll(searchLayout, scrollPane);
-        rightLayout.setSpacing(15);
-        searchLayout.setSpacing(15);
+//        VBox rightLayout = new VBox();
+//        HBox searchLayout = new HBox();
+//        searchLayout.getChildren().addAll(this.searchBar, this.searchDropDown, this.addItem);
+//        rightLayout.getChildren().addAll(searchLayout, itemsWholeLayout);
+//        rightLayout.setSpacing(15);
+//        searchLayout.setSpacing(15);
+        itemsWholeLayout.getChildren().addAll(toggleButton, scrollPane);
+        VBox newFixedLayout = new VBox();
+        newFixedLayout.setSpacing(15);
 
-
-        wholeLayout.getChildren().addAll(rightLayout);
+        wholeLayout.getChildren().addAll(this.searchBar, this.searchDropDown, this.addItem);
         wholeLayout.setSpacing(50);
         wholeLayout.setPadding(new Insets(20, 20, 20, 20));
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
+        newFixedLayout.getChildren().addAll(wholeLayout, itemsWholeLayout);
 
         Pane base = new Pane();
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
                 false, false, true, true);
 
-        base.getChildren().add(wholeLayout);
+        base.getChildren().add(newFixedLayout);
         this.setContent(base);
 
     }
@@ -158,32 +163,34 @@ public class catalogMenu extends Tab {
             String category = a.productCategory;
             String getImageUrl = a.imagePath;
             String getProductName = a.productName;
+            Integer productCode = a.productCode;
             if (value.equals("All") || value.equals("")) {
+
                 if(textValue.equals("") || textValue.equals(null)){
-                    addItem(getProductName, getImageUrl, rowCount, colCount);
+                    addItem(productCode, getProductName, getImageUrl, rowCount, colCount);
                     colCount++;
                     if (colCount >= 5) {
                         colCount = 0;
                         rowCount++;
                     }
                 } else if (textValue.contains(a.productName)) {
-                    addItem(getProductName, getImageUrl, rowCount, colCount);
+                    addItem(productCode, getProductName, getImageUrl, rowCount, colCount);
                     colCount++;
                     if (colCount >= 5) {
                         colCount = 0;
                         rowCount++;
                     }
                 }
-            } else if(value.equals(category)){;
+            } else if(value.equals(category)){
                 if(textValue.equals("") || textValue.equals(null)){
-                    addItem(getProductName, getImageUrl, rowCount, colCount);
+                    addItem(productCode, getProductName, getImageUrl, rowCount, colCount);
                     colCount++;
                     if (colCount >= 5) {
                         colCount = 0;
                         rowCount++;
                     }
                 } else if(textValue.contains(a.productName)){
-                    addItem(getProductName, getImageUrl, rowCount, colCount);
+                    addItem(productCode, getProductName, getImageUrl, rowCount, colCount);
                     colCount++;
                     if (colCount >= 5) {
                         colCount = 0;
@@ -193,7 +200,7 @@ public class catalogMenu extends Tab {
             }
         }
     }
-    public void addItem(String getProductName, String getImageUrl, int rowCount, int colCount){
+    public void addItem(Integer productCode, String getProductName, String getImageUrl, int rowCount, int colCount){
         Image placeHolderImg = new Image(getImageUrl);
         placeImg = new ImageView();
         placeImg.setImage(placeHolderImg);
@@ -209,9 +216,17 @@ public class catalogMenu extends Tab {
         /*Col = 0 Row = 0*/
         itemsLayout.add(itemLayout, colCount, rowCount);
         itemLayout.setOnMouseClicked(e -> {
-            editCatalogMenu editCatalogTab = new editCatalogMenu();
-            mainTabPane.getTabs().add(editCatalogTab);
+            if(toggleButton.isSelected()){
+                editCatalogMenu editCatalogTab = new editCatalogMenu(productCode);
+                mainTabPane.getTabs().add(editCatalogTab);
+            } else {
+                itemtoBill itemToBillTab = new itemtoBill(productCode);
+                mainTabPane.getTabs().add(itemToBillTab);
+
+            }
         });
     }
+
+
 
 }
