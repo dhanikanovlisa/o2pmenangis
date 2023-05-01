@@ -9,7 +9,7 @@
   "statusMembership" : true
 }, {
   "idCustomer" : 2,
-  "idFixedBill" : [ 1, 2 ],
+  "idFixedBill" : [ 2001, 2002 ],
   "idBill" : 2,
   "membership" : "VIP",
   "name" : "Jennie",
@@ -32,7 +32,7 @@
   "statusMembership" : true
 }, {
   "idCustomer" : 6,
-  "idFixedBill" : [ 1, 2 ],
+  "idFixedBill" : null,
   "idBill" : 6,
   "membership" : "VIP",
   "name" : "Jennie",
@@ -46,7 +46,7 @@
   "membership" : "Customer"
 }, {
   "idCustomer" : 4,
-  "idFixedBill" : null,
+  "idFixedBill" : [2003, 2004, 2005],
   "idBill" : 4,
   "membership" : "Member",
   "name" : "Teeee",
