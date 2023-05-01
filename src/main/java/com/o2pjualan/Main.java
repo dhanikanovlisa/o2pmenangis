@@ -47,18 +47,16 @@ public class Main extends Application {
         menu1 = new Menu("Menu");
         MenuItem mainMenuItem = new MenuItem("Main Menu");
         MenuItem catalog = new MenuItem("Catalog");
-        MenuItem editCatalog = new Menu("Edit Catalog");
         MenuItem report = new MenuItem("Report");
-        menu1.getItems().addAll(mainMenuItem, catalog, editCatalog, report);
+        menu1.getItems().addAll(mainMenuItem, catalog, report);
 
         menu2 = new Menu("Profile");
         MenuItem signUp = new MenuItem("Sign Up");
         MenuItem updateMembership = new MenuItem("Upgrade Membership");
         MenuItem deactivate = new MenuItem("Deactivate Membership");
         MenuItem history = new MenuItem("History");
-        MenuItem clickHistory = new MenuItem("Clicked History");
         MenuItem billCustomer = new MenuItem("Bills");
-        menu2.getItems().addAll(signUp, updateMembership, deactivate, billCustomer, history, clickHistory);
+        menu2.getItems().addAll(signUp, updateMembership, deactivate, billCustomer, history);
 
         menu3 = new Menu("Settings");
         MenuItem dataStorage = new MenuItem("Change Data Storage");
@@ -124,15 +122,14 @@ public class Main extends Application {
         });
 
         history.setOnAction(event -> {
-            history historyTab = new history(mainTabPane);
-            mainTabPane.getTabs().add(historyTab);
+            try {
+                history historyTab = new history(mainTabPane);
+                mainTabPane.getTabs().add(historyTab);
+            } catch (IOException err){
+                throw new RuntimeException(err);
+            }
         });
 
-        /*Buat keperluan testing clicked history item*/
-        clickHistory.setOnAction(event -> {
-            clickedHistory clickTab = new clickedHistory();
-            mainTabPane.getTabs().add(clickTab);
-        });
 
 
         dataStorage.setOnAction(event -> {
