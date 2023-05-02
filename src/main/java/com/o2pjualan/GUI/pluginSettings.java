@@ -16,12 +16,12 @@ public class pluginSettings extends Tab {
 
 
     public pluginSettings(){
-        this.setText("Load Plugin");
+        this.setText("Plugin");
 
         pluginLayout = new VBox();
-        Label titlePlugin = new Label("Load Plugin");
+        Label titlePlugin = new Label("Plugin");
         titlePlugin.setId("h1");
-        this.loadPlugin = new Button("Load Plugin");
+        this.loadPlugin = new Button("Upload Plugin");
         this.loadPlugin.setId("settingsButton");
 
         loadPlugin.setOnAction(e-> {
