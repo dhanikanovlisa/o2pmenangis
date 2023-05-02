@@ -39,6 +39,9 @@ public class catalogMenu extends Tab {
         /*Set Tab Name*/
         this.setText("Catalog");
         this.mainTabPane = mainTabPane;
+        /*Get Products*/
+        listProducts = new Products();
+        listProducts = controller.getProducts();
 
         /*Search Bar Text Field*/
         this.searchBar = new TextField();
@@ -50,16 +53,14 @@ public class catalogMenu extends Tab {
 
         /*Dropdown to search by category*/
         this.searchDropDown = new ComboBox<>();
-        searchDropDown.setItems(FXCollections.observableArrayList("All",
-                "Alat Laboratorium", "Seragam Medis", "Masker"));
+        ArrayList<String> categoryDrop = listProducts.getAllCategory();
+        ObservableList<String> cat = FXCollections.observableArrayList(categoryDrop);
+        searchDropDown.setItems(cat);
         this.searchDropDown.setId("searchDropDown");
         this.searchDropDown.setPromptText("All");
         this.searchDropDown.setValue("All");
 
         toggleButton = new ToggleButton("Edit Item");
-        /*Get Products*/
-        listProducts = new Products();
-        listProducts = controller.getProducts();
         allSugestions = new ArrayList<>();
         for(Product product: listProducts.getProducts()){
             allSugestions.add(product.getProductName());

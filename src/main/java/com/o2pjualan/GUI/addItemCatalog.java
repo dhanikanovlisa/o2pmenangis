@@ -137,7 +137,7 @@ public class addItemCatalog extends Tab {
         stockLayout.setSpacing(15);
         stockTextField.setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d*")) {
+            if (newText.matches("\\d+")) {
                 return change;
             }
             return null;
@@ -190,8 +190,8 @@ public class addItemCatalog extends Tab {
         } else {
             String productName = this.nameTextField.getText();
             int buyPrice = Integer.parseInt(this.buyPriceTextField.getText());
-            int sellPrice = Integer.parseInt(this.buyPriceTextField.getText());
-            int stock = Integer.parseInt(this.buyPriceTextField.getText());
+            int sellPrice = Integer.parseInt(this.sellPriceTextField.getText());
+            int stock = Integer.parseInt(this.stockTextField.getText());
             String categoryName = "";
             if(categoryTextField.equals("")){
                 categoryName = "etc";
