@@ -43,10 +43,12 @@ public class itemtoBill extends Tab {
     private ToggleButton deleteItem;
     private HBox currentQuantityLayout;
     private ArrayList<Integer> customersId;
+    private AlertGUI alertGUI;
     public itemtoBill(Integer productCode){
         /*Whole Layout*/
         VBox wholeLayout = new VBox();
         wholeLayout.setId("layoutCatalog");
+        alertGUI = new AlertGUI();
         listProducts = new Products();
         listProducts = controller.getProducts();
         bills = controller.getBills();
@@ -181,12 +183,12 @@ public class itemtoBill extends Tab {
 
     public void addToBill(int productCode, String customerId) throws  IOException, ParseException{
         if(customerId.equals("0")){
-            alertWarning("You haven't chose the customer");
+            alertGUI.alertWarning("You haven't chose the customer");
         } else {
             Integer custId = Integer.parseInt(customerId);
             Bill customerBill = bills.getBillByID(custId);
             if(itemTotal.getText().equals("") || itemTotal.getText().equals(null)){
-                alertWarning("You haven't specified how many item");
+                alertGUI.alertWarning("You haven't specified how many item");
             } else {
                 String quantity = itemTotal.getText();
                 Integer stock = Integer.parseInt(quantity);
@@ -201,39 +203,24 @@ public class itemtoBill extends Tab {
                     getterProduct.setStock(getterProduct.getStock() - stock);
                     controller.saveDataBill(bills);
                     controller.saveDataProduct(listProducts);
-                    alertInformation("Successfully added " + stock + " " +  getterProduct.getProductName() +" to customer " + custId);
+                    alertGUI.alertInformation("Successfully added " + stock + " " +  getterProduct.getProductName() +" to customer " + custId);
                 } else if (deleteItem.isSelected() && !addItem.isSelected()){
                     if(customerBill.validateDeleteProduct(productCode, stock)){
                         customerBill.deleteProduct(productCode, stock, getterProduct.getSellPrice() * stock);
                         getterProduct.setStock(getterProduct.getStock() + stock);
                         controller.saveDataBill(bills);
                         controller.saveDataProduct(listProducts);
-                        alertInformation("Successfully deleted " + stock + " " + getterProduct.getProductName() +" to customer " + custId);
+                        alertGUI.alertInformation("Successfully deleted " + stock + " " + getterProduct.getProductName() +" to customer " + custId);
                     } else {
-                        alertWarning("Invalid");
+                        alertGUI.alertWarning("Invalid");
                     }
                 } else if (!addItem.isSelected() && !deleteItem.isSelected()){
-                    alertWarning("You haven't chose whether to add or delete the item");
+                    alertGUI.alertWarning("You haven't chose whether to add or delete the item");
                 } else if(addItem.isSelected() && deleteItem.isSelected()){
-                    alertWarning("You cannot choose both");
+                    alertGUI.alertWarning("You cannot choose both");
                 }
             }
         }
-    }
-    public void alertWarning(String message){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        alert.show();
-    }
-    public void alertInformation(String message){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.show();
     }
 
     public void setTextField(Bill bill, Integer productCode){
