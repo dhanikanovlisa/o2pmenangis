@@ -21,21 +21,16 @@ public class deactivateMembership extends Tab {
     private ComboBox<String> name;
     private Button deactivate;
     private Label message;
+    private Customers customers;
+
     public deactivateMembership(){
         this.setText("Deactivate Membership");
+        customers = controller.getCustomers();
 
-        Customers customers = controller.getCustomers();
-        ArrayList<Customer> activeMembers = customers.getActiveMembers(true);
-        ArrayList<String> optionsList = new ArrayList<>();
-        for (Customer cust : activeMembers) {
-            Integer id = cust.getIdCustomer();
-            optionsList.add('(' + id.toString() + ") "  + customers.getCustomerNameById(id));
-        }
-        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
-
-        this.name = new ComboBox<String>(options);
+        this.name = new ComboBox<String>();
         this.name.setId("nameDropDown");
         this.name.setPromptText("Pick Customer Name...");
+        updateData();
 
         this.deactivate = new Button("Deactivate");
         this.deactivate.setOnAction(e -> deactivateMember());
@@ -76,6 +71,11 @@ public class deactivateMembership extends Tab {
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true);
         base.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
+        this.setOnSelectionChanged(event -> {
+            if (this.isSelected()) {
+                updateData();
+            }
+        });
     }
 
     public void deactivateMember() {
@@ -96,5 +96,17 @@ public class deactivateMembership extends Tab {
             this.name.getItems().remove(str);
             this.message.setText("Customer chosen has been deactivated");
         }
+    }
+
+    public void updateData() {
+        customers = controller.getCustomers();
+        ArrayList<Customer> activeMembers = customers.getActiveMembers(true);
+        ArrayList<String> optionsList = new ArrayList<>();
+        for (Customer cust : activeMembers) {
+            Integer id = cust.getIdCustomer();
+            optionsList.add('(' + id.toString() + ") "  + customers.getCustomerNameById(id));
+        }
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+        this.name.setItems(options);
     }
 }

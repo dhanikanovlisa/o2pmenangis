@@ -6,9 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Data
 @XmlRootElement(name = "customers")
@@ -62,9 +60,9 @@ public class Customers implements Serializable {
     public void deactivate (int id) {
         Customer selected = getCustomerByID(id);
         if (selected.getMembership().equals("Member")) {
-            ((Member) selected).setStatusMembership(false);
+            ((Member) selected).setStatusMembership(!((Member) selected).getStatusMembership());
         } else {
-            ((VIP) selected).setStatusMembership(false);
+            ((VIP) selected).setStatusMembership(!((VIP) selected).getStatusMembership());
         }
     }
 

@@ -23,21 +23,13 @@ public class signUp extends Tab {
     private Customers customers;
     private Label message;
     public signUp() throws IOException, ParseException {
-        customers = controller.getCustomers();
-        ArrayList<Integer> customersId = customers.getCustomerForSignUp();
-        ArrayList<String> optionsList = new ArrayList<String>();
-        for (Integer i : customersId) {
-            optionsList.add(Integer.toString(i));
-        }
-        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
-
-
         this.setText("Sign Up");
-
-        this.idDropDown = new ComboBox<String>(options);
+        customers = controller.getCustomers();
+        this.idDropDown = new ComboBox<String>();
         this.idDropDown.setId("idDropDown");
         this.idDropDown.setPromptText("Pick Customer ID...");
 
+        updateData();
         VBox formLayout = new VBox();
         HBox nameLayout = new HBox();
         Label nameLabel = new Label("Name");
@@ -91,16 +83,7 @@ public class signUp extends Tab {
 
         this.setOnSelectionChanged(event -> {
             if (this.isSelected()) {
-                customers = controller.getCustomers();
-                ArrayList<Integer> customersId2 = customers.getCustomerForSignUp();
-                ArrayList<String> optionsList2 = new ArrayList<String>();
-                for (Integer i : customersId2) {
-                    optionsList2.add(Integer.toString(i));
-                }
-                ObservableList<String> options2 = FXCollections.observableArrayList(optionsList2);
-                this.idDropDown.setItems(options2);
-                this.idDropDown.setId("idDropDown");
-                this.idDropDown.setPromptText("Pick Customer ID...");
+                updateData();
             }
         });
     }
@@ -141,5 +124,15 @@ public class signUp extends Tab {
             phoneField.setPromptText("");
             idDropDown.getItems().remove(id);
         }
+    }
+
+    public void updateData() {
+        ArrayList<Integer> customersId = customers.getCustomerForSignUp();
+        ArrayList<String> optionsList = new ArrayList<String>();
+        for (Integer i : customersId) {
+            optionsList.add(Integer.toString(i));
+        }
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+        this.idDropDown.setItems(options);
     }
 }
