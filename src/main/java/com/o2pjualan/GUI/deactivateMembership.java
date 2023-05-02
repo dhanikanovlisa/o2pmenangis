@@ -1,5 +1,8 @@
 package com.o2pjualan.GUI;
 
+import com.o2pjualan.Classes.Customers;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,23 +12,40 @@ import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
+import java.util.ArrayList;
+
+import static com.o2pjualan.Main.controller;
+
 public class deactivateMembership extends Tab {
     private ComboBox<String> name;
     private Button deactivate;
+    private Label message;
     public deactivateMembership(){
         this.setText("Deactivate Membership");
 
-        this.name = new ComboBox<>();
+        Customers customers = controller.getCustomers();
+        ArrayList<Integer> customersId = customers.getIdsByMembership("Both");
+        ArrayList<String> optionsList = new ArrayList<String>();
+        for (Integer i : customersId) {
+            optionsList.add('(' + i.toString() + ") "  + customers.getCustomerNameById(i));
+        }
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+
+        this.name = new ComboBox<String>(options);
         this.name.setId("nameDropDown");
         this.name.setPromptText("Pick Customer Name...");
 
         this.deactivate = new Button("Deactivate");
+        this.deactivate.setOnAction(e -> deactivateMember());
 
         Label vipMembership = new Label("ARE YOU SURE YOU WANT TO DEACTIVATE?");
         vipMembership.setId("h1");
 
         Label info = new Label("Deactivating your account may lose the experience to various discounts.");
         info.setId("paragraph");
+
+        this.message = new Label("");
+        this.message.setId("paragraph");
 
         VBox labelLayout = new VBox();
         labelLayout.getChildren().addAll(vipMembership, info);
@@ -34,7 +54,7 @@ public class deactivateMembership extends Tab {
         labelLayout.setAlignment(Pos.CENTER);
 
         VBox upgradeLayout = new VBox();
-        upgradeLayout.getChildren().addAll(this.name, this.deactivate);
+        upgradeLayout.getChildren().addAll(this.name, this.deactivate, this.message);
         upgradeLayout.setSpacing(50);
         upgradeLayout.setPadding(new Insets(20));
         upgradeLayout.setAlignment(Pos.CENTER);
@@ -54,7 +74,25 @@ public class deactivateMembership extends Tab {
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true);
         base.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
+    }
 
-    
+    public void deactivateMember() {
+        if (this.name.getValue() == null) {
+            this.message.setText("Please pick a customer name");
+            this.message.setStyle("-fx-text-fill: #d0342c;");
+        } else {
+            String str = this.name.getValue();
+            int startIndex = str.indexOf("(") + 1;
+            int endIndex = str.indexOf(")");
+            String digits = str.substring(startIndex, endIndex);
+            int selectedId = Integer.parseInt(digits);
+
+            Customers customers = controller.getCustomers();
+            customers.deactivate(selectedId);
+            controller.saveDataCustomer(customers);
+
+            this.name.getItems().remove(str);
+            this.message.setText("Customer chosen has been deactivated");
+        }
     }
 }

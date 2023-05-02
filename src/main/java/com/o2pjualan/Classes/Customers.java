@@ -58,6 +58,15 @@ public class Customers implements Serializable {
         customers.add(newVIP);
     }
 
+    public void deactivate (int id) {
+        Customer selected = getCustomerByID(id);
+        if (selected.getMembership().equals("Member")) {
+            ((Member) selected).setStatusMembership(false);
+        } else {
+            ((VIP) selected).setStatusMembership(false);
+        }
+    }
+
     // get Id by membership, parameter Both buat get VIP sama Member sekaligus
     public ArrayList<Integer> getIdsByMembership(String membership) {
         ArrayList<Integer> ret = new ArrayList<Integer>();
