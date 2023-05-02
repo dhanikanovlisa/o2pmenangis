@@ -243,13 +243,12 @@
     -fx-pref-height: 60;
 }
 #scrollCatalog{
-    -fx-background-color: #FBFFFB;
+    -fx-background-color: #E2F6E5;
     -fx-border-width: 0;
     -fx-padding: 10;
 }
-.scroll-bar{
+#scrollBarcatalog{
     -fx-progress-color: #225C2A;
     -fx-background-radius: 10;
     -fx-border-radius: 10;
-
 }

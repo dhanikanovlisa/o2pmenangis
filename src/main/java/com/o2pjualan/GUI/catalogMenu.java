@@ -30,7 +30,6 @@ public class catalogMenu extends Tab {
     private VBox itemLayout;
     private GridPane itemsLayout;
     private Button addItem;
-    private VBox leftLayout;
     private ArrayList<String> allSugestions;
     private TabPane mainTabPane;
     private ToggleButton toggleButton;
@@ -81,11 +80,12 @@ public class catalogMenu extends Tab {
         scrollPane.setContent(itemsLayout);
         ScrollBar scrollBar = new ScrollBar();
         scrollBar.setOrientation(Orientation.VERTICAL);
+        scrollBar.setId("scrollBarCatalog");
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setVmax(1);
         scrollPane.setVvalue(0);
         scrollPane.setPrefViewportHeight(500);
-        scrollPane.setPrefViewportWidth(400);
+        scrollPane.setPrefViewportWidth(900);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setContent(itemsLayout);
@@ -125,28 +125,20 @@ public class catalogMenu extends Tab {
         HBox wholeLayout = new HBox();
         wholeLayout.setFillHeight(true);
 
+        HBox toggleLayout = new HBox();
+        toggleLayout.setPadding(new Insets(10));
+        toggleLayout.getChildren().add(toggleButton);
 
-        /*Right Layout containing search bar, dropdown, and list of items*/
-//        VBox rightLayout = new VBox();
-//        HBox searchLayout = new HBox();
-//        searchLayout.getChildren().addAll(this.searchBar, this.searchDropDown, this.addItem);
-//        rightLayout.getChildren().addAll(searchLayout, itemsWholeLayout);
-//        rightLayout.setSpacing(15);
-//        searchLayout.setSpacing(15);
-        itemsWholeLayout.getChildren().addAll(toggleButton, scrollPane);
+        itemsWholeLayout.getChildren().addAll(toggleLayout, scrollPane);
         VBox newFixedLayout = new VBox();
         newFixedLayout.setSpacing(15);
 
         wholeLayout.getChildren().addAll(this.searchBar, this.searchDropDown, this.addItem);
-        wholeLayout.setSpacing(50);
+        wholeLayout.setSpacing(20);
         wholeLayout.setPadding(new Insets(20, 20, 20, 20));
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
         newFixedLayout.getChildren().addAll(wholeLayout, itemsWholeLayout);
-
         Pane base = new Pane();
-        BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
-                false, false, true, true);
-
         base.getChildren().add(newFixedLayout);
         this.setContent(base);
 
