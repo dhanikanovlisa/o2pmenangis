@@ -35,16 +35,16 @@ public class FixedBill implements Serializable, printToPDF {
     protected int idCustomer;
     protected static int countBill;
     protected HashMap<Integer,Integer> ListOfProduct;
-    protected HashMap<Integer,Integer> ListPriceOfProduct;
+    protected HashMap<Integer,Double> ListPriceOfProduct;
 
     public FixedBill(int idCustomer)  {
         this.idBill = controller.getTotalFixedBills() + 2001;
         this.idCustomer = idCustomer;
-        this.ListOfProduct = new HashMap<Integer,Integer>();
-        this.ListPriceOfProduct = new HashMap<Integer,Integer>();
+        this.ListOfProduct = new HashMap<>();
+        this.ListPriceOfProduct = new HashMap<>();
     }
 
-    public FixedBill(@JsonProperty("idBill") int idBill, @JsonProperty("idCustomer")int idCustomer, @JsonProperty("ListOfProduct")HashMap<Integer, Integer> listOfProduct, @JsonProperty("ListPriceOfProduct")HashMap<Integer, Integer> listPriceOfProduct) {
+    public FixedBill(@JsonProperty("idBill") int idBill, @JsonProperty("idCustomer")int idCustomer, @JsonProperty("ListOfProduct")HashMap<Integer, Integer> listOfProduct, @JsonProperty("ListPriceOfProduct")HashMap<Integer, Double> listPriceOfProduct) {
         this.idBill = idBill;
         this.idCustomer = idCustomer;
         ListOfProduct = listOfProduct;
@@ -63,7 +63,7 @@ public class FixedBill implements Serializable, printToPDF {
         return this.ListOfProduct;
     }
 
-    public HashMap<Integer,Integer> getListPriceOfProduct(){
+    public HashMap<Integer,Double> getListPriceOfProduct(){
         return this.ListPriceOfProduct;
     }
 
@@ -76,14 +76,14 @@ public class FixedBill implements Serializable, printToPDF {
     }
 
     public void setListOfProduct(HashMap<Integer, Integer> listOfProduct) {
-        ListOfProduct = listOfProduct;
+        this.ListOfProduct = listOfProduct;
     }
 
-    public void setListPriceOfProduct(HashMap<Integer, Integer> listPriceOfProduct) {
-        ListPriceOfProduct = listPriceOfProduct;
+    public void setListPriceOfProduct(HashMap<Integer, Double> listPriceOfProduct) {
+        this.ListPriceOfProduct = listPriceOfProduct;
     }
 
-    public void AddProduct(int productCode, int quantity, int price){
+    public void AddProduct(int productCode, int quantity, double price){
         this.ListOfProduct.put(productCode,quantity);
         this.ListPriceOfProduct.put(productCode,quantity*price);
     }
@@ -111,9 +111,9 @@ public class FixedBill implements Serializable, printToPDF {
                 '}';
     }
 
-    public int getTotalFixedBill(){
+    public int countTotalFixedBill(){
         int total = 0;
-        for (Map.Entry<Integer,Integer> product:this.ListPriceOfProduct.entrySet()){
+        for (Map.Entry<Integer,Double> product:this.ListPriceOfProduct.entrySet()){
             total += product.getValue();
         }
         return total;
@@ -178,11 +178,11 @@ public class FixedBill implements Serializable, printToPDF {
             tableItem.addCell(qtyColumnHeader);
             tableItem.addCell(priceColumnHeader);
 
-            for (Map.Entry<Integer, Integer> product : this.ListPriceOfProduct.entrySet()) {
+            for (Map.Entry<Integer, Double> product : this.ListPriceOfProduct.entrySet()) {
                 for (Product a : products.getProducts()) {
                     if (a.getProductCode() == product.getKey()) {
                         String name = "Product " + product.getKey();
-                        String qty = Integer.toString(product.getValue());
+                        String qty = Double.toString(product.getValue());
                         String price = Double.toString(a.getSellPrice() * product.getValue());
 
                         tableItem.addCell(new PdfPCell(new Paragraph(name, new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
@@ -199,7 +199,7 @@ public class FixedBill implements Serializable, printToPDF {
 
 
             tableTotal.addCell(new PdfPCell(new Paragraph("Total", new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
-            tableTotal.addCell(new PdfPCell(new Paragraph(Integer.toString(getTotalFixedBill()),
+            tableTotal.addCell(new PdfPCell(new Paragraph(Integer.toString(countTotalFixedBill()),
                     new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
 
             document.add(tableTotal);

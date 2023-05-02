@@ -13,7 +13,7 @@ import static com.o2pjualan.Main.controller;
 public  class Customer implements Serializable {
 //    protected static int numberOfCustomer;
     protected Integer idCustomer;
-    protected List<Integer> idFixedBill;
+    protected ArrayList<Integer> idFixedBill;
     protected Integer idBill;
     protected String membership;
 
@@ -22,7 +22,7 @@ public  class Customer implements Serializable {
     public Customer(Integer idCust)  {
         idCust = controller.getCustomers().getCustomers().size() + 1;
         this.idCustomer = idCust;
-        this.idFixedBill = new ArrayList<Integer>();
+        this.idFixedBill = new ArrayList<>();
         this.idBill = idCustomer;
         this.membership = "Customer";
     }
@@ -43,4 +43,8 @@ public  class Customer implements Serializable {
                 ", membership='" + membership + '\'' +
                 '}';
     }
+    public void addFixedBill(Integer idFixedBill) {
+        this.idFixedBill.add(idFixedBill);
+    }
+
 }

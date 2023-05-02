@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -67,6 +68,8 @@ public class Customers implements Serializable {
         }
     }
 
+
+
     // get Id by membership, parameter Both buat get VIP sama Member sekaligus
     public ArrayList<Integer> getIdsByMembership(String membership) {
         ArrayList<Integer> ret = new ArrayList<Integer>();
@@ -86,6 +89,15 @@ public class Customers implements Serializable {
         return ret;
     }
 
+    public String getMembershipByIds(int id){
+        for(Customer cust: customers){
+            if(cust.getIdCustomer().equals(id)){
+                return cust.getMembership();
+            }
+        }
+        return "";
+    }
+
     // Buat get nama member/vip by id
     public String getCustomerNameById(int id) {
         for (Customer cust : customers) {
@@ -98,6 +110,33 @@ public class Customers implements Serializable {
             }
         }
         return "";
+    }
+
+    public int getCustomerIdByName(String name) {
+        for (Customer cust : customers) {
+            if (cust.getMembership().equals("Member")) {
+                if(((Member) cust).getName().equals(name)){
+                    return cust.getIdCustomer();
+                }
+            } else if (cust.getMembership().equals("VIP")){
+                if(((VIP) cust).getName().equals(name)){
+                    return cust.getIdCustomer();
+                }
+            }
+        }
+        return -1;
+    }
+    public ArrayList<String> getCustomerName() {
+        ArrayList<String> customersName = new ArrayList<>();
+        for (Customer cust : customers) {
+            if (cust.getMembership().equals("Member")) {
+                    customersName.add(((Member) cust).getName());
+                } else if (cust.getMembership().equals("VIP")){
+                    customersName.add(((VIP) cust).getName());
+                }
+
+        }
+        return customersName;
     }
 
     public ArrayList<Customer> getActiveMembers(Boolean active) {
@@ -117,9 +156,25 @@ public class Customers implements Serializable {
     }
 
     public ArrayList<Integer> getCustomersId() {
-        return (ArrayList<Integer>) customers.stream()
-                .map(Customer::getIdCustomer)
-                .collect(Collectors.toList());
+        ArrayList<Integer> custId = new ArrayList<>();
+        for (Customer cust : customers) {
+            if (cust.getMembership().equals("Member") || cust.getMembership().equals("VIP")) {
+                custId.add(cust.getIdCustomer());
+            } else{
+                if(cust.getIdFixedBill() == null){
+                    custId.add(cust.getIdCustomer());
+                }
+            }
+        }
+        return custId;
+    }
+
+    public void addFixedBill(int idFixedBill, int idCust) {
+        for(Customer c: customers){
+            if(c.getIdCustomer() == idCust){
+                c.addFixedBill(idFixedBill);
+            }
+        }
     }
 
     public void print() {
@@ -127,5 +182,6 @@ public class Customers implements Serializable {
             System.out.println(c.toString());
         }
     }
+
 
 }

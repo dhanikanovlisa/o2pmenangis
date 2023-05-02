@@ -1,7 +1,7 @@
 [ {
   "idCustomer" : 1,
-  "idFixedBill" : null,
-  "idBill" : 1,
+  "idFixedBill" : [],
+  "idBill" : 2001,
   "membership" : "Member",
   "name" : "Febryan",
   "phoneNumber" : "0812323",
@@ -18,12 +18,12 @@
   "statusMembership" : true
 }, {
   "idCustomer" : 3,
-  "idFixedBill" : null,
+  "idFixedBill" : [ ],
   "idBill" : 3,
   "membership" : "Customer"
 }, {
   "idCustomer" : 5,
-  "idFixedBill" : null,
+  "idFixedBill" : [ ],
   "idBill" : 5,
   "membership" : "Member",
   "name" : "Febryan",
@@ -32,7 +32,7 @@
   "statusMembership" : true
 }, {
   "idCustomer" : 6,
-  "idFixedBill" : null,
+  "idFixedBill" : [ ],
   "idBill" : 6,
   "membership" : "VIP",
   "name" : "Jennie",
@@ -41,12 +41,12 @@
   "statusMembership" : true
 }, {
   "idCustomer" : 7,
-  "idFixedBill" : null,
+  "idFixedBill" : [ ],
   "idBill" : 7,
   "membership" : "Customer"
 }, {
   "idCustomer" : 4,
-  "idFixedBill" : [2003, 2004, 2005],
+  "idFixedBill" : [ 2003, 2004, 2005 ],
   "idBill" : 4,
   "membership" : "Member",
   "name" : "Teeee",
@@ -55,21 +55,11 @@
   "statusMembership" : true
 }, {
   "idCustomer" : 8,
-  "idFixedBill" : null,
+  "idFixedBill" : [ ],
   "idBill" : 8,
   "membership" : "Member",
   "name" : "Yeah",
   "phoneNumber" : "0812312",
   "point" : 0.0,
   "statusMembership" : true
-}, {
-  "idCustomer" : 9,
-  "idFixedBill" : [ ],
-  "idBill" : 9,
-  "membership" : "Customer"
-}, {
-  "idCustomer" : 10,
-  "idFixedBill" : [ ],
-  "idBill" : 10,
-  "membership" : "Customer"
-} ]
+}]

@@ -7,6 +7,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -37,14 +39,46 @@ public class BillGUI extends Tab{
     private GridPane wholePriceLayout;
     private ArrayList<String> optionsList;
     ObservableList<String> options;
+    private TextField enterName;
+    private ArrayList<String> allSugestions;
+    private ArrayList<Integer> customersId;
+    private ArrayList<String> custName;
+    private ArrayList<String> customerNames;
+    private FixedBills fixedBills;
 
     public BillGUI(){
         this.setText("Bills");
         customers = new Customers();
         customers = controller.getCustomers();
 
+        listProducts = new Products();
+        listProducts = controller.getProducts();
+        bills = controller.getBills();
+        fixedBills = controller.getFixedBills();
+
         /*Layout Dropdown + Button add New Customer*/
         upperLayout = new HBox();
+
+        /*Text Field Input Name*/
+        enterName = new TextField();
+        enterName.setPromptText("Pick Customer...");
+
+        allSugestions = new ArrayList<>();
+
+        customersId = customers.getIdsByMembership("Customer");
+        custName = customers.getCustomerName();
+        customerNames = new ArrayList<>();
+
+        for(Integer i : customersId){
+            customerNames.add(Integer.toString(i));
+        }
+
+        customerNames.addAll(custName);
+
+        ObservableList<String> sugg = FXCollections.observableArrayList(customerNames);
+        AutoCompletionBinding<String> autoCompleteText = TextFields.bindAutoCompletion(enterName, sugg);
+        autoCompleteText.setVisibleRowCount(5);
+
 
         /*Adding New Customer*/
         addNewCustomer = new Button("+ Add Customer");
@@ -55,24 +89,18 @@ public class BillGUI extends Tab{
             bills.addBill(b1);
             controller.saveDataCustomer(customers);
             controller.saveDataBill(bills);
-            optionsList.add(Integer.toString(addCustomer.getIdCustomer()));
+            alert("Succesfully added new customer " + addCustomer.getIdCustomer());
         });
 
-        listProducts = new Products();
-        listProducts = controller.getProducts();
-        bills = controller.getBills();
-        ArrayList<Integer> customersId = bills.getBillCustomerID();
-        optionsList = new ArrayList<String>();
-        for (Integer i : customersId) {
-            optionsList.add(Integer.toString(i));
-        }
-        options = FXCollections.observableArrayList(optionsList);
-        /*Dropdown to search customer by id*/
-        this.idDropDown = new ComboBox<>(options);
-        this.idDropDown.setId("idDropDown");
-        this.idDropDown.setPromptText("Customer ID");
-        /*Button to save bill*/
-//        this.saveButton = new Button("Save Bill");
+        this.enterName.setOnAction(e-> {
+            String textValue = this.enterName.getText();
+            int idCust = checkIdCustomer(textValue);
+            wholePriceLayout.getChildren().clear();
+            if(idCust != -1){
+                displayBill(idCust);
+            }
+        });
+
 
         /*Pay Button
         * TODO:
@@ -81,8 +109,14 @@ public class BillGUI extends Tab{
         * 3. Pay with point too
         * */
 
-        this.payButton = new Button("Pay Bill");
-        upperLayout.getChildren().addAll(this.idDropDown, addNewCustomer);
+        this.payButton = new Button("Check Out");
+        upperLayout.getChildren().addAll(enterName, addNewCustomer);
+
+        this.payButton.setOnAction(e-> {
+            String textValue = this.enterName.getText();
+            int idCust = checkIdCustomer(textValue);
+            checkOut(idCust);
+        });
 
         /*Button layout save button + pay button displaying side by side*/
         buttonLayout = new HBox();
@@ -113,13 +147,6 @@ public class BillGUI extends Tab{
         wholePriceLayout.addColumn(0);
 
 
-        idDropDown.setOnAction(event -> {
-            String selectedOption = idDropDown.getValue();
-            Integer idInt = Integer.parseInt(selectedOption);
-            wholePriceLayout.getChildren().clear();
-            displayBill(idInt);
-
-        });
 
         scrollPane.setContent(wholePriceLayout);
 
@@ -176,6 +203,43 @@ public class BillGUI extends Tab{
             }
         }
 
+    }
+    public int checkIdCustomer(String textValue){
+        int idCust = -1;
+        if(textValue.matches("\\d+")) {
+            idCust = Integer.parseInt(textValue);
+            if (customersId.contains(idCust)) {
+                return idCust;
+            }
+        } else {
+            idCust = customers.getCustomerIdByName(textValue);
+            if (idCust != -1) {
+                return idCust;
+            }
+        }
+        return -1;
+    }
+
+    public void checkOut(int idCust){
+        Bill b = bills.getBillByID(idCust);
+        FixedBill newBill = b.checkOutBill();
+        fixedBills.addFixedBill(newBill);
+        Customer c = customers.getCustomerByID(idCust);
+        Integer idBill = newBill.getIdBill();
+        c.addFixedBill(idBill);
+        controller.saveDataBill(bills);
+        controller.saveDataFixedBill(fixedBills);
+        controller.saveDataCustomer(customers);
+        alert("Successfully checkout");
+    }
+
+    public void alert(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.show();
     }
 
 }
