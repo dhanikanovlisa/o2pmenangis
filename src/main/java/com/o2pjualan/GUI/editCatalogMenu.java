@@ -35,6 +35,7 @@ public class editCatalogMenu extends Tab {
     private Products listProducts;
     private Product getProd;
     private String finalPath;
+    private AlertGUI alertGUI;
 
 
     public editCatalogMenu(Integer productCode){
@@ -44,6 +45,7 @@ public class editCatalogMenu extends Tab {
         wholeLayout.setId("layoutCatalog");
         listProducts = new Products();
         listProducts = controller.getProducts();
+        alertGUI = new AlertGUI();
 
         getProd = new Product();
         getProd = listProducts.getProductById(productCode);
@@ -65,15 +67,22 @@ public class editCatalogMenu extends Tab {
         finalPath = getProd.getImagePath();
         this.changeImage.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+            );
             File selectedFile = fileChooser.showOpenDialog(changeImage.getScene().getWindow());
             if (selectedFile != null) {
                 String path = selectedFile.getAbsolutePath();
                 int crop = path.indexOf("src/");
-                String image = path.substring(crop);
-                this.finalPath = "file:" + image;
+                if(crop == -1){
+                    alertGUI.alertWarning("Cannot find image in src file");
+                } else {
+                    String image = path.substring(crop);
+                    this.finalPath = "file:" + image;
 //                System.out.println(finalPath);
-                this.imageItem = new Image(finalPath);
-                imageView.setImage(this.imageItem);
+                    this.imageItem = new Image(finalPath);
+                    imageView.setImage(this.imageItem);
+                }
             } else {
                 finalPath = getProd.getImagePath();
             }
@@ -219,14 +228,8 @@ public class editCatalogMenu extends Tab {
             getProd.setImagePath(finalPath);
             getProd.setStock(stock);
             controller.saveDataProduct(listProducts);
-            alertInformation("Succesfully change " + productName);
+            alertGUI.alertInformation("Succesfully change " + productName);
         }
     }
-    public void alertInformation(String message){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.show();
-    }
+
 }
