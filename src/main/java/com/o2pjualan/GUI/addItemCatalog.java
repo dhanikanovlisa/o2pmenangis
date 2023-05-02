@@ -35,6 +35,7 @@ public class addItemCatalog extends Tab {
     private String finalPath;
     private TextField itemTotal;
     private Products products;
+    private AlertGUI alertGUI;
 
     public addItemCatalog(){
         this.setText("Add Catalog Item");
@@ -42,6 +43,7 @@ public class addItemCatalog extends Tab {
         /*Whole Layout*/
         VBox wholeLayout = new VBox();
         wholeLayout.setId("layoutCatalog");
+        alertGUI = new AlertGUI();
 
         /*Edit Whole Item Layout*/
         HBox editLayout = new HBox();
@@ -60,15 +62,22 @@ public class addItemCatalog extends Tab {
 
         this.changeImage.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+            );
             File selectedFile = fileChooser.showOpenDialog(changeImage.getScene().getWindow());
             if (selectedFile != null) {
                 String path = selectedFile.getAbsolutePath();
                 int crop = path.indexOf("src/");
-                String image = path.substring(crop);
-                this.finalPath = "file:" + image;
+                if(crop == -1){
+                    alertGUI.alertWarning("Cannot find image in src file");
+                } else {
+                    String image = path.substring(crop);
+                    this.finalPath = "file:" + image;
 //                System.out.println(finalPath);
-                this.image = new Image(finalPath);
-                imageView.setImage(this.image);
+                    this.image = new Image(finalPath);
+                    imageView.setImage(this.image);
+                }
             } else {
                 this.finalPath = "file:src/img/placeholderimg.png";
             }
@@ -205,19 +214,11 @@ public class addItemCatalog extends Tab {
             if(success){
                 products.addProduct(newProduct);
                 controller.saveDataProduct(products);
-                alert("Successfully add item to product database");
+                alertGUI.alertInformation("Successfully add item to product database");
             } else {
-                alert("Product name already exist");
+                alertGUI.alertWarning("Product name already exist");
             }
         }
     }
 
-    public void alert(String message){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        alert.show();
-    }
 }
