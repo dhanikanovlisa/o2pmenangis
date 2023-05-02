@@ -200,10 +200,13 @@ public class itemtoBill extends Tab {
 
                 if(addItem.isSelected() && !deleteItem.isSelected()){
                     customerBill.addProduct(productCode, stock, getterProduct.getSellPrice() * stock);
-                    getterProduct.setStock(getterProduct.getStock() - stock);
-                    controller.saveDataBill(bills);
-                    controller.saveDataProduct(listProducts);
-                    alertGUI.alertInformation("Successfully added " + stock + " " +  getterProduct.getProductName() +" to customer " + custId);
+                    if(getterProduct.reduceStock(stock)){
+                        controller.saveDataBill(bills);
+                        controller.saveDataProduct(listProducts);
+                        alertGUI.alertInformation("Successfully added " + stock + " " +  getterProduct.getProductName() +" to customer " + custId);
+                    } else {
+                        alertGUI.alertWarning("Not enough stock");
+                    }
                 } else if (deleteItem.isSelected() && !addItem.isSelected()){
                     if(customerBill.validateDeleteProduct(productCode, stock)){
                         customerBill.deleteProduct(productCode, stock, getterProduct.getSellPrice() * stock);
