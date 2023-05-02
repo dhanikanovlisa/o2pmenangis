@@ -1,14 +1,8 @@
 package com.o2pjualan.GUI;
 
-import com.o2pjualan.Classes.Customer;
 import com.o2pjualan.Classes.Customers;
-import com.o2pjualan.Classes.JSONController;
-import com.o2pjualan.Classes.Member;
-import com.o2pjualan.Main;
-import com.sun.javafx.scene.control.FakeFocusTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -20,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.o2pjualan.Main.controller;
-import static com.o2pjualan.Main.folderName;
 
 public class signUp extends Tab {
     private ComboBox<String> idDropDown;
@@ -30,10 +23,8 @@ public class signUp extends Tab {
     private Customers customers;
     private Label message;
     public signUp() throws IOException, ParseException {
-        customers = new Customers();
         customers = controller.getCustomers();
-        ArrayList<Customer> test = customers.getCustomers();
-        ArrayList<Integer> customersId = customers.getCustomersId();
+        ArrayList<Integer> customersId = customers.getIdsByMembership("Customer");
         ArrayList<String> optionsList = new ArrayList<String>();
         for (Integer i : customersId) {
             optionsList.add(Integer.toString(i));
@@ -102,20 +93,20 @@ public class signUp extends Tab {
     private void registCust() throws IOException, ParseException {
         if (idDropDown.getValue() == null || nameField.getText().equals("") || phoneField.getText().equals("")) {
             if (idDropDown.getValue() == null) {
-                idDropDown.setPromptText("Must pick customer id!!");
-                this.message.setText("Masukkan data");
+                idDropDown.setPromptText("Pick customer id");
+                this.message.setText("Please insert the required data");
             }
 
             if (nameField.getText().equals("")) {
-                nameField.setPromptText("Masukkan nama!");
-                nameField.setStyle("-fx-prompt-text-fill: red;");
-                this.message.setText("Masukkan data");
+                nameField.setPromptText("*Name required");
+                nameField.setStyle("-fx-prompt-text-fill: #d0342c;");
+                this.message.setText("Please insert the required data");
             }
 
             if (phoneField.getText().equals("")) {
-                phoneField.setPromptText(("Masukkan nomor telepon!"));
-                phoneField.setStyle("-fx-prompt-text-fill: red;");
-                this.message.setText("Masukkan data");
+                phoneField.setPromptText(("*Phone number required"));
+                phoneField.setStyle("-fx-prompt-text-fill: #d0342c;");
+                this.message.setText("Please insert the required data");
             }
         } else {
 
@@ -128,7 +119,7 @@ public class signUp extends Tab {
             customers.registerMember(Integer.parseInt(id), name, phone);
             controller.saveDataCustomer(customers);
 
-            this.message.setText("Berhasil register!");
+            this.message.setText("successfully registered!");
             nameField.setText("");
             nameField.setPromptText("");
             phoneField.setText("");

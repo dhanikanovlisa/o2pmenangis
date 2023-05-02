@@ -1,5 +1,8 @@
 package com.o2pjualan.GUI;
 
+import com.o2pjualan.Classes.Customers;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -8,23 +11,38 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import java.util.ArrayList;
+
+import static com.o2pjualan.Main.controller;
 
 public class upgradeMembership extends Tab {
     private ComboBox<String> name;
     private Button upgrade;
+    private Label message;
 
     public upgradeMembership(){
-
         this.setText("Upgrade Membership");
 
-        this.name = new ComboBox<>();
+        Customers customers = controller.getCustomers();
+        ArrayList<Integer> customersId = customers.getIdsByMembership("Member");
+        ArrayList<String> optionsList = new ArrayList<String>();
+        for (Integer i : customersId) {
+            optionsList.add('(' + i.toString() + ") "  + customers.getCustomerNameById(i));
+        }
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+
+        this.name = new ComboBox<String>(options);
         this.name.setId("nameDropDown");
         this.name.setPromptText("Pick Customer Name...");
 
         this.upgrade = new Button("Upgrade");
+        this.upgrade.setOnAction(e -> upgradeMember());
 
         Label vipMembership = new Label("VIP Membership");
         vipMembership.setId("h1");
+
+        this.message = new Label("");
+        this.message.setId("paragraph");
 
         Label info = new Label("Enjoy countless discount by upgrading your account to VIP.");
         info.setId("paragraph");
@@ -36,7 +54,7 @@ public class upgradeMembership extends Tab {
         labelLayout.setAlignment(Pos.CENTER);
 
         VBox upgradeLayout = new VBox();
-        upgradeLayout.getChildren().addAll(this.name, this.upgrade);
+        upgradeLayout.getChildren().addAll(this.name, this.upgrade, this.message);
         upgradeLayout.setSpacing(50);
         upgradeLayout.setPadding(new Insets(20));
         upgradeLayout.setAlignment(Pos.CENTER);
@@ -56,6 +74,27 @@ public class upgradeMembership extends Tab {
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true);
         base.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
+    }
 
+    public void upgradeMember() {
+        if (this.name.getValue() == null) {
+            this.message.setText("Please pick a customer name");
+            this.message.setStyle("-fx-text-fill: #d0342c;");
+//            this.message.setTextFill();
+        } else {
+            String str = this.name.getValue();
+            int startIndex = str.indexOf("(") + 1;
+            int endIndex = str.indexOf(")");
+            String digits = str.substring(startIndex, endIndex);
+            int selectedId = Integer.parseInt(digits);
+
+            Customers customers = controller.getCustomers();
+            customers.upgradeVIP(selectedId);
+            controller.saveDataCustomer(customers);
+
+            this.name.getItems().remove(str);
+
+            this.message.setText("Upgraded to VIP");
+        }
     }
 }
