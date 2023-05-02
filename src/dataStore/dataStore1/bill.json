@@ -6,7 +6,7 @@
     "103" : 3
   },
   "listPriceOfProduct" : {
-    "101" : 240000,
+    "101" : 240000.0,
     "102" : 50000.0,
     "103" : 210000.0
   }
@@ -110,6 +110,10 @@
   "listPriceOfProduct" : { }
 }, {
   "idCustomer" : 10,
+  "listOfProduct" : { },
+  "listPriceOfProduct" : { }
+}, {
+  "idCustomer" : 11,
   "listOfProduct" : { },
   "listPriceOfProduct" : { }
 } ]

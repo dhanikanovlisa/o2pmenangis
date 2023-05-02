@@ -100,6 +100,33 @@ public class Customers implements Serializable {
         return "";
     }
 
+    public int getCustomerIdByName(String name) {
+        for (Customer cust : customers) {
+            if (cust.getMembership().equals("Member")) {
+                if(((Member) cust).getName().equals(name)){
+                    return cust.getIdCustomer();
+                }
+            } else if (cust.getMembership().equals("VIP")){
+                if(((VIP) cust).getName().equals(name)){
+                    return cust.getIdCustomer();
+                }
+            }
+        }
+        return -1;
+    }
+    public ArrayList<String> getCustomerName() {
+        ArrayList<String> customersName = new ArrayList<>();
+        for (Customer cust : customers) {
+            if (cust.getMembership().equals("Member")) {
+                    customersName.add(((Member) cust).getName());
+                } else if (cust.getMembership().equals("VIP")){
+                    customersName.add(((VIP) cust).getName());
+                }
+
+        }
+        return customersName;
+    }
+
     public ArrayList<Customer> getActiveMembers(Boolean active) {
         ArrayList<Customer> ret = new ArrayList<>();
         for (Customer cust: customers) {
