@@ -14,8 +14,11 @@ public class Products implements Serializable {
     public Products() {
         this.productCodes = new ArrayList<Product>();
     }
+    public void addProduct(Product product) {
+        this.productCodes.add(product);
+    }
 
-    public boolean addProduct(Product product) {
+    public boolean addNewProduct(Product product) {
         for(Product prod : this.productCodes){
             if(prod.getProductName().contains(product.getProductName())){
                 return false;

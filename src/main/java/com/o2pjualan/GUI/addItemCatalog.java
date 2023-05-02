@@ -201,7 +201,7 @@ public class addItemCatalog extends Tab {
 
             Product newProduct = new Product(productName, categoryName, buyPrice, sellPrice, stock, finalPath);
             Products products = controller.getProducts();
-            boolean success = products.addProduct(newProduct);
+            boolean success = products.addNewProduct(newProduct);
             if(success){
                 controller.saveDataProduct(products);
                 alert("Succesfully add item to product database");
