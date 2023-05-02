@@ -55,16 +55,14 @@ public class Products implements Serializable {
         }
     }
 
-    public ArrayList<String> getAllCategory(){
-        ArrayList<String> productsCategory = new ArrayList<>();
-        for(Product p: this.productCodes){
-            for(String s: productsCategory){
-                if(!s.equals(p.productName)){
-                    productsCategory.add(p.getProductCategory());
-                }
-            }
+    public ArrayList<String> getAllCategory() {
+        Set<String> categories = new HashSet<>();
+        categories.add("All");
+        for (Product p : this.productCodes) {
+            categories.add(p.getProductCategory());
         }
-    return productsCategory;
+        ArrayList<String> productsCategory = new ArrayList<>(categories);
+        return productsCategory;
     }
 
 }

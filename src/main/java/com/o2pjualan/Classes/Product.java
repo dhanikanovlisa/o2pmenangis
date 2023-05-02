@@ -51,6 +51,14 @@ public class Product implements Serializable {
         this.imagePath = imagePath;
     }
 
+    public boolean validateStock(int quantity){
+        if(quantity > stock){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     @Override
     public String toString() {
         return "Product{" +

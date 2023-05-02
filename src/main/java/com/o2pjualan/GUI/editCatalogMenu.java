@@ -62,7 +62,7 @@ public class editCatalogMenu extends Tab {
 
         this.changeImage = new Button("Change Image");
         this.changeImage.setId("buttonCatalog");
-
+        finalPath = getProd.getImagePath();
         this.changeImage.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             File selectedFile = fileChooser.showOpenDialog(changeImage.getScene().getWindow());
@@ -75,7 +75,7 @@ public class editCatalogMenu extends Tab {
                 this.imageItem = new Image(finalPath);
                 imageView.setImage(this.imageItem);
             } else {
-                finalPath = "file:src/img/placeholderimg.png";
+                finalPath = getProd.getImagePath();
             }
         });
 

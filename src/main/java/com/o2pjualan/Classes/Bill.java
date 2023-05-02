@@ -28,9 +28,42 @@ public class Bill implements Serializable {
         ListPriceOfProduct = listPriceOfProduct;
     }
 
-    public void AddProduct(int productCode, int quantity, double price) {
-        this.ListOfProduct.put(productCode, quantity);
-        this.ListPriceOfProduct.put(productCode, quantity * price);
+    public void addProduct(int productCode, int quantity, double price) {
+        if (this.ListOfProduct.containsKey(productCode)) {
+            int currentQuantity = this.ListOfProduct.get(productCode);
+            double currentPrice = this.ListPriceOfProduct.get(productCode);
+            this.ListOfProduct.put(productCode, quantity + currentQuantity);
+            this.ListPriceOfProduct.put(productCode, (quantity + currentQuantity) * price + currentPrice);
+        } else {
+            this.ListOfProduct.put(productCode, quantity);
+            this.ListPriceOfProduct.put(productCode, quantity * price);
+        }
+    }
+
+    public void deleteProduct(int productCode, int quantity, double price) {
+        if (this.ListOfProduct.containsKey(productCode)) {
+            int currentQuantity = this.ListOfProduct.get(productCode);
+            double currentPrice = this.ListPriceOfProduct.get(productCode);
+            int newQuantity = currentQuantity - quantity;
+            double newPrice = currentPrice - (quantity * price);
+            if (newQuantity > 0) {
+                this.ListOfProduct.put(productCode, newQuantity);
+                this.ListPriceOfProduct.put(productCode, newPrice);
+            } else {
+                this.ListOfProduct.remove(productCode);
+                this.ListPriceOfProduct.remove(productCode);
+            }
+        }
+    }
+
+    public boolean validateDeleteProduct(int productCode, int quantity) {
+        if (this.ListOfProduct.containsKey(productCode)) {
+            int currentQuantity = this.ListOfProduct.get(productCode);
+            if (quantity <= currentQuantity) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void RemoveProduct(int productCode) {

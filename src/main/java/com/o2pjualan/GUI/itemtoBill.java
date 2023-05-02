@@ -1,9 +1,6 @@
 package com.o2pjualan.GUI;
 
-import com.o2pjualan.Classes.Bill;
-import com.o2pjualan.Classes.Bills;
-import com.o2pjualan.Classes.Product;
-import com.o2pjualan.Classes.Products;
+import com.o2pjualan.Classes.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -40,6 +37,11 @@ public class itemtoBill extends Tab {
     private ObservableList<String> options;
     private ArrayList<String> optionsList;
     private Label warning;
+    private Customers customers;
+    private Label currentQuantity;
+    private ToggleButton addItem;
+    private ToggleButton deleteItem;
+    private HBox currentQuantityLayout;
     public itemtoBill(Integer productCode){
         /*Whole Layout*/
         VBox wholeLayout = new VBox();
@@ -47,8 +49,9 @@ public class itemtoBill extends Tab {
         listProducts = new Products();
         listProducts = controller.getProducts();
         bills = controller.getBills();
-        ArrayList<Integer> customersId = bills.getBillCustomerID();
-        optionsList = new ArrayList<String>();
+        customers = controller.getCustomers();
+        ArrayList<Integer> customersId = customers.getCustomersId();
+        optionsList = new ArrayList<>();
         for (Integer i : customersId) {
             optionsList.add(Integer.toString(i));
         }
@@ -58,6 +61,7 @@ public class itemtoBill extends Tab {
         this.idDropDown = new ComboBox<>(options);
         this.idDropDown.setId("idDropDown");
         this.idDropDown.setPromptText("Customer ID");
+        this.idDropDown.setValue("0");
 
         getProd = new Product();
         getProd = listProducts.getProductById(productCode);
@@ -75,11 +79,23 @@ public class itemtoBill extends Tab {
         imageView.setFitHeight(150);
         imageView.setFitWidth(150);
 
+        this.idDropDown.setOnAction(event ->{
+            String getCustomerId = this.idDropDown.getValue().toString();
+            Bill custBill = bills.getBillByID(Integer.parseInt(getCustomerId));
+            currentQuantity.setText("0");
+            setTextField(custBill, productCode);
+            this.saveButton.setOnAction(e -> {
+                try{
+                    addToBill(productCode, getCustomerId);
+                }catch (IOException | ParseException err){
+                    throw new RuntimeException(err);
+                }
+            });
+        });
 
         editImageLayout.getChildren().addAll(imageView);
         editImageLayout.setAlignment(Pos.CENTER);
         editImageLayout.setSpacing(20);
-
         /*Edit Value Layout*/
         VBox editValueLayout = new VBox();
         HBox nameLayout = new HBox();
@@ -103,7 +119,21 @@ public class itemtoBill extends Tab {
         sellPriceLayout.getChildren().addAll(sellPriceText, this.sellPriceTextField);
         sellPriceLayout.setSpacing(15);
 
-        editValueLayout.getChildren().addAll(nameLayout, categoryLayout, sellPriceLayout);
+        currentQuantityLayout = new HBox();
+        Label current = new Label("Current Quantity");
+        currentQuantity = new Label("");
+        current.setId("catalogLabel");
+        currentQuantityLayout.getChildren().addAll(current, currentQuantity);
+        currentQuantityLayout.setSpacing(15);
+
+
+        this.addItem = new ToggleButton("Add Item");
+        this.deleteItem = new ToggleButton("Delete Item");
+        HBox toggleLayout = new HBox();
+        toggleLayout.getChildren().addAll(addItem, deleteItem);
+        toggleLayout.setSpacing(15);
+
+        editValueLayout.getChildren().addAll(nameLayout, categoryLayout, sellPriceLayout, currentQuantityLayout);
         editValueLayout.setSpacing(20);
 
         editLayout.getChildren().addAll(editImageLayout, editValueLayout);
@@ -113,7 +143,7 @@ public class itemtoBill extends Tab {
         this.itemTotal = new TextField();
         itemTotal.setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d*")) {
+            if (newText.matches("\\d+")) {
                 return change;
             }
             return null;
@@ -123,18 +153,12 @@ public class itemtoBill extends Tab {
         this.saveButton.setId("buttonCatalog");
 
 
-        this.idDropDown.setOnAction(event ->{
-            String getCustomerId = this.idDropDown.getValue().toString();
-            this.saveButton.setOnAction(e -> {
-                try{
-                    addToBill(productCode, getCustomerId);
-                }catch (IOException | ParseException err){
-                    throw new RuntimeException(err);
-                }
-            });
-        });
-//
-        bottomButtonLayout.getChildren().addAll(this.itemTotal, this.saveButton);
+
+        HBox itemDelete = new HBox();
+        itemDelete.getChildren().addAll(this.itemTotal, toggleLayout);
+        itemDelete.setSpacing(20);
+
+        bottomButtonLayout.getChildren().addAll(itemDelete, this.saveButton);
         bottomButtonLayout.setSpacing(450);
         wholeLayout.getChildren().addAll(this.idDropDown, editLayout, bottomButtonLayout);
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
@@ -149,7 +173,7 @@ public class itemtoBill extends Tab {
     }
 
     public void addToBill(int productCode, String customerId) throws  IOException, ParseException{
-        if(customerId.equals("") || customerId.equals(null)){
+        if(customerId.equals("0")){
             alertWarning("You haven't chose the customer");
         } else {
             Integer custId = Integer.parseInt(customerId);
@@ -164,12 +188,28 @@ public class itemtoBill extends Tab {
                     if(a.getProductCode() == productCode)
                         getterProduct = a;
                 }
-                customerBill.AddProduct(productCode, stock, getterProduct.getSellPrice() * stock);
-                getterProduct.setStock(getterProduct.getStock() - stock);
-                bills.addBill(customerBill);
-                controller.saveDataBill(bills);
-                controller.saveDataProduct(listProducts);
-                alertInformation("Successfully added item to customer " + custId);
+
+                if(addItem.isSelected() && !deleteItem.isSelected()){
+                    customerBill.addProduct(productCode, stock, getterProduct.getSellPrice() * stock);
+                    getterProduct.setStock(getterProduct.getStock() - stock);
+                    controller.saveDataBill(bills);
+                    controller.saveDataProduct(listProducts);
+                    alertInformation("Successfully added " + stock + " " +  getterProduct.getProductName() +" to customer " + custId);
+                } else if (deleteItem.isSelected() && !addItem.isSelected()){
+                    if(customerBill.validateDeleteProduct(productCode, stock)){
+                        customerBill.deleteProduct(productCode, stock, getterProduct.getSellPrice() * stock);
+                        getterProduct.setStock(getterProduct.getStock() - stock);
+                        controller.saveDataBill(bills);
+                        controller.saveDataProduct(listProducts);
+                        alertInformation("Successfully deleted " + stock + " " + getterProduct.getProductName() +" to customer " + custId);
+                    } else {
+                        alertWarning("Invalid");
+                    }
+                } else if (!addItem.isSelected() && !deleteItem.isSelected()){
+                    alertWarning("You haven't chose whether to add or delete the item");
+                } else if(addItem.isSelected() && deleteItem.isSelected()){
+                    alertWarning("You cannot choose both");
+                }
             }
         }
     }
@@ -187,5 +227,13 @@ public class itemtoBill extends Tab {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.show();
+    }
+
+    public void setTextField(Bill bill, Integer productCode){
+        for(Map.Entry<Integer, Integer> product : bill.getListOfProduct().entrySet()){
+            if(product.getKey() == productCode){
+                currentQuantity.setText(Integer.toString(product.getValue()));
+            }
+        }
     }
 }
