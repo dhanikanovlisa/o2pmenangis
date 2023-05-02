@@ -1,5 +1,12 @@
 package com.o2pjualan.Classes;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.stage.FileChooser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +15,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
@@ -111,22 +119,93 @@ public class FixedBill implements Serializable, printToPDF {
         return total;
     }
 
-    public void printPDF() throws IOException {
-        PDDocument document = new PDDocument();
+    public void printPDF(Products products)  {
+        Document document = new Document();
 
-        PDPage page = new PDPage(PDRectangle.A4);
-        document.addPage(page);
+        try{
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save PDF");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+            File selectedFile = fileChooser.showSaveDialog(null);
+            if (selectedFile == null) {
+                return; // The user cancelled the file chooser
+            }
 
-        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+            // Create a PdfWriter to write the PDF to the selected file
+            PdfWriter.getInstance(document, new FileOutputStream(selectedFile));
+            document.open();
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save PDF File");
-        FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("PDF Files", "*.pdf");
-        fileChooser.getExtensionFilters().add(pdfFilter);
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            document.save(file);
+            PdfPTable table = new PdfPTable(1);
+            table.setWidthPercentage(100);
+
+            PdfPCell cellHeader = new PdfPCell();
+            cellHeader.setBorder(PdfPCell.NO_BORDER);
+
+            PdfPCell nameHeader = new PdfPCell();
+            nameHeader.setBorder(PdfPCell.NO_BORDER);
+
+            PdfPCell statusHeader = new PdfPCell();
+            statusHeader.setBorder(PdfPCell.NO_BORDER);
+
+            Font header = new Font(Font.FontFamily.COURIER, 20, Font.BOLD);
+            Font text = new Font(Font.FontFamily.COURIER, 12, Font.NORMAL);
+
+            String idBill = "#" + this.idBill;
+            Paragraph p = new Paragraph(idBill, header);
+            p.setAlignment(Element.ALIGN_LEFT);
+            Paragraph nameCell = new Paragraph("Name: ", text);
+            Paragraph statusCell = new Paragraph("Status: ", text);
+
+            cellHeader.addElement(p);
+            nameHeader.addElement(nameCell);
+            statusHeader.addElement(statusCell);
+
+            table.addCell(cellHeader);
+            table.addCell(nameHeader);
+            table.addCell(statusHeader);
+            document.add(table);
+
+            // Creating table for items
+            PdfPTable tableItem = new PdfPTable(3);
+            tableItem.setTotalWidth(new float[]{2f, 0.5f, 1f});
+            tableItem.setLockedWidth(true);
+
+            PdfPCell nameColumnHeader = new PdfPCell(new Paragraph("Product Name", new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
+            PdfPCell qtyColumnHeader = new PdfPCell(new Paragraph("Qty", new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
+            PdfPCell priceColumnHeader = new PdfPCell(new Paragraph("Price", new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
+
+            tableItem.addCell(nameColumnHeader);
+            tableItem.addCell(qtyColumnHeader);
+            tableItem.addCell(priceColumnHeader);
+
+            for (Map.Entry<Integer, Integer> product : this.ListPriceOfProduct.entrySet()) {
+                for (Product a : products.getProducts()) {
+                    if (a.getProductCode() == product.getKey()) {
+                        String name = "Product " + product.getKey();
+                        String qty = Integer.toString(product.getValue());
+                        String price = Double.toString(a.getSellPrice() * product.getValue());
+
+                        tableItem.addCell(new PdfPCell(new Paragraph(name, new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
+                        tableItem.addCell(new PdfPCell(new Paragraph(qty, new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
+                        tableItem.addCell(new PdfPCell(new Paragraph(price, new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
+                    }
+                }
+            }
+            document.add(tableItem);
+
+            PdfPTable tableTotal = new PdfPTable(2);
+            tableTotal.setTotalWidth(new float[]{2.5f, 1f});
+            tableTotal.setLockedWidth(true);
+
+
+            tableTotal.addCell(new PdfPCell(new Paragraph("Total", new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
+            tableTotal.addCell(new PdfPCell(new Paragraph(Integer.toString(getTotalFixedBill()),
+                    new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
+
+            document.add(tableTotal);
+            document.close();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-        document.close();
     }
 }

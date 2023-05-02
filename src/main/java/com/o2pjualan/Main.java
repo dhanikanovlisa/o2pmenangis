@@ -170,8 +170,9 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         folderName = "src/dataStore/dataStore1/";
-        controller = new Controller("json");
+        FileManager.initiateDataStore();
         Application.launch(args);
+        System.out.println("DONE");
 
     }
 }
