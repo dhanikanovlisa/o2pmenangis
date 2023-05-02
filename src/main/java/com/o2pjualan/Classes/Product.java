@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -75,4 +74,5 @@ public class Product implements Serializable {
     public void reduceStock(int stock){
         this.stock -= stock;
     }
+
 }
