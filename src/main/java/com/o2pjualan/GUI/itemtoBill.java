@@ -54,12 +54,12 @@ public class itemtoBill extends Tab {
         customersId = customers.getCustomersId();
         optionsList = new ArrayList<>();
         for (Integer i : customersId) {
-            optionsList.add(Integer.toString(i));
+            optionsList.add('(' + i.toString() + ") "  + customers.getCustomerNameById(i));
         }
-        options = FXCollections.observableArrayList(optionsList);
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
 
         /*Dropdown to search customer by id*/
-        this.idDropDown = new ComboBox<>(options);
+        this.idDropDown = new ComboBox<String>(options);
         this.idDropDown.setId("idDropDown");
         this.idDropDown.setPromptText("Customer ID");
         this.idDropDown.setValue("0");
@@ -81,17 +81,23 @@ public class itemtoBill extends Tab {
         imageView.setFitWidth(150);
 
         this.idDropDown.setOnAction(event ->{
-            String getCustomerId = this.idDropDown.getValue().toString();
-            Bill custBill = bills.getBillByID(Integer.parseInt(getCustomerId));
-            currentQuantity.setText("0");
-            setTextField(custBill, productCode);
-            this.saveButton.setOnAction(e -> {
-                try{
-                    addToBill(productCode, getCustomerId);
-                }catch (IOException | ParseException err){
-                    throw new RuntimeException(err);
-                }
-            });
+            if (this.idDropDown.getValue() != null) {
+                String str = this.idDropDown.getValue().toString();
+                int startIndex = str.indexOf("(") + 1;
+                int endIndex = str.indexOf(")");
+                String digits = str.substring(startIndex, endIndex);
+                Integer selectedId = Integer.parseInt(digits);
+                Bill custBill = bills.getBillByID(selectedId);
+                currentQuantity.setText("0");
+                setTextField(custBill, productCode);
+                this.saveButton.setOnAction(e -> {
+                    try {
+                        addToBill(productCode, selectedId.toString());
+                    } catch (IOException | ParseException err) {
+                        throw new RuntimeException(err);
+                    }
+                });
+            }
         });
 
         editImageLayout.getChildren().addAll(imageView);

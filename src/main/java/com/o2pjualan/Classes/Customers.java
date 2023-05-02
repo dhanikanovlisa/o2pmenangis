@@ -155,18 +155,37 @@ public class Customers implements Serializable {
         return ret;
     }
 
+    public ArrayList<Integer> getCustomerForSignUp() {
+        ArrayList<Integer> ret = new ArrayList<>();
+        for (Customer cust : customers) {
+            if (cust.getMembership().equals("Customer") && cust.getIdFixedBill().size() != 0) {
+                ret.add(cust.getIdCustomer());
+            }
+        }
+        return ret;
+    }
+
     public ArrayList<Integer> getCustomersId() {
         ArrayList<Integer> custId = new ArrayList<>();
         for (Customer cust : customers) {
             if (cust.getMembership().equals("Member") || cust.getMembership().equals("VIP")) {
                 custId.add(cust.getIdCustomer());
             } else{
-                if(cust.getIdFixedBill() == null){
+                if(cust.getIdFixedBill().size() == 0){
                     custId.add(cust.getIdCustomer());
                 }
             }
         }
         return custId;
+    }
+
+    public ArrayList<Integer> getAllCustomersId() {
+        ArrayList<Integer> ret = new ArrayList<>();
+        for (Customer cust : customers) {
+            ret.add(cust.getIdCustomer());
+        }
+
+        return ret;
     }
 
     public void addFixedBill(int idFixedBill, int idCust) {
@@ -176,6 +195,7 @@ public class Customers implements Serializable {
             }
         }
     }
+
 
     public void print() {
         for (Customer c : this.customers) {

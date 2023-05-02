@@ -24,7 +24,7 @@ public class signUp extends Tab {
     private Label message;
     public signUp() throws IOException, ParseException {
         customers = controller.getCustomers();
-        ArrayList<Integer> customersId = customers.getIdsByMembership("Customer");
+        ArrayList<Integer> customersId = customers.getCustomerForSignUp();
         ArrayList<String> optionsList = new ArrayList<String>();
         for (Integer i : customersId) {
             optionsList.add(Integer.toString(i));

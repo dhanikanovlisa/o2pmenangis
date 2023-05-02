@@ -50,17 +50,18 @@ public class history extends Tab {
         fixedBills = controller.getFixedBills();
         customers = controller.getCustomers();
 
-        ArrayList<Integer> customersId = customers.getCustomersId();
-        optionsList = new ArrayList<String>();
+        Customers customers = controller.getCustomers();
+        ArrayList<Integer> customersId = customers.getAllCustomersId();
+        ArrayList<String> optionsList = new ArrayList<String>();
         for (Integer i : customersId) {
-            optionsList.add(Integer.toString(i));
+            optionsList.add('(' + i.toString() + ") "  + customers.getCustomerNameById(i));
         }
-        options = FXCollections.observableArrayList(optionsList);
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+
 
         this.name = new ComboBox<>(options);
         this.name.setPromptText("Pick Customer Name...");
         this.name.setId("idDropDown");
-        this.name.setValue("ID");
 
 
         historyLayout = new GridPane();
@@ -70,7 +71,7 @@ public class history extends Tab {
         historyLayout.setVgap(15);
 
         try {
-            displayFixedBill(name.getValue());
+            displayFixedBill();
         } catch (IOException err){
             throw new RuntimeException(err);
         }
@@ -78,7 +79,7 @@ public class history extends Tab {
         name.setOnAction(e -> {
             try {
                 historyLayout.getChildren().clear();
-                displayFixedBill(name.getValue());
+                displayFixedBill();
             } catch (IOException err){
                 throw new RuntimeException(err);
             }
@@ -129,20 +130,26 @@ public class history extends Tab {
 
     }
 
-    public void displayFixedBill(String idCust) throws IOException  {
-        int rowCount = 0;
+    public void displayFixedBill() throws IOException  {
+        if (this.name.getValue() != null) {
+            String str = this.name.getValue();
+            int startIndex = str.indexOf("(") + 1;
+            int endIndex = str.indexOf(")");
+            String digits = str.substring(startIndex, endIndex);
+            int selectedId = Integer.parseInt(digits);
 
-        fixedBill = fixedBills.getFixedBills();
+            int rowCount = 0;
 
-        for(FixedBill fix: fixedBill){
-            String idFixedBill = Integer.toString(fix.getIdBill());
-            String totalPrice = Integer.toString(fix.countTotalFixedBill());
-            if(idCust.equals("ID")){
-                displayPerItem(idFixedBill, totalPrice, rowCount);
-                rowCount++;
-            } else if(Integer.parseInt(idCust) == fix.getIdBill()) {
-                displayPerItem(idFixedBill, totalPrice, rowCount);
-                rowCount++;
+            fixedBill = fixedBills.getFixedBills();
+
+            for (FixedBill fix : fixedBill) {
+                String idFixedBill = Integer.toString(fix.getIdBill());
+                String totalPrice = Integer.toString(fix.countTotalFixedBill());
+                System.out.println(idFixedBill + " " + totalPrice);
+                if (selectedId == fix.getIdCustomer()) {
+                    displayPerItem(idFixedBill, totalPrice, rowCount);
+                    rowCount++;
+                }
             }
         }
     }
@@ -152,6 +159,7 @@ public class history extends Tab {
         this.totalPrice = new Label(totalPrice);
         historyItemLayout = new VBox();
         historyItemLayout.setId("historyItemLayout");
+        historyItemLayout.setFillWidth(true);
         historyItemLayout.getChildren().addAll(this.idTransaction, this.totalPrice);
         historyItemLayout.setOnMouseClicked(e -> {
             clickedHistory clickedHistoryTab = new clickedHistory(Integer.parseInt(idFixedBill));
