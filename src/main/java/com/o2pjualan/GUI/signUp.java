@@ -88,13 +88,28 @@ public class signUp extends Tab {
         wholeLayout.setFillWidth(true);
         wholeLayout.prefWidthProperty().bind(base.widthProperty());
         wholeLayout.prefHeightProperty().bind(base.heightProperty());
+
+        this.setOnSelectionChanged(event -> {
+            if (this.isSelected()) {
+                customers = controller.getCustomers();
+                ArrayList<Integer> customersId2 = customers.getCustomerForSignUp();
+                ArrayList<String> optionsList2 = new ArrayList<String>();
+                for (Integer i : customersId2) {
+                    optionsList2.add(Integer.toString(i));
+                }
+                ObservableList<String> options2 = FXCollections.observableArrayList(optionsList2);
+                this.idDropDown.setItems(options2);
+                this.idDropDown.setId("idDropDown");
+                this.idDropDown.setPromptText("Pick Customer ID...");
+            }
+        });
     }
 
     private void registCust() throws IOException, ParseException {
         if (idDropDown.getValue() == null || nameField.getText().equals("") || phoneField.getText().equals("")) {
             if (idDropDown.getValue() == null) {
                 idDropDown.setPromptText("Pick customer id");
-                this.message.setText("Please insert the required data");
+                this.message.setText("Please insert the required data id");
             }
 
             if (nameField.getText().equals("")) {
