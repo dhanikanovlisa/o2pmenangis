@@ -20,13 +20,16 @@ public class pluginController {
             JarEntry entry = entries.nextElement();
 
             if (entry.getName().endsWith(".class")) {
-                String className = entry.getName().replace('/', '.').substring(0, entry.getName().length() - 6);
+                String className = entry.getName().
+                        replace('/', '.').substring(0, entry.getName().length() - 6);
                 Class<?> clazz = Class.forName(className);
                 loadPlugin.put(clazz.getName(), clazz);
-                System.out.println(clazz.getName());
             }
         }
         jarFile.close();
+    }
+    public HashMap<String, Class<?>> getLoadPlugin(){
+        return this.loadPlugin;
     }
 
     public void removePlugin(String pluginName){
