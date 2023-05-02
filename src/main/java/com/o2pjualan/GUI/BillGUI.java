@@ -44,6 +44,7 @@ public class BillGUI extends Tab{
     private ArrayList<Integer> customersId;
     private ArrayList<String> custName;
     private ArrayList<String> customerNames;
+    private FixedBills fixedBills;
 
     public BillGUI(){
         this.setText("Bills");
@@ -53,6 +54,7 @@ public class BillGUI extends Tab{
         listProducts = new Products();
         listProducts = controller.getProducts();
         bills = controller.getBills();
+        fixedBills = controller.getFixedBills();
 
         /*Layout Dropdown + Button add New Customer*/
         upperLayout = new HBox();
@@ -112,6 +114,12 @@ public class BillGUI extends Tab{
 
         this.payButton = new Button("Check Out");
         upperLayout.getChildren().addAll(enterName, addNewCustomer);
+
+        this.payButton.setOnAction(e-> {
+            String textValue = this.enterName.getText();
+            int idCust = checkIdCustomer(textValue);
+            checkOut(idCust);
+        });
 
         /*Button layout save button + pay button displaying side by side*/
         buttonLayout = new HBox();
@@ -213,6 +221,29 @@ public class BillGUI extends Tab{
             }
         }
         return -1;
+    }
+
+    public void checkOut(int idCust){
+        String status = customers.getMembershipByIds(idCust);
+        Bill b = bills.getBillByID(idCust);
+        FixedBill newBill = b.checkOutBill();
+        fixedBills.addFixedBill(newBill);
+        controller.saveDataBill(bills);
+        controller.saveDataFixedBill(fixedBills);
+        if(status.equals("Customer")){
+            customers.removeCustomerById(idCust);
+        }
+        controller.saveDataCustomer(customers);
+        alert("Successfully checkout");
+    }
+
+    public void alert(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.show();
     }
 
 }

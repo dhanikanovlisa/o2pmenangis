@@ -67,6 +67,17 @@ public class Customers implements Serializable {
         }
     }
 
+    public void removeCustomerById(int id) {
+        for (Iterator<Customer> iterator = customers.iterator(); iterator.hasNext();) {
+            Customer customer = iterator.next();
+            if (customer.getIdCustomer() == id) {
+                iterator.remove();
+                break;
+            }
+        }
+    }
+
+
     // get Id by membership, parameter Both buat get VIP sama Member sekaligus
     public ArrayList<Integer> getIdsByMembership(String membership) {
         ArrayList<Integer> ret = new ArrayList<Integer>();
@@ -84,6 +95,15 @@ public class Customers implements Serializable {
             }
         }
         return ret;
+    }
+
+    public String getMembershipByIds(int id){
+        for(Customer cust: customers){
+            if(cust.getIdCustomer().equals(id)){
+                return cust.getMembership();
+            }
+        }
+        return "";
     }
 
     // Buat get nama member/vip by id
