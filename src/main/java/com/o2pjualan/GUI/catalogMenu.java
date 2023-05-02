@@ -214,7 +214,6 @@ public class catalogMenu extends Tab {
             } else {
                 itemtoBill itemToBillTab = new itemtoBill(productCode);
                 mainTabPane.getTabs().add(itemToBillTab);
-
             }
         });
     }

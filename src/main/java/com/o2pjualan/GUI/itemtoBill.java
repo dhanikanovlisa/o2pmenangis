@@ -134,10 +134,9 @@ public class itemtoBill extends Tab {
             });
         });
 //
-        warning = new Label("");
-        bottomButtonLayout.getChildren().addAll(this.itemTotal, this.saveButton, warning);
+        bottomButtonLayout.getChildren().addAll(this.itemTotal, this.saveButton);
         bottomButtonLayout.setSpacing(450);
-        wholeLayout.getChildren().addAll(this.itemTotal, editLayout, bottomButtonLayout);
+        wholeLayout.getChildren().addAll(this.idDropDown, editLayout, bottomButtonLayout);
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
 
@@ -151,14 +150,12 @@ public class itemtoBill extends Tab {
 
     public void addToBill(int productCode, String customerId) throws  IOException, ParseException{
         if(customerId.equals("") || customerId.equals(null)){
-            warning = new Label("You have not yet chosen the customer");
-            warning.setStyle("-fx-prompt-text-fill: red;");
+            alertWarning("You haven't chose the customer");
         } else {
             Integer custId = Integer.parseInt(customerId);
             Bill customerBill = bills.getBillByID(custId);
             if(itemTotal.getText().equals("") || itemTotal.getText().equals(null)){
-                warning = new Label("You have not yet specifiy how much item");
-                warning.setStyle("-fx-prompt-text-fill: red;");
+                alertWarning("You haven't specified how many item");
             } else {
                 String quantity = itemTotal.getText();
                 Integer stock = Integer.parseInt(quantity);
@@ -172,7 +169,23 @@ public class itemtoBill extends Tab {
                 bills.addBill(customerBill);
                 controller.saveDataBill(bills);
                 controller.saveDataProduct(listProducts);
+                alertInformation("Successfully added item to customer " + custId);
             }
         }
+    }
+    public void alertWarning(String message){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.show();
+    }
+    public void alertInformation(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
     }
 }

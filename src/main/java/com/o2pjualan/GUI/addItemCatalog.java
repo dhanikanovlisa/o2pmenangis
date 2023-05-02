@@ -204,7 +204,7 @@ public class addItemCatalog extends Tab {
             boolean success = products.addNewProduct(newProduct);
             if(success){
                 controller.saveDataProduct(products);
-                alert("Succesfully add item to product database");
+                alert("Successfully add item to product database");
             } else {
                 alert("Product name already exist");
             }

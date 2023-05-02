@@ -4,7 +4,7 @@
   "productCategory" : "Alat Laboratorium",
   "buyPrice" : 50000.0,
   "sellPrice" : 60000.0,
-  "stock" : 80,
+  "stock" : 79,
   "imagePath" : "file:src/img/cawanpetri.jpg"
 }, {
   "productCode" : 102,
@@ -142,4 +142,4 @@
   "sellPrice" : 100000.0,
   "stock" : 100,
   "imagePath" : "file:src/img/pycnometer250ml.jpg"
-}]
+} ]
