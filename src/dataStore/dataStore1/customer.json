@@ -1,7 +1,7 @@
 [ {
   "idCustomer" : 1,
   "idFixedBill" : [],
-  "idBill" : 2001,
+  "idBill" : 1,
   "membership" : "Member",
   "name" : "Febryan",
   "phoneNumber" : "0812323",

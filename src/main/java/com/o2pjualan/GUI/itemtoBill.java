@@ -42,6 +42,7 @@ public class itemtoBill extends Tab {
     private ToggleButton addItem;
     private ToggleButton deleteItem;
     private HBox currentQuantityLayout;
+    private ArrayList<Integer> customersId;
     public itemtoBill(Integer productCode){
         /*Whole Layout*/
         VBox wholeLayout = new VBox();
@@ -50,7 +51,7 @@ public class itemtoBill extends Tab {
         listProducts = controller.getProducts();
         bills = controller.getBills();
         customers = controller.getCustomers();
-        ArrayList<Integer> customersId = customers.getCustomersId();
+        customersId = customers.getCustomersId();
         optionsList = new ArrayList<>();
         for (Integer i : customersId) {
             optionsList.add(Integer.toString(i));
