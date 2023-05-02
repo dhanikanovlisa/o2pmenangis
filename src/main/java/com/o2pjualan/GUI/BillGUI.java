@@ -92,6 +92,7 @@ public class BillGUI extends Tab{
             bills.addBill(b1);
             controller.saveDataCustomer(customers);
             controller.saveDataBill(bills);
+            alert("Succesfully added new customer " + addCustomer.getIdCustomer());
         });
 
         this.enterName.setOnAction(e-> {
@@ -224,15 +225,14 @@ public class BillGUI extends Tab{
     }
 
     public void checkOut(int idCust){
-        String status = customers.getMembershipByIds(idCust);
         Bill b = bills.getBillByID(idCust);
         FixedBill newBill = b.checkOutBill();
         fixedBills.addFixedBill(newBill);
+        Customer c = customers.getCustomerByID(idCust);
+        Integer idBill = newBill.getIdBill();
+        c.addFixedBill(idBill);
         controller.saveDataBill(bills);
         controller.saveDataFixedBill(fixedBills);
-        if(status.equals("Customer")){
-            customers.removeCustomerById(idCust);
-        }
         controller.saveDataCustomer(customers);
         alert("Successfully checkout");
     }

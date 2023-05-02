@@ -90,8 +90,8 @@ public class Bill implements Serializable {
 
     public FixedBill checkOutBill(){
         FixedBill moveFromBill = new FixedBill(this.idCustomer);
-        moveFromBill.setListOfProduct(this.ListOfProduct);
-        moveFromBill.setListPriceOfProduct(this.ListPriceOfProduct);
+        moveFromBill.setListOfProduct(new HashMap<>(this.ListOfProduct));
+        moveFromBill.setListPriceOfProduct(new HashMap<>(this.ListPriceOfProduct));
         this.ListOfProduct.clear();
         this.ListPriceOfProduct.clear();
         return moveFromBill;

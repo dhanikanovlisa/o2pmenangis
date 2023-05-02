@@ -111,7 +111,7 @@ public class FixedBill implements Serializable, printToPDF {
                 '}';
     }
 
-    public int getTotalFixedBill(){
+    public int countTotalFixedBill(){
         int total = 0;
         for (Map.Entry<Integer,Double> product:this.ListPriceOfProduct.entrySet()){
             total += product.getValue();
@@ -199,7 +199,7 @@ public class FixedBill implements Serializable, printToPDF {
 
 
             tableTotal.addCell(new PdfPCell(new Paragraph("Total", new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
-            tableTotal.addCell(new PdfPCell(new Paragraph(Integer.toString(getTotalFixedBill()),
+            tableTotal.addCell(new PdfPCell(new Paragraph(Integer.toString(countTotalFixedBill()),
                     new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
 
             document.add(tableTotal);

@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -67,15 +68,6 @@ public class Customers implements Serializable {
         }
     }
 
-    public void removeCustomerById(int id) {
-        for (Iterator<Customer> iterator = customers.iterator(); iterator.hasNext();) {
-            Customer customer = iterator.next();
-            if (customer.getIdCustomer() == id) {
-                iterator.remove();
-                break;
-            }
-        }
-    }
 
 
     // get Id by membership, parameter Both buat get VIP sama Member sekaligus
@@ -164,9 +156,25 @@ public class Customers implements Serializable {
     }
 
     public ArrayList<Integer> getCustomersId() {
-        return (ArrayList<Integer>) customers.stream()
-                .map(Customer::getIdCustomer)
-                .collect(Collectors.toList());
+        ArrayList<Integer> custId = new ArrayList<>();
+        for (Customer cust : customers) {
+            if (cust.getMembership().equals("Member") || cust.getMembership().equals("VIP")) {
+                custId.add(cust.getIdCustomer());
+            } else{
+                if(cust.getIdFixedBill() == null){
+                    custId.add(cust.getIdCustomer());
+                }
+            }
+        }
+        return custId;
+    }
+
+    public void addFixedBill(int idFixedBill, int idCust) {
+        for(Customer c: customers){
+            if(c.getIdCustomer() == idCust){
+                c.addFixedBill(idFixedBill);
+            }
+        }
     }
 
     public void print() {
@@ -174,5 +182,6 @@ public class Customers implements Serializable {
             System.out.println(c.toString());
         }
     }
+
 
 }

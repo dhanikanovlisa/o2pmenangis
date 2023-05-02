@@ -104,16 +104,4 @@
   "listPriceOfProduct" : {
     "107" : 350000.0
   }
-}, {
-  "idCustomer" : 9,
-  "listOfProduct" : { },
-  "listPriceOfProduct" : { }
-}, {
-  "idCustomer" : 10,
-  "listOfProduct" : { },
-  "listPriceOfProduct" : { }
-}, {
-  "idCustomer" : 11,
-  "listOfProduct" : { },
-  "listPriceOfProduct" : { }
 } ]
