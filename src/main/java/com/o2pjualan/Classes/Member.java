@@ -19,7 +19,7 @@ public class Member extends Customer implements Serializable, Discount {
     private String name;
     private String phoneNumber;
     private double point;
-    private boolean statusMembership;
+    private Boolean statusMembership;
 
     public Member(Customer customer, String name, String phoneNumber) {
         this.idCustomer = customer.getIdCustomer();

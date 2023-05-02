@@ -5,9 +5,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 @XmlRootElement(name = "customers")
@@ -100,12 +100,26 @@ public class Customers implements Serializable {
         return "";
     }
 
-    public ArrayList<Integer> getCustomersId() {
-        ArrayList<Integer> ret = new ArrayList<Integer>();
-        for (Customer cust : customers){
-            ret.add(cust.getIdCustomer());
+    public ArrayList<Customer> getActiveMembers(Boolean active) {
+        ArrayList<Customer> ret = new ArrayList<>();
+        for (Customer cust: customers) {
+            if (cust.getMembership().equals("Member")) {
+                if (((Member) cust).getStatusMembership() == active) {
+                    ret.add(cust);
+                }
+            } else if (cust.getMembership().equals("VIP")) {
+                if (((VIP) cust).getStatusMembership() == active) {
+                    ret.add(cust);
+                }
+            }
         }
         return ret;
+    }
+
+    public ArrayList<Integer> getCustomersId() {
+        return (ArrayList<Integer>) customers.stream()
+                .map(Customer::getIdCustomer)
+                .collect(Collectors.toList());
     }
 
     public void print() {

@@ -19,7 +19,7 @@ public class VIP extends Customer implements Serializable, Discount {
     private String name;
     private String phoneNumber;
     private double point;
-    private boolean statusMembership;
+    private Boolean statusMembership;
 
     public VIP(Customer customer, String name, String phoneNumber)  {
         super();
@@ -32,6 +32,7 @@ public class VIP extends Customer implements Serializable, Discount {
         this.membership = "VIP";
         this.statusMembership = true;
     }
+
     public VIP(@JsonProperty("idCustomer")int idCustomer, @JsonProperty("idFixedBill")ArrayList<Integer> idFixedBill, @JsonProperty("idBill")int idBill, @JsonProperty("membership")String membership, @JsonProperty("name")String name, @JsonProperty("phoneNumber")String phoneNumber, @JsonProperty("point")double point, @JsonProperty("statusMembership")boolean statusMembership) {
         super(idCustomer, idFixedBill, idBill, membership);
         this.name = name;

@@ -12,9 +12,9 @@ import static com.o2pjualan.Main.controller;
 @NoArgsConstructor
 public  class Customer implements Serializable {
 //    protected static int numberOfCustomer;
-    protected int idCustomer;
+    protected Integer idCustomer;
     protected List<Integer> idFixedBill;
-    protected int idBill;
+    protected Integer idBill;
     protected String membership;
 
     // kalo mau create new Customer gabisa pake yg no args constructor, soalnya dipake buat library parsing

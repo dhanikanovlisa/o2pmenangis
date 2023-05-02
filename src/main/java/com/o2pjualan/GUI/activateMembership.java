@@ -17,15 +17,15 @@ import java.util.ArrayList;
 
 import static com.o2pjualan.Main.controller;
 
-public class deactivateMembership extends Tab {
+public class activateMembership extends Tab {
     private ComboBox<String> name;
     private Button deactivate;
     private Label message;
-    public deactivateMembership(){
-        this.setText("Deactivate Membership");
+    public activateMembership(){
+        this.setText("Activate Membership");
 
         Customers customers = controller.getCustomers();
-        ArrayList<Customer> activeMembers = customers.getActiveMembers(true);
+        ArrayList<Customer> activeMembers = customers.getActiveMembers(false);
         ArrayList<String> optionsList = new ArrayList<>();
         for (Customer cust : activeMembers) {
             Integer id = cust.getIdCustomer();
@@ -33,17 +33,18 @@ public class deactivateMembership extends Tab {
         }
         ObservableList<String> options = FXCollections.observableArrayList(optionsList);
 
+
         this.name = new ComboBox<String>(options);
         this.name.setId("nameDropDown");
         this.name.setPromptText("Pick Customer Name...");
 
-        this.deactivate = new Button("Deactivate");
+        this.deactivate = new Button("Activate");
         this.deactivate.setOnAction(e -> deactivateMember());
 
-        Label vipMembership = new Label("ARE YOU SURE YOU WANT TO DEACTIVATE?");
+        Label vipMembership = new Label("ACTIVATE YOUR MEMBERSHIP NOW");
         vipMembership.setId("h1");
 
-        Label info = new Label("Deactivating your account may lose the experience to various discounts.");
+        Label info = new Label("Reactivate now and regain access to exclusive discounts and offers!");
         info.setId("paragraph");
 
         this.message = new Label("");
@@ -94,7 +95,7 @@ public class deactivateMembership extends Tab {
             controller.saveDataCustomer(customers);
 
             this.name.getItems().remove(str);
-            this.message.setText("Customer chosen has been deactivated");
+            this.message.setText("Customer chosen has been reactivated");
         }
     }
 }

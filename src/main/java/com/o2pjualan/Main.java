@@ -3,19 +3,14 @@ package com.o2pjualan;
 import com.o2pjualan.Classes.*;
 import com.o2pjualan.GUI.*;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
-import jdk.vm.ci.code.site.ConstantReference;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 
 public class Main extends Application {
@@ -56,7 +51,8 @@ public class Main extends Application {
         MenuItem deactivate = new MenuItem("Deactivate Membership");
         MenuItem history = new MenuItem("History");
         MenuItem billCustomer = new MenuItem("Bills");
-        menu2.getItems().addAll(signUp, updateMembership, deactivate, billCustomer, history);
+        MenuItem activate = new MenuItem("Activate Membership");
+        menu2.getItems().addAll(signUp, updateMembership, activate, deactivate, billCustomer, history);
 
         menu3 = new Menu("Settings");
         MenuItem dataStorage = new MenuItem("Change Data Storage");
@@ -119,6 +115,11 @@ public class Main extends Application {
         deactivate.setOnAction(event -> {
             deactivateMembership deactivateTab = new deactivateMembership();
             mainTabPane.getTabs().add(deactivateTab);
+        });
+
+        activate.setOnAction(event -> {
+            activateMembership acvitaeTab = new activateMembership();
+            mainTabPane.getTabs().add(acvitaeTab);
         });
 
         history.setOnAction(event -> {
