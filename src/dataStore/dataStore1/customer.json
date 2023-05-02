@@ -1,6 +1,6 @@
 [ {
   "idCustomer" : 1,
-  "idFixedBill" : null,
+  "idFixedBill" : [],
   "idBill" : 2001,
   "membership" : "Member",
   "name" : "Febryan",
@@ -18,12 +18,12 @@
   "statusMembership" : true
 }, {
   "idCustomer" : 3,
-  "idFixedBill" : null,
+  "idFixedBill" : [ ],
   "idBill" : 3,
   "membership" : "Customer"
 }, {
   "idCustomer" : 5,
-  "idFixedBill" : null,
+  "idFixedBill" : [ ],
   "idBill" : 5,
   "membership" : "Member",
   "name" : "Febryan",
@@ -32,7 +32,7 @@
   "statusMembership" : true
 }, {
   "idCustomer" : 6,
-  "idFixedBill" : null,
+  "idFixedBill" : [ ],
   "idBill" : 6,
   "membership" : "VIP",
   "name" : "Jennie",
@@ -41,7 +41,7 @@
   "statusMembership" : true
 }, {
   "idCustomer" : 7,
-  "idFixedBill" : null,
+  "idFixedBill" : [ ],
   "idBill" : 7,
   "membership" : "Customer"
 }, {
@@ -55,7 +55,7 @@
   "statusMembership" : true
 }, {
   "idCustomer" : 8,
-  "idFixedBill" : null,
+  "idFixedBill" : [ ],
   "idBill" : 8,
   "membership" : "Member",
   "name" : "Yeah",

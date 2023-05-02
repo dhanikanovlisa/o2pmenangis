@@ -74,9 +74,6 @@ public class BillGUI extends Tab{
         }
 
         customerNames.addAll(custName);
-        for(String s: customerNames){
-            System.out.println(s);
-        }
 
         ObservableList<String> sugg = FXCollections.observableArrayList(customerNames);
         AutoCompletionBinding<String> autoCompleteText = TextFields.bindAutoCompletion(enterName, sugg);
@@ -99,7 +96,6 @@ public class BillGUI extends Tab{
             String textValue = this.enterName.getText();
             int idCust = checkIdCustomer(textValue);
             wholePriceLayout.getChildren().clear();
-            System.out.println(idCust);
             if(idCust != -1){
                 displayBill(idCust);
             }
