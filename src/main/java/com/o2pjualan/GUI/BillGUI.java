@@ -86,7 +86,7 @@ public class BillGUI extends Tab{
 
         /*Button layout save button + pay button displaying side by side*/
         buttonLayout = new HBox();
-        buttonLayout.getChildren().addAll(this.saveButton, this.payButton);
+        buttonLayout.getChildren().addAll(this.payButton);
 
 
         /*Layout to display shopping cart*/

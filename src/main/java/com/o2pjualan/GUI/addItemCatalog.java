@@ -34,6 +34,7 @@ public class addItemCatalog extends Tab {
     private Image image;
     private String finalPath;
     private TextField itemTotal;
+    private Products products;
 
     public addItemCatalog(){
         this.setText("Add Catalog Item");
@@ -200,8 +201,22 @@ public class addItemCatalog extends Tab {
 
             Product newProduct = new Product(productName, categoryName, buyPrice, sellPrice, stock, finalPath);
             Products products = controller.getProducts();
-            products.addProduct(newProduct);
-            controller.saveDataProduct(products);
+            boolean success = products.addProduct(newProduct);
+            if(success){
+                controller.saveDataProduct(products);
+                alert("Succesfully add item to product database");
+            } else {
+                alert("Product name already exist");
+            }
         }
+    }
+
+    public void alert(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.show();
     }
 }

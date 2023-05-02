@@ -119,31 +119,90 @@ public class FixedBill implements Serializable, printToPDF {
         return total;
     }
 
-    public void printPDF()  {
+    public void printPDF(Products products)  {
         Document document = new Document();
 
         try{
-            String pdfName = this.idBill + "_" + "namaCustomer" + ".pdf";
-            PdfWriter.getInstance(document, new FileOutputStream(pdfName));
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save PDF");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+            File selectedFile = fileChooser.showSaveDialog(null);
+            if (selectedFile == null) {
+                return; // The user cancelled the file chooser
+            }
+
+            // Create a PdfWriter to write the PDF to the selected file
+            PdfWriter.getInstance(document, new FileOutputStream(selectedFile));
             document.open();
 
             PdfPTable table = new PdfPTable(1);
             table.setWidthPercentage(100);
 
-            PdfPCell cell = new PdfPCell();
-            cell.setBorder(PdfPCell.NO_BORDER);
+            PdfPCell cellHeader = new PdfPCell();
+            cellHeader.setBorder(PdfPCell.NO_BORDER);
 
-            Font font = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+            PdfPCell nameHeader = new PdfPCell();
+            nameHeader.setBorder(PdfPCell.NO_BORDER);
 
-            Paragraph p = new Paragraph("My PDF Header", font);
-            p.setAlignment(Element.ALIGN_CENTER);
+            PdfPCell statusHeader = new PdfPCell();
+            statusHeader.setBorder(PdfPCell.NO_BORDER);
 
-            cell.addElement(p);
+            Font header = new Font(Font.FontFamily.COURIER, 20, Font.BOLD);
+            Font text = new Font(Font.FontFamily.COURIER, 12, Font.NORMAL);
 
-            table.addCell(cell);
+            String idBill = "#" + this.idBill;
+            Paragraph p = new Paragraph(idBill, header);
+            p.setAlignment(Element.ALIGN_LEFT);
+            Paragraph nameCell = new Paragraph("Name: ", text);
+            Paragraph statusCell = new Paragraph("Status: ", text);
+
+            cellHeader.addElement(p);
+            nameHeader.addElement(nameCell);
+            statusHeader.addElement(statusCell);
+
+            table.addCell(cellHeader);
+            table.addCell(nameHeader);
+            table.addCell(statusHeader);
             document.add(table);
 
-            document.add(new Paragraph("This is some content."));
+            // Creating table for items
+            PdfPTable tableItem = new PdfPTable(3);
+            tableItem.setTotalWidth(new float[]{2f, 0.5f, 1f});
+            tableItem.setLockedWidth(true);
+
+            PdfPCell nameColumnHeader = new PdfPCell(new Paragraph("Product Name", new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
+            PdfPCell qtyColumnHeader = new PdfPCell(new Paragraph("Qty", new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
+            PdfPCell priceColumnHeader = new PdfPCell(new Paragraph("Price", new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
+
+            tableItem.addCell(nameColumnHeader);
+            tableItem.addCell(qtyColumnHeader);
+            tableItem.addCell(priceColumnHeader);
+
+            for (Map.Entry<Integer, Integer> product : this.ListPriceOfProduct.entrySet()) {
+                for (Product a : products.getProducts()) {
+                    if (a.getProductCode() == product.getKey()) {
+                        String name = "Product " + product.getKey();
+                        String qty = Integer.toString(product.getValue());
+                        String price = Double.toString(a.getSellPrice() * product.getValue());
+
+                        tableItem.addCell(new PdfPCell(new Paragraph(name, new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
+                        tableItem.addCell(new PdfPCell(new Paragraph(qty, new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
+                        tableItem.addCell(new PdfPCell(new Paragraph(price, new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
+                    }
+                }
+            }
+            document.add(tableItem);
+
+            PdfPTable tableTotal = new PdfPTable(2);
+            tableTotal.setTotalWidth(new float[]{2.5f, 1f});
+            tableTotal.setLockedWidth(true);
+
+
+            tableTotal.addCell(new PdfPCell(new Paragraph("Total", new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
+            tableTotal.addCell(new PdfPCell(new Paragraph(Integer.toString(getTotalFixedBill()),
+                    new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
+
+            document.add(tableTotal);
             document.close();
         }catch (Exception e) {
             e.printStackTrace();

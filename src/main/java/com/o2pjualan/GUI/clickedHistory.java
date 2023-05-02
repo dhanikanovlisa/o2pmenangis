@@ -7,7 +7,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +25,6 @@ public class clickedHistory extends Tab {
     private Customers customers;
     private Products listProducts;
 
-    private Products products;
     private Label productGetName;
     private Label productGetTotal;
     private Label productGetPrice;
@@ -103,7 +104,8 @@ public class clickedHistory extends Tab {
         this.printBill.setOnAction(err -> {
             FixedBill printFixedBill = fixedBills.getFixedBillByID(idBill);
             try{
-                printFixedBill.printPDF();
+                printFixedBill.printPDF(listProducts);
+
             } catch (Exception e){
                 System.out.println(e);
             }

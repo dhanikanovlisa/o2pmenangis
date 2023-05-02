@@ -15,8 +15,13 @@ public class Products implements Serializable {
         this.productCodes = new ArrayList<Product>();
     }
 
-    public void addProduct(Product product) {
-        this.productCodes.add(product);
+    public boolean addProduct(Product product) {
+        for(Product prod : this.productCodes){
+            if(prod.getProductName().contains(product.getProductName())){
+                return false;
+            }
+        }
+        return true;
     }
 
     public void deleteProduct(int id) {
@@ -46,4 +51,17 @@ public class Products implements Serializable {
             System.out.println(p.toString());
         }
     }
+
+    public ArrayList<String> getAllCategory(){
+        ArrayList<String> productsCategory = new ArrayList<>();
+        for(Product p: this.productCodes){
+            for(String s: productsCategory){
+                if(!s.equals(p.productName)){
+                    productsCategory.add(p.getProductCategory());
+                }
+            }
+        }
+    return productsCategory;
+    }
+
 }
