@@ -51,14 +51,37 @@ public class Customers implements Serializable {
         customers.add((newMember));
     }
 
+    public void upgradeVIP(int id) {
+        Member cust =(Member) getCustomerByID(id);
+        VIP newVIP = new VIP(cust, cust.getName(), cust.getPhoneNumber());
+        customers.remove(cust);
+        customers.add(newVIP);
+    }
+
+    public ArrayList<Integer> getIdsByMembership(String membership) {
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        for (Customer cust : customers){
+            if (cust.getMembership().equals(membership)) {
+                ret.add(cust.getIdCustomer());
+            }
+        }
+        return ret;
+    }
+
+    public String getCustomerNameById(int id) {
+        for (Customer cust : customers) {
+            if (cust.getIdCustomer() == id) {
+
+                return ((Member) cust).getName();
+            }
+        }
+        return "";
+    }
+
     public ArrayList<Integer> getCustomersId() {
         ArrayList<Integer> ret = new ArrayList<Integer>();
         for (Customer cust : customers){
-            String membership = cust.getMembership();
-            if (membership.equals("Customer")) {
-                ret.add(cust.getIdCustomer());
-                System.out.println(cust.getIdCustomer());
-            }
+            ret.add(cust.getIdCustomer());
         }
         return ret;
     }
