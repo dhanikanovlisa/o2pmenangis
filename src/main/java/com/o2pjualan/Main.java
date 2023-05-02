@@ -130,8 +130,6 @@ public class Main extends Application {
             }
         });
 
-
-
         dataStorage.setOnAction(event -> {
 
             dataStoreSettings dataStoreTab = new dataStoreSettings();
