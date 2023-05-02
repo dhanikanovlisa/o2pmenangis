@@ -58,21 +58,34 @@ public class Customers implements Serializable {
         customers.add(newVIP);
     }
 
+    // get Id by membership, parameter Both buat get VIP sama Member sekaligus
     public ArrayList<Integer> getIdsByMembership(String membership) {
         ArrayList<Integer> ret = new ArrayList<Integer>();
-        for (Customer cust : customers){
-            if (cust.getMembership().equals(membership)) {
-                ret.add(cust.getIdCustomer());
+        if (membership.equals("Both")) {
+            for (Customer cust : customers) {
+                if (cust.getMembership().equals("VIP") || cust.getMembership().equals("Member")) {
+                    ret.add(cust.getIdCustomer());
+                }
+            }
+        } else {
+            for (Customer cust : customers) {
+                if (cust.getMembership().equals(membership)) {
+                    ret.add(cust.getIdCustomer());
+                }
             }
         }
         return ret;
     }
 
+    // Buat get nama member/vip by id
     public String getCustomerNameById(int id) {
         for (Customer cust : customers) {
             if (cust.getIdCustomer() == id) {
-
-                return ((Member) cust).getName();
+                if (cust.getMembership().equals("Member")) {
+                    return ((Member) cust).getName();
+                } else if (cust.getMembership().equals("VIP")){
+                    return  ((VIP) cust).getName();
+                }
             }
         }
         return "";
