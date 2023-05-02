@@ -74,6 +74,8 @@ public class editCatalogMenu extends Tab {
 //                System.out.println(finalPath);
                 this.imageItem = new Image(finalPath);
                 imageView.setImage(this.imageItem);
+            } else {
+                finalPath = "file:src/img/placeholderimg.png";
             }
         });
 
@@ -145,7 +147,7 @@ public class editCatalogMenu extends Tab {
         stockLayout.setSpacing(15);
         stockTextField.setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d*")) {
+            if (newText.matches("\\d+")) {
                 return change;
             }
             return null;
@@ -201,17 +203,14 @@ public class editCatalogMenu extends Tab {
             stockTextField.setStyle("-fx-prompt-text-fill: red;");
         } else {
             String productName = this.nameTextField.getText();
-            int buyPrice = Integer.parseInt(this.buyPriceTextField.getText());
-            int sellPrice = Integer.parseInt(this.buyPriceTextField.getText());
-            int stock = Integer.parseInt(this.buyPriceTextField.getText());
+            double buyPrice = Double.parseDouble(this.buyPriceTextField.getText());
+            double sellPrice = Double.parseDouble(this.sellPriceTextField.getText());
+            int stock = Integer.parseInt(this.stockTextField.getText());
             String categoryName = "";
             if(categoryTextField.equals("")){
                 categoryName = "etc";
             } else {
                 categoryName = this.categoryTextField.getText();
-            }
-            if(finalPath.equals(null)){
-                finalPath = "file:src/img/placeholderimg.png";
             }
             getProd.setProductName(productName);
             getProd.setProductCategory(categoryName);
@@ -219,8 +218,15 @@ public class editCatalogMenu extends Tab {
             getProd.setSellPrice(sellPrice);
             getProd.setImagePath(finalPath);
             getProd.setStock(stock);
-            Products products = controller.getProducts();
-            controller.saveDataProduct(products);
+            controller.saveDataProduct(listProducts);
+            alertInformation("Succesfully change " + productName);
         }
+    }
+    public void alertInformation(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
     }
 }
