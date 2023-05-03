@@ -16,8 +16,10 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import static com.o2pjualan.Main.folderName;
+import static com.o2pjualan.Main.mainTabPane;
 
 public class dataStoreSettings extends Tab {
     private ComboBox<String> dataDropDown;
@@ -26,9 +28,9 @@ public class dataStoreSettings extends Tab {
     private Label message;
     private Label message2;
 
+
     public dataStoreSettings(){
         this.setText("Data Store Setting");
-
         Pane base = new Pane();
         Image illus = new Image("file:src/img/illustration1.png");
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
@@ -137,6 +139,7 @@ public class dataStoreSettings extends Tab {
                     FileManager.changeFolder(newFolderPath);
                     this.message2.setText("The data store directory has been updated");
                     this.message2.setTextFill(Paint.valueOf("#599962"));
+                    closeAllTabs();
                 } else {
                     this.message2.setText("Currently using this data store");
                     this.message2.setTextFill(Paint.valueOf("#878787"));
@@ -150,5 +153,15 @@ public class dataStoreSettings extends Tab {
             this.message2.setText("No directory selected");
             this.message2.setTextFill(Paint.valueOf("#878787"));
         }
+    }
+
+    public void closeAllTabs() {
+        ArrayList<Tab> tabsToRemove = new ArrayList<>();
+        for (Tab tab : mainTabPane.getTabs()) {
+            if (tab != this) {
+                tabsToRemove.add(tab);
+            }
+        }
+        mainTabPane.getTabs().removeAll(tabsToRemove);
     }
 }

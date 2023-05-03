@@ -243,12 +243,28 @@
     -fx-pref-height: 60;
 }
 #scrollCatalog{
-    -fx-background-color: #E2F6E5;
+    -fx-background-color: white;
     -fx-border-width: 0;
-    -fx-padding: 10;
 }
-#scrollBarcatalog{
+#scrollBarCatalog{
     -fx-progress-color: #225C2A;
     -fx-background-radius: 10;
     -fx-border-radius: 10;
+}
+
+#toggle {
+    -fx-background-color: #599962;
+    -fx-font-size: 14;
+    -fx-background-radius: 10;
+    -fx-text-fill: #F3FFE7;
+    -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
+    -fx-pref-width: 140;
+    -fx-pref-height: 40;
+}
+
+#addCatalogLayout {
+    -fx-background-color: #edf5ee;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
+    -fx-padding: 30;
 }

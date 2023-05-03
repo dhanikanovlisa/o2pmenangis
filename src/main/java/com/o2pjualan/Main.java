@@ -22,7 +22,7 @@ public class Main extends Application {
     public MenuBar menuBar;
 
     public BorderPane holderTab;
-    public TabPane mainTabPane;
+    static public TabPane mainTabPane;
     public Scene tabPane;
 
 
