@@ -1,9 +1,6 @@
 package com.o2pjualan.GUI;
 
-import com.o2pjualan.Classes.Customers;
-import com.o2pjualan.Classes.FixedBill;
-import com.o2pjualan.Classes.FixedBills;
-import com.o2pjualan.Classes.Products;
+import com.o2pjualan.Classes.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
@@ -15,14 +12,23 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.o2pjualan.Main.controller;
 
 public class report extends Tab {
     private GridPane dataSalesLayout;
     private ScrollPane scrollPane;
-    private Products products;
+    private Products listProducts;
     private FixedBills fixedBills;
     private Customers customers;
+    private Label productGetName;
+    private Label productGetTotal;
+    private Label productGetPrice;
+    private HBox priceBillLayout;
+    private HBox priceOnlyLayout;
+
     public report() {
         this.setText("Report");
         HBox upperLayout = new HBox();
@@ -31,8 +37,8 @@ public class report extends Tab {
         upperLayout.getChildren().add(titleReport);
 
         customers = controller.getCustomers();
-        products = controller.getProducts();
         fixedBills = controller.getFixedBills();
+        listProducts = controller.getProducts();
 
         dataSalesLayout = new GridPane();
         dataSalesLayout.addColumn(1);
@@ -53,6 +59,41 @@ public class report extends Tab {
         scrollPane.setContent(dataSalesLayout);
         scrollPane.setId("scrollCatalog");
 
+        int rowCount = 0;
+        HashMap<Integer, Integer> sales = fixedBills.salesReport();
+        for(Map.Entry<Integer, Integer> entry : sales.entrySet()){
+            for(Product a: listProducts.getProducts()){
+                if(a.getProductCode() == entry.getKey()){
+                    productGetName = new Label(a.productName);
+                    productGetTotal = new Label("x" + entry.getValue().toString());
+                    productGetPrice = new Label(Double.toString(entry.getValue() * a.getBuyPrice()));
+                    /*Layout Bill
+                     * Labu Erlenmeyer           x2      150000
+                     * */
+                    priceBillLayout = new HBox();
+                    if(a.getProductName().length() > 30){
+                        priceBillLayout.setSpacing(50);
+                    } else {
+                        priceBillLayout.setSpacing(70);
+                    }
+                    priceBillLayout.setPadding(new Insets(10));
+                    priceOnlyLayout = new HBox();
+                    priceOnlyLayout.setSpacing(10);
+                    priceOnlyLayout.setPadding(new Insets(10));
+                    priceOnlyLayout.getChildren().addAll(productGetTotal, productGetPrice);
+
+                    /*Whole customers products
+                     * Labu Erlenmeyer           x2      150000
+                     * Labu Erlenmeyer           x2      150000
+                     * Labu Erlenmeyer           x2      150000
+                     * */
+                    priceBillLayout.getChildren().addAll(productGetName, priceOnlyLayout);
+                    dataSalesLayout.add(priceBillLayout, 0, rowCount);
+                    rowCount++;
+                }
+            }
+        }
+
 
 
         VBox wholeLayout = new VBox();
@@ -65,4 +106,6 @@ public class report extends Tab {
         this.setContent(base);
 
     }
+
+
 }

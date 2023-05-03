@@ -39,14 +39,23 @@ public class addItemCatalog extends Tab {
 
     public addItemCatalog(){
         this.setText("Add Catalog Item");
+        Pane base = new Pane();
+
+        VBox wrapper = new VBox();
+        wrapper.prefWidthProperty().bind(base.widthProperty());
+        wrapper.prefHeightProperty().bind(base.heightProperty());
+
 
         /*Whole Layout*/
         VBox wholeLayout = new VBox();
-        wholeLayout.setId("layoutCatalog");
+        wholeLayout.setId("addCatalogLayout");
+        wholeLayout.setMaxWidth(1000);
+        wholeLayout.setAlignment(Pos.CENTER);
         alertGUI = new AlertGUI();
 
         /*Edit Whole Item Layout*/
         HBox editLayout = new HBox();
+
 
         /*Edit Image Layout*/
         VBox editImageLayout = new VBox();
@@ -89,6 +98,7 @@ public class addItemCatalog extends Tab {
 
         /*Edit Value Layout*/
         VBox editValueLayout = new VBox();
+        VBox editTextField = new VBox();
 
 
         HBox nameLayout = new HBox();
@@ -152,14 +162,16 @@ public class addItemCatalog extends Tab {
             return null;
         }));
 
-        editValueLayout.getChildren().addAll(nameLayout, categoryLayout, buyPriceLayout, sellPriceLayout, stockLayout);
-        editValueLayout.setSpacing(20);
+        editValueLayout.getChildren().addAll(nameText, categoryText, buyPriceText, sellPriceText, stockText);
+        editTextField.getChildren().addAll(nameTextField, categoryTextField, buyPriceTextField, sellPriceTextField, stockTextField);
+        editValueLayout.setSpacing(30);
+        editValueLayout.setStyle("-fx-padding: 0 0 0 50;");
+        editTextField.setSpacing(20);
 
-        editLayout.getChildren().addAll(editImageLayout, editValueLayout);
+        editLayout.getChildren().addAll(editImageLayout, editValueLayout, editTextField);
         editLayout.setSpacing(20);
         /*Bottom Button Layout*/
         HBox bottomButtonLayout = new HBox();
-
 
 
         this.saveButton = new Button("Add Item");
@@ -179,9 +191,12 @@ public class addItemCatalog extends Tab {
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
 
-        Pane base = new Pane();
-        base.getChildren().add(wholeLayout);
+        wrapper.getChildren().add(wholeLayout);
+        wrapper.setAlignment(Pos.CENTER);
+        base.getChildren().add(wrapper);
         this.setContent(base);
+
+
     }
     public void addNewItem() throws IOException, ParseException {
         if(this.nameTextField.getText().equals("")){

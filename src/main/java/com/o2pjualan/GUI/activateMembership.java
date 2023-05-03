@@ -19,27 +19,22 @@ import static com.o2pjualan.Main.controller;
 
 public class activateMembership extends Tab {
     private ComboBox<String> name;
-    private Button deactivate;
+    private Button activate;
     private Label message;
+    private Customers customers;
+
     public activateMembership(){
         this.setText("Activate Membership");
 
-        Customers customers = controller.getCustomers();
-        ArrayList<Customer> activeMembers = customers.getActiveMembers(false);
-        ArrayList<String> optionsList = new ArrayList<>();
-        for (Customer cust : activeMembers) {
-            Integer id = cust.getIdCustomer();
-            optionsList.add('(' + id.toString() + ") "  + customers.getCustomerNameById(id));
-        }
-        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+        customers = controller.getCustomers();
 
-
-        this.name = new ComboBox<String>(options);
+        this.name = new ComboBox<String>();
         this.name.setId("nameDropDown");
         this.name.setPromptText("Pick Customer Name...");
+        updateData();
 
-        this.deactivate = new Button("Activate");
-        this.deactivate.setOnAction(e -> deactivateMember());
+        this.activate = new Button("Activate");
+        this.activate.setOnAction(e -> deactivateMember());
 
         Label vipMembership = new Label("ACTIVATE YOUR MEMBERSHIP NOW");
         vipMembership.setId("h1");
@@ -57,7 +52,7 @@ public class activateMembership extends Tab {
         labelLayout.setAlignment(Pos.CENTER);
 
         VBox upgradeLayout = new VBox();
-        upgradeLayout.getChildren().addAll(this.name, this.deactivate, this.message);
+        upgradeLayout.getChildren().addAll(this.name, this.activate, this.message);
         upgradeLayout.setSpacing(50);
         upgradeLayout.setPadding(new Insets(20));
         upgradeLayout.setAlignment(Pos.CENTER);
@@ -77,6 +72,12 @@ public class activateMembership extends Tab {
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true);
         base.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
+
+        this.setOnSelectionChanged(event -> {
+            if (this.isSelected()) {
+                updateData();
+            }
+        });
     }
 
     public void deactivateMember() {
@@ -97,5 +98,16 @@ public class activateMembership extends Tab {
             this.name.getItems().remove(str);
             this.message.setText("Customer chosen has been reactivated");
         }
+    }
+
+    public void updateData() {
+        ArrayList<Customer> activeMembers = customers.getActiveMembers(false);
+        ArrayList<String> optionsList = new ArrayList<>();
+        for (Customer cust : activeMembers) {
+            Integer id = cust.getIdCustomer();
+            optionsList.add('(' + id.toString() + ") "  + customers.getCustomerNameById(id));
+        }
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+        this.name.setItems(options);
     }
 }

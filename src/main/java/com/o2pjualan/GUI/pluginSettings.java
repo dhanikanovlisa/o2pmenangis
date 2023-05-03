@@ -6,23 +6,30 @@ import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
+import com.o2pjualan.Classes.pluginController;
 
 import java.io.File;
+import java.io.IOException;
 
 public class pluginSettings extends Tab {
     private Button loadPlugin;
     private VBox pluginLayout;
     private HBox wholeLayout;
+    private pluginController pluginController;
+    private AlertGUI alertGUI;
 
 
     public pluginSettings(){
-        this.setText("Load Plugin");
+        this.setText("Plugin");
 
         pluginLayout = new VBox();
-        Label titlePlugin = new Label("Load Plugin");
+        Label titlePlugin = new Label("Plugin");
         titlePlugin.setId("h1");
-        this.loadPlugin = new Button("Load Plugin");
+        this.loadPlugin = new Button("Upload Plugin");
         this.loadPlugin.setId("settingsButton");
+        pluginController = new pluginController();
+
+        alertGUI = new AlertGUI();
 
         loadPlugin.setOnAction(e-> {
             openFileDialog();
@@ -56,7 +63,21 @@ public class pluginSettings extends Tab {
         File selectedFile = fileChooser.showOpenDialog(null);
 
         if (selectedFile != null) {
-            // Do something with the selected file
+            String path = selectedFile.getAbsolutePath();
+            int crop = path.indexOf("src/");
+            if(crop == -1){
+                alertGUI.alertWarning("Cannot find image in src file");
+            } else {
+                String pathFile = path.substring(crop);
+                try{
+                    pluginController.loadPlugin(pathFile);
+                    alertGUI.alertInformation("Succesfully loaded plugin");
+                    System.out.println(pluginController.getLoadPlugin().size());
+                } catch (IOException | ClassNotFoundException e){
+                    System.out.println(e);
+                }
+
+            }
         }
     }
 }

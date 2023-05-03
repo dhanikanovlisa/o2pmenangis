@@ -33,11 +33,12 @@ public class signUp extends Tab {
 
 
         this.setText("Sign Up");
-
-        this.idDropDown = new ComboBox<String>(options);
+        customers = controller.getCustomers();
+        this.idDropDown = new ComboBox<String>();
         this.idDropDown.setId("idDropDown");
         this.idDropDown.setPromptText("Pick Customer ID...");
 
+        updateData();
         VBox formLayout = new VBox();
         HBox nameLayout = new HBox();
         Label nameLabel = new Label("Name");
@@ -88,13 +89,19 @@ public class signUp extends Tab {
         wholeLayout.setFillWidth(true);
         wholeLayout.prefWidthProperty().bind(base.widthProperty());
         wholeLayout.prefHeightProperty().bind(base.heightProperty());
+
+        this.setOnSelectionChanged(event -> {
+            if (this.isSelected()) {
+                updateData();
+            }
+        });
     }
 
     private void registCust() throws IOException, ParseException {
         if (idDropDown.getValue() == null || nameField.getText().equals("") || phoneField.getText().equals("")) {
             if (idDropDown.getValue() == null) {
                 idDropDown.setPromptText("Pick customer id");
-                this.message.setText("Please insert the required data");
+                this.message.setText("Please insert the required data id");
             }
 
             if (nameField.getText().equals("")) {
@@ -126,5 +133,15 @@ public class signUp extends Tab {
             phoneField.setPromptText("");
             idDropDown.getItems().remove(id);
         }
+    }
+
+    public void updateData() {
+        ArrayList<Integer> customersId = customers.getCustomerForSignUp();
+        ArrayList<String> optionsList = new ArrayList<String>();
+        for (Integer i : customersId) {
+            optionsList.add(Integer.toString(i));
+        }
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+        this.idDropDown.setItems(options);
     }
 }
