@@ -3,6 +3,7 @@ package com.o2pjualan.GUI;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
@@ -17,9 +18,10 @@ public class pluginSettings extends Tab {
     private HBox wholeLayout;
     private pluginController pluginController;
     private AlertGUI alertGUI;
+    private TabPane mainTabPane;
 
-
-    public pluginSettings(){
+    public pluginSettings(TabPane mainTabPane){
+        this.mainTabPane = mainTabPane;
         this.setText("Plugin");
 
         pluginLayout = new VBox();
@@ -35,12 +37,23 @@ public class pluginSettings extends Tab {
             openFileDialog();
         });
 
+        Button pieChart = new Button("Pie Chart");
+        Button lineChart = new Button("Line Chart");
+        HBox tes = new HBox();
+        tes.getChildren().addAll(pieChart, lineChart);
+
+        pieChart.setOnAction(e -> {
+            plugin1 pieplug = new plugin1();
+            mainTabPane.getTabs().add(pieplug);
+
+        });
+
         pluginLayout.getChildren().addAll(titlePlugin, this.loadPlugin);
         pluginLayout.setSpacing(20);
 
         wholeLayout = new HBox();
         wholeLayout.setId("wholeLayout");
-        wholeLayout.getChildren().addAll(pluginLayout);
+        wholeLayout.getChildren().addAll(pluginLayout, tes);
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
         Pane base = new Pane();

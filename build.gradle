@@ -17,7 +17,7 @@ repositories {
 
 javafx{
     version = '18'
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web']
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web','javafx.swing' ]
 }
 
 dependencies {
@@ -43,6 +43,8 @@ dependencies {
     implementation 'org.apache.pdfbox:pdfbox:2.0.24'
     implementation 'org.apache.pdfbox:pdfbox-tools:2.0.24'
     implementation 'com.itextpdf:itextpdf:5.5.13'
+    implementation 'org.jfree:jfreechart:1.5.3'
+    implementation 'org.openjfx:javafx-swing:16'
 }
 test {
     useJUnitPlatform()

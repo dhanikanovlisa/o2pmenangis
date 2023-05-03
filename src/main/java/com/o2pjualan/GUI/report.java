@@ -60,7 +60,7 @@ public class report extends Tab {
         scrollPane.setId("scrollCatalog");
 
         int rowCount = 0;
-        HashMap<Integer, Integer> sales = fixedBills.salesReport();
+        Map<Integer, Integer> sales = fixedBills.salesReport();
         for(Map.Entry<Integer, Integer> entry : sales.entrySet()){
             for(Product a: listProducts.getProducts()){
                 if(a.getProductCode() == entry.getKey()){

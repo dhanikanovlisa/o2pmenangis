@@ -138,7 +138,7 @@ public class Main extends Application {
         });
 
         loadPlugin.setOnAction(event -> {
-            pluginSettings pluginTab = new pluginSettings();
+            pluginSettings pluginTab = new pluginSettings(mainTabPane);
             mainTabPane.getTabs().add(pluginTab);
         });
 
