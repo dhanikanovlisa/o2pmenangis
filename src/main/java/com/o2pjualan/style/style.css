@@ -268,3 +268,11 @@
     -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
     -fx-padding: 30;
 }
+
+#itemToBill {
+    -fx-background-color: #edf5ee;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
+    -fx-padding: 30;
+    -fx-spacing: 20;
+}

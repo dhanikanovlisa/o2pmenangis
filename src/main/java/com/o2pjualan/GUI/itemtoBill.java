@@ -49,9 +49,15 @@ public class itemtoBill extends Tab {
 
     public itemtoBill(Integer productCode){
         /*Whole Layout*/
+        Pane base = new Pane();
+        VBox wrapper = new VBox();
+        wrapper.prefHeightProperty().bind(base.heightProperty());
+        wrapper.prefWidthProperty().bind(base.widthProperty());
         currentQuantity = new Label("");
         VBox wholeLayout = new VBox();
-        wholeLayout.setId("layoutCatalog");
+        wholeLayout.setMinHeight(350);
+        wholeLayout.setMaxWidth(900);
+        wholeLayout.setId("itemToBill");
         alertGUI = new AlertGUI();
         this.productCode = productCode;
 
@@ -134,8 +140,6 @@ public class itemtoBill extends Tab {
         this.saveButton = new Button("Save");
         this.saveButton.setId("buttonCatalog");
 
-
-
         HBox itemDelete = new HBox();
         itemDelete.getChildren().addAll(this.itemTotal, toggleLayout);
         itemDelete.setSpacing(20);
@@ -145,12 +149,12 @@ public class itemtoBill extends Tab {
         wholeLayout.getChildren().addAll(this.idDropDown, editLayout, bottomButtonLayout);
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
-
-        Pane base = new Pane();
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
                 false, false, true, true);
 
-        base.getChildren().add(wholeLayout);
+        wrapper.getChildren().add(wholeLayout);
+        wrapper.setAlignment(Pos.CENTER);
+        base.getChildren().add(wrapper);
         this.setContent(base);
 
         this.setOnSelectionChanged(event ->  {
@@ -173,6 +177,22 @@ public class itemtoBill extends Tab {
         this.idDropDown.setOnAction(event ->{
             updateData();
         });
+
+        this.addItem.setOnAction(event -> {
+            if (this.deleteItem.isSelected()) {
+                deleteItem.setSelected(false);
+            } else {
+                addItem.setSelected(true);
+            }
+        });
+
+        this.deleteItem.setOnAction(event -> {
+            if (this.addItem.isSelected()) {
+                addItem.setSelected(false);
+            } else {
+                deleteItem.setSelected(true);
+            }
+        });
     }
 
     public void addToBill(int productCode, String customerId) throws  IOException, ParseException{
@@ -188,6 +208,7 @@ public class itemtoBill extends Tab {
                 String quantity = itemTotal.getText();
                 Integer stock = Integer.parseInt(quantity);
                 Product getterProduct = new Product();
+                listProducts = controller.getProducts();
                 for(Product a: listProducts.getProducts()){
                     if(a.getProductCode() == productCode)
                         getterProduct = a;
