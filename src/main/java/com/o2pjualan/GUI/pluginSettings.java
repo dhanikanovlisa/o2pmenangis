@@ -58,6 +58,5 @@ public class pluginSettings extends Tab {
         if (selectedFile != null) {
             // Do something with the selected file
         }
-
     }
 }

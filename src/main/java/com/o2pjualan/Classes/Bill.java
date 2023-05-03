@@ -96,6 +96,14 @@ public class Bill implements Serializable {
         this.ListPriceOfProduct.clear();
         return moveFromBill;
     }
+
+    public double countTotalBill(){
+        double total = 0;
+        for (Map.Entry<Integer,Double> product:this.ListPriceOfProduct.entrySet()){
+            total += product.getValue();
+        }
+        return total;
+    }
 }
     /*
     public boolean alreadyFound(int K){

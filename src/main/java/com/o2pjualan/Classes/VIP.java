@@ -54,4 +54,12 @@ public class VIP extends Customer implements Serializable, Discount {
                 ", membership='" + membership + '\'' +
                 '}';
     }
+
+    public void addPoint(int point){
+        this.point += point;
+    }
+
+    public void reducePoint(int point){
+        this.point -= point;
+    }
 }

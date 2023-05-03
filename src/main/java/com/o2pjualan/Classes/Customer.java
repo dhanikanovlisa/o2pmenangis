@@ -47,4 +47,5 @@ public  class Customer implements Serializable {
         this.idFixedBill.add(idFixedBill);
     }
 
+
 }

@@ -165,6 +165,21 @@ public class Customers implements Serializable {
         return ret;
     }
 
+    public double pointCalculation(int idCust, double totalPrice) {
+        double poin = 0;
+        for (Customer cust : customers) {
+            if(cust.getIdCustomer() == idCust){
+                if (cust.getMembership().equals("Member")) {
+                    poin += totalPrice * 0.01;
+                }else if (cust.getMembership().equals("VIP")) {
+                    poin += totalPrice * 0.05;
+                }
+            }
+        }
+        return poin;
+    }
+
+
     public ArrayList<Integer> getCustomersId() {
         ArrayList<Integer> custId = new ArrayList<>();
         for (Customer cust : customers) {

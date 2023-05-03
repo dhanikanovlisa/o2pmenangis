@@ -45,13 +45,21 @@ public class BillGUI extends Tab{
     private ArrayList<String> custName;
     private ArrayList<String> customerNames;
     private FixedBills fixedBills;
+    private AlertGUI alertGUI;
+    public Bill b;
+    public FixedBill newBill;
+    private HBox totalLayout;
+    private HBox pointLayout;
+    private Label totalPrice;
+    private Label totalPoint;
+    private VBox lowerLayout;
+
 
     public BillGUI(){
         this.setText("Bills");
-        customers = new Customers();
         customers = controller.getCustomers();
+        alertGUI = new AlertGUI();
 
-        listProducts = new Products();
         listProducts = controller.getProducts();
         bills = controller.getBills();
         fixedBills = controller.getFixedBills();
@@ -72,7 +80,13 @@ public class BillGUI extends Tab{
         for(Integer i : customersId){
             customerNames.add(Integer.toString(i));
         }
+        invoiceLayout = new VBox();
+        invoiceLayout.setId("invoiceLayout");
 
+        totalLayout = new HBox();
+        pointLayout = new HBox();
+
+        lowerLayout = new VBox();
         customerNames.addAll(custName);
 
         ObservableList<String> sugg = FXCollections.observableArrayList(customerNames);
@@ -89,7 +103,7 @@ public class BillGUI extends Tab{
             bills.addBill(b1);
             controller.saveDataCustomer(customers);
             controller.saveDataBill(bills);
-            alert("Succesfully added new customer " + addCustomer.getIdCustomer());
+            alertGUI.alertInformation("Succesfully added new customer " + addCustomer.getIdCustomer());
         });
 
         this.enterName.setOnAction(e-> {
@@ -124,9 +138,6 @@ public class BillGUI extends Tab{
 
 
         /*Layout to display shopping cart*/
-        invoiceLayout = new VBox();
-        invoiceLayout.setId("invoiceLayout");
-
 
         /*Set Scroll Bar*/
         scrollPane = new ScrollPane();
@@ -151,10 +162,10 @@ public class BillGUI extends Tab{
         scrollPane.setContent(wholePriceLayout);
 
         /*Left layout containing dropdown id, list of printed items, button*/
-        //invoiceLayout.getChildren().addAll(scrollPane);
+        invoiceLayout.getChildren().addAll(scrollPane, totalLayout);
         leftLayout = new VBox();
         leftLayout.setId("leftLayout");
-        leftLayout.getChildren().addAll(upperLayout, scrollPane, buttonLayout);
+        leftLayout.getChildren().addAll(upperLayout, invoiceLayout, buttonLayout);
         leftLayout.setPrefWidth(500);
         leftLayout.setPrefHeight(600);
         leftLayout.setSpacing(10);
@@ -169,6 +180,7 @@ public class BillGUI extends Tab{
         Bill b = bills.getBillByID(idInt);
         HashMap<Integer, Integer> listProd = b.getListOfProduct();
         wholePriceLayout.addRow(listProd.size());
+        int getRowTotal = 0;
 
         for(Map.Entry<Integer, Integer> entry : listProd.entrySet()){
             for(Product a: listProducts.getProducts()){
@@ -202,7 +214,21 @@ public class BillGUI extends Tab{
                 }
             }
         }
+        b = bills.getBillByID(idInt);
+        double pointCount = customers.pointCalculation(idInt, b.countTotalBill());
 
+        Label total = new Label("Sub Total");
+        totalPrice = new Label(Double.toString(b.countTotalBill()));
+        totalLayout.getChildren().addAll(total, totalPrice);
+        totalLayout.setSpacing(15);
+
+
+        Label point = new Label("Poin");
+        totalPoint = new Label("-" + ((pointCount)));
+        pointLayout.getChildren().addAll(point, totalPoint);
+
+        lowerLayout.getChildren().addAll(totalLayout, pointLayout);
+        lowerLayout.setSpacing(15);
     }
     public int checkIdCustomer(String textValue){
         int idCust = -1;
@@ -221,8 +247,8 @@ public class BillGUI extends Tab{
     }
 
     public void checkOut(int idCust){
-        Bill b = bills.getBillByID(idCust);
-        FixedBill newBill = b.checkOutBill();
+        b = bills.getBillByID(idCust);
+        newBill = b.checkOutBill();
         fixedBills.addFixedBill(newBill);
         Customer c = customers.getCustomerByID(idCust);
         Integer idBill = newBill.getIdBill();
@@ -230,16 +256,26 @@ public class BillGUI extends Tab{
         controller.saveDataBill(bills);
         controller.saveDataFixedBill(fixedBills);
         controller.saveDataCustomer(customers);
-        alert("Successfully checkout");
+        alertGUI.alertInformation("Successfully checkout");
+    }
+    public void displayTotal(int idCust){
+        b = bills.getBillByID(idCust);
+        double pointCount = customers.pointCalculation(idCust, b.countTotalBill());
+
+        Label total = new Label("Sub Total");
+        totalPrice = new Label(Double.toString(b.countTotalBill()));
+        totalLayout.getChildren().addAll(total, totalPrice);
+        totalLayout.setSpacing(15);
+
+
+        Label point = new Label("Poin");
+        totalPoint = new Label("-" + ((pointCount)));
+        pointLayout.getChildren().addAll(point, totalPoint);
+
+        lowerLayout.getChildren().addAll(totalLayout, pointLayout);
+        lowerLayout.setSpacing(15);
+
     }
 
-    public void alert(String message){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        alert.show();
-    }
 
 }

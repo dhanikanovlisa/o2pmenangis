@@ -39,6 +39,4 @@ public class FixedBills implements Serializable {
             f.print();
         }
     }
-
-
 }
