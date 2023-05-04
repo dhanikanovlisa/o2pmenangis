@@ -58,4 +58,12 @@ public class Member extends Customer implements Serializable, Discount {
     public String getName(){
         return this.name;
     }
+
+    public void addPoint(double point){
+        this.point += point;
+    }
+
+    public void reducePoint(double point){
+        this.point -= point;
+    }
 }

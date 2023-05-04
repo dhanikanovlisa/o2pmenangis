@@ -71,6 +71,7 @@ public class report extends Tab {
 
         int rowCount = 0;
         HashMap<Integer, Integer> sales = fixedBills.salesReport();
+
         for(Map.Entry<Integer, Integer> entry : sales.entrySet()){
             for(Product a: listProducts.getProducts()){
                 if(a.getProductCode() == entry.getKey()){
