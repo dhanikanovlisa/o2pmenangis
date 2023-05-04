@@ -168,7 +168,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws IOException {
-        folderName = "src/dataStore/dataStore4/";
+        folderName = "src/dataStore/dataStore1/";
         FileManager.initiateDataStore();
         Application.launch(args);
         System.out.println("DONE");
