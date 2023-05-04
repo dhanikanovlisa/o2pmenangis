@@ -97,6 +97,7 @@ public class BillGUI extends Tab{
 
         Label finalLabel = new Label("Total");
         finalBillLabel = new Label(Double.toString(totalBill - pointCount));
+        finalTotalLayout.getChildren().addAll(finalLabel, finalBillLabel);
 
 
         lowerLayout = new VBox();
