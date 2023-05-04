@@ -276,3 +276,17 @@
     -fx-padding: 30;
     -fx-spacing: 20;
 }
+
+#editCatalog {
+    -fx-background-color: #C4ECC4;
+    -fx-padding: 10 30 0 30;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
+}
+
+#reportLayout {
+    -fx-background-color: #f4f4f4;
+    -fx-background-radius: 20;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(212, 212, 212, 0.8), 0,4,5,2);
+}
