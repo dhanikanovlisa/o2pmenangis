@@ -88,6 +88,15 @@ public class Bill implements Serializable {
         return result;
     }
 
+    public double countTotalBill(){
+        double total = 0;
+        for (Map.Entry<Integer,Double> product:this.ListPriceOfProduct.entrySet()){
+            total += product.getValue();
+        }
+        return total;
+    }
+
+
     public FixedBill checkOutBill(){
         FixedBill moveFromBill = new FixedBill(this.idCustomer);
         moveFromBill.setListOfProduct(new HashMap<>(this.ListOfProduct));
@@ -96,6 +105,8 @@ public class Bill implements Serializable {
         this.ListPriceOfProduct.clear();
         return moveFromBill;
     }
+
+
 }
     /*
     public boolean alreadyFound(int K){

@@ -185,6 +185,69 @@ public class Customers implements Serializable {
 
         return ret;
     }
+    public double getCurrentPoint(int idCust) {
+
+        for (Customer cust : customers) {
+            if(cust.getIdCustomer() == idCust){
+                if (cust instanceof Member) {
+                    return ((Member) cust).getPoint();
+                }else if (cust instanceof VIP) {
+                    return ((VIP) cust).getPoint();
+                }
+            }
+        }
+        return 0;
+    }
+
+
+    public double pointCalculation(int idCust, double totalPrice, double currentPoint) {
+        double poin = 0;
+        for (Customer cust : customers) {
+            if(cust.getIdCustomer() == idCust){
+                if (cust.getMembership().equals("Member")) {
+                    if(currentPoint > totalPrice){
+                        poin += totalPrice * 0.01;
+                    } else {
+                        poin += (totalPrice-currentPoint) * 0.01;
+                    }
+                }else if (cust.getMembership().equals("VIP")) {
+                    if(currentPoint > totalPrice){
+                        poin += totalPrice * 0.05;
+                    } else {
+                        poin += (totalPrice-currentPoint) * 0.05;
+                    }
+                }
+            }
+        }
+        return poin;
+    }
+
+    public void addPoint(int idCust, double point) {
+
+        for (Customer cust : customers) {
+            if(cust.getIdCustomer() == idCust){
+                if (cust instanceof Member) {
+                    ((Member) cust).addPoint(point);
+                }else if (cust instanceof VIP) {
+                    ((VIP) cust).addPoint(point);
+                }
+            }
+        }
+
+    }
+
+    public void reducePoint(int idCust, double point) {
+        for (Customer cust : customers) {
+            if(cust.getIdCustomer() == idCust){
+                if (cust instanceof Member) {
+                    ((Member) cust).reducePoint(point);
+                }else if (cust instanceof VIP) {
+                    ((VIP) cust).reducePoint(point);
+                }
+            }
+        }
+
+    }
 
     public void addFixedBill(int idFixedBill, int idCust) {
         for(Customer c: customers){
@@ -193,7 +256,6 @@ public class Customers implements Serializable {
             }
         }
     }
-
 
     public void print() {
         for (Customer c : this.customers) {
