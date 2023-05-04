@@ -215,7 +215,7 @@ public class itemtoBill extends Tab {
                 }
 
                 if(addItem.isSelected() && !deleteItem.isSelected()){
-                    customerBill.addProduct(productCode, stock, getterProduct.getSellPrice() * stock);
+                    customerBill.addProduct(productCode, stock, getterProduct.getSellPrice());
                     if(getterProduct.reduceStock(stock)){
                         controller.saveDataBill(bills);
                         controller.saveDataProduct(listProducts);
@@ -225,7 +225,7 @@ public class itemtoBill extends Tab {
                     }
                 } else if (deleteItem.isSelected() && !addItem.isSelected()){
                     if(customerBill.validateDeleteProduct(productCode, stock)){
-                        customerBill.deleteProduct(productCode, stock, getterProduct.getSellPrice() * stock);
+                        customerBill.deleteProduct(productCode, stock, getterProduct.getSellPrice());
                         getterProduct.setStock(getterProduct.getStock() + stock);
                         controller.saveDataBill(bills);
                         controller.saveDataProduct(listProducts);

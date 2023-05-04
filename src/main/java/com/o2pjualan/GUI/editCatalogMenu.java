@@ -124,7 +124,7 @@ public class editCatalogMenu extends Tab {
         buyPriceLayout.setSpacing(15);
         buyPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d*")) {
+            if (newText.matches("\\d*\\.?\\d+")) {
                 return change;
             }
             return null;
@@ -140,7 +140,7 @@ public class editCatalogMenu extends Tab {
         sellPriceLayout.setSpacing(15);
         sellPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d*")) {
+            if (newText.matches("\\d*\\.?\\d+")) {
                 return change;
             }
             return null;

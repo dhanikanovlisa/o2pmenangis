@@ -116,7 +116,7 @@ public class addItemCatalog extends Tab {
         this.buyPriceTextField.setId("textFieldCatalog");
         buyPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d*")) {
+            if (newText.matches("\\d*\\.?\\d+")) {
                 return change;
             }
             return null;
@@ -128,7 +128,7 @@ public class addItemCatalog extends Tab {
         this.sellPriceTextField.setId("textFieldCatalog");
         sellPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d*")) {
+            if (newText.matches("\\d*\\.?\\d+")) {
                 return change;
             }
             return null;
