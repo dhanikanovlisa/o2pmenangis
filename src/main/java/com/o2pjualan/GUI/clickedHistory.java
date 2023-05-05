@@ -33,8 +33,12 @@ public class clickedHistory extends Tab {
     private ScrollPane scrollPane;
     private HBox totalLayout;
     private Label totalPrice;
-    public clickedHistory(int idBill){
-        this.setText("#" + idBill + " [name]'s");
+    public clickedHistory(int idFixedBill, String name){
+        Pane base = new Pane();
+        VBox wrapper = new VBox();
+        wrapper.prefWidthProperty().bind(base.widthProperty());
+        wrapper.prefHeightProperty().bind(base.heightProperty());
+        this.setText("#" + idFixedBill + ": " + name);
         this.printBill = new Button("Print Bill");
         this.printBill.setId("buttonClickedHistory");
 
@@ -61,16 +65,18 @@ public class clickedHistory extends Tab {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setId("scrollCatalog");
         wholePriceLayout = new GridPane();
+        wholePriceLayout.setMaxWidth(600);
         wholePriceLayout.setHgap(15);
         wholePriceLayout.setVgap(15);
         wholePriceLayout.addColumn(0);
 
         int rowCount= 0;
-        FixedBill fixBillCustomer = fixedBills.getFixedBillByID(idBill);
+        FixedBill fixBillCustomer = fixedBills.getFixedBillByID(idFixedBill);
         HashMap<Integer, Integer> listProd = fixBillCustomer.getListOfProduct();
         for(Map.Entry<Integer, Integer> entry : listProd.entrySet()){
             for(Product a: listProducts.getProducts()){
                 if(a.getProductCode() == entry.getKey()){
+                    HBox productNameLayout = new HBox();
                     productGetName = new Label(a.productName);
                     productGetTotal = new Label("x" + entry.getValue().toString());
                     productGetPrice = new Label(Double.toString(entry.getValue() * a.getBuyPrice()));
@@ -94,15 +100,21 @@ public class clickedHistory extends Tab {
                      * Labu Erlenmeyer           x2      150000
                      * Labu Erlenmeyer           x2      150000
                      * */
-                    priceBillLayout.getChildren().addAll(productGetName, priceOnlyLayout);
+                    productNameLayout.getChildren().add(productGetName);
+                    productNameLayout.setMinWidth(500);
+                    priceOnlyLayout.setMinWidth(500);
+                    priceBillLayout.getChildren().addAll(productNameLayout, priceOnlyLayout);
+                    priceBillLayout.setStyle("-fx-padding: 10, 0, 0, 10");
                     wholePriceLayout.add(priceBillLayout, 0, rowCount);
                     rowCount++;
                 }
             }
         }
 
+//        wholeLayout.setId("reportLayout");
+
         this.printBill.setOnAction(err -> {
-            FixedBill printFixedBill = fixedBills.getFixedBillByID(idBill);
+            FixedBill printFixedBill = fixedBills.getFixedBillByID(idFixedBill);
             try{
                 printFixedBill.printPDF(listProducts);
 
@@ -111,10 +123,10 @@ public class clickedHistory extends Tab {
             }
         });
         totalLayout = new HBox();
-        Label total = new Label("Total");
-        totalPrice = new Label(Double.toString(fixBillCustomer.getTotalFixedBill()));
+        Label total = new Label("Total:      ");
+        totalPrice = new Label(Integer.toString(fixBillCustomer.countTotalFixedBill()));
         totalLayout.getChildren().addAll(total, totalPrice);
-        totalLayout.setSpacing(900);
+//        totalLayout.setSpacing(900);
         totalLayout.setPadding(new Insets(10));
 
         wholePriceLayout.add(totalLayout, 0, fixBillCustomer.getListOfProduct().size()+1);
@@ -122,13 +134,15 @@ public class clickedHistory extends Tab {
         scrollPane.setContent(wholePriceLayout);
 
         wholeLayout = new VBox();
-        wholeLayout.getChildren().addAll(buttonLayout, scrollPane);
+        wholeLayout.setMaxWidth(900);
+        wholeLayout.getChildren().addAll(scrollPane, buttonLayout);
         wholeLayout.setMargin(buttonLayout, new Insets(10,0,0,0));
         wholeLayout.setMargin(scrollPane, new Insets(20, 0, 0, 0));
         wholeLayout.setId("wholeLayout");
 
-        Pane base = new Pane();
-        base.getChildren().add(wholeLayout);
+        wrapper.getChildren().add(wholeLayout);
+        wrapper.setAlignment(Pos.CENTER);
+        base.getChildren().add(wrapper);
         this.setContent(base);
         wholeLayout.setFillWidth(true);
         wholeLayout.prefWidthProperty().bind(base.widthProperty());

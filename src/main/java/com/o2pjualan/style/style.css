@@ -213,7 +213,7 @@
 }
 
 #historyItemLabel{
-    -fx-text-fill: #F3FFE7;
+    -fx-text-fill: #225C2A;
     -fx-font-size: 16px;
 }
 
@@ -289,4 +289,9 @@
     -fx-background-radius: 20;
     -fx-padding: 30;
     -fx-effect: dropshadow(gaussian, rgba(212, 212, 212, 0.8), 0,4,5,2);
+}
+
+#historyLayout {
+    -fx-background-color: #f4f4f4;
+    -fx-background-radius: 20;
 }
