@@ -41,7 +41,6 @@ public class history extends Tab {
     private ArrayList<String> optionsList;
     private ObservableList<String> options;
     public history(TabPane mainTabPane) throws IOException{
-
         this.setText("History");
         this.name = new ComboBox<>();
         Pane base = new Pane();
@@ -55,43 +54,16 @@ public class history extends Tab {
         fixedBills = controller.getFixedBills();
         customers = controller.getCustomers();
 
-        Customers customers = controller.getCustomers();
-        ArrayList<Integer> customersId = customers.getAllCustomersId();
-        ArrayList<String> optionsList = new ArrayList<String>();
-        for (Integer i : customersId) {
-            optionsList.add('(' + i.toString() + ") "  + customers.getCustomerNameById(i));
-        }
-        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
-
-
         this.name = new ComboBox<>(options);
         this.name.setPromptText("Pick Customer Name...");
         this.name.setId("idDropDown");
-
 
         historyLayout = new GridPane();
         historyLayout.setStyle("-fx-padding: 0, 0, 0, 10;");
         historyLayout.setMinWidth(570);
         historyLayout.addColumn(1);
-//        historyLayout.addRow();
         historyLayout.setHgap(15);
         historyLayout.setVgap(15);
-
-        try {
-            displayFixedBill();
-        } catch (IOException err){
-            throw new RuntimeException(err);
-        }
-
-        name.setOnAction(e -> {
-            try {
-                historyLayout.getChildren().clear();
-                displayFixedBill();
-            } catch (IOException err){
-                throw new RuntimeException(err);
-            }
-        });
-
 
         scrollPane = new ScrollPane();
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);

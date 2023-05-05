@@ -5,18 +5,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.stage.FileChooser;
-
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.o2pjualan.Main.controller;
 
 public class clickedHistory extends Tab {
-    private Button back;
     private Button printBill;
     private HBox buttonLayout;
     private GridPane wholePriceLayout;
@@ -84,17 +79,8 @@ public class clickedHistory extends Tab {
                      * Labu Erlenmeyer           x2      150000
                      * */
                     priceBillLayout = new HBox();
-                    if(a.getProductName().length() > 30){
-                        priceBillLayout.setSpacing(50);
-                    } else {
-                        priceBillLayout.setSpacing(70);
-                    }
-                    priceBillLayout.setPadding(new Insets(10));
                     priceOnlyLayout = new HBox();
-                    priceOnlyLayout.setSpacing(10);
-                    priceOnlyLayout.setPadding(new Insets(10));
                     priceOnlyLayout.getChildren().addAll(productGetTotal, productGetPrice);
-
                     /*Whole customers products
                      * Labu Erlenmeyer           x2      150000
                      * Labu Erlenmeyer           x2      150000
@@ -124,7 +110,7 @@ public class clickedHistory extends Tab {
         });
         totalLayout = new HBox();
         Label total = new Label("Total:      ");
-        totalPrice = new Label(Integer.toString(fixBillCustomer.countTotalFixedBill()));
+        totalPrice = new Label(Double.toString(fixBillCustomer.getTotalFixedBill()));
         totalLayout.getChildren().addAll(total, totalPrice);
 //        totalLayout.setSpacing(900);
         totalLayout.setPadding(new Insets(10));

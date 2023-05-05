@@ -221,8 +221,9 @@
     -fx-background-color: #6FA977;
     -fx-padding: 5;
     -fx-background-radius: 10;
-    -fx-pref-width: 300;
-    -fx-pref-height: 100;
+    -fx-pref-width: 400;
+    -fx-pref-height: 50;
+    -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
 }
 
 #billLayout{
