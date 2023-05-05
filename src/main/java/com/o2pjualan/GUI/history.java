@@ -36,13 +36,17 @@ public class history extends Tab {
     public FixedBills fixedBills;
     public Customers customers;
     public ArrayList<FixedBill> fixedBill;
-    public HBox upperLayout;
+    public VBox upperLayout;
     private ScrollPane scrollPane;
     private ArrayList<String> optionsList;
     private ObservableList<String> options;
     public history(TabPane mainTabPane) throws IOException{
-
         this.setText("History");
+        this.name = new ComboBox<>();
+        Pane base = new Pane();
+        VBox wrapper = new VBox();
+        wrapper.prefWidthProperty().bind(base.widthProperty());
+        wrapper.prefHeightProperty().bind(base.heightProperty());
         this.mainTabPane = mainTabPane;
         historyTitle = new Label("History");
         historyTitle.setId("h1");
@@ -50,41 +54,16 @@ public class history extends Tab {
         fixedBills = controller.getFixedBills();
         customers = controller.getCustomers();
 
-        Customers customers = controller.getCustomers();
-        ArrayList<Integer> customersId = customers.getAllCustomersId();
-        ArrayList<String> optionsList = new ArrayList<String>();
-        for (Integer i : customersId) {
-            optionsList.add('(' + i.toString() + ") "  + customers.getCustomerNameById(i));
-        }
-        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
-
-
         this.name = new ComboBox<>(options);
         this.name.setPromptText("Pick Customer Name...");
         this.name.setId("idDropDown");
 
-
         historyLayout = new GridPane();
+        historyLayout.setStyle("-fx-padding: 0, 0, 0, 10;");
+        historyLayout.setMinWidth(570);
         historyLayout.addColumn(1);
-//        historyLayout.addRow();
         historyLayout.setHgap(15);
         historyLayout.setVgap(15);
-
-        try {
-            displayFixedBill();
-        } catch (IOException err){
-            throw new RuntimeException(err);
-        }
-
-        name.setOnAction(e -> {
-            try {
-                historyLayout.getChildren().clear();
-                displayFixedBill();
-            } catch (IOException err){
-                throw new RuntimeException(err);
-            }
-        });
-
 
         scrollPane = new ScrollPane();
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -94,15 +73,17 @@ public class history extends Tab {
         scrollPane.setVmax(1);
         scrollPane.setVvalue(0);
         scrollPane.setPrefViewportHeight(500);
-        scrollPane.setPrefViewportWidth(400);
+        scrollPane.setPrefViewportWidth(570);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setContent(historyLayout);
         scrollPane.setId("scrollCatalog");
 
-        upperLayout = new HBox();
+        upperLayout = new VBox();
+//        upperLayout.setStyle("-fx-background-color: blue;");
         upperLayout.getChildren().addAll(historyTitle, this.name);
-        upperLayout.setSpacing(900);
+        upperLayout.setAlignment(Pos.CENTER);
+        upperLayout.setSpacing(10);
 
 
         this.idTransaction = new Label("");
@@ -114,19 +95,27 @@ public class history extends Tab {
         this.totalPrice.setId("historyItemLabel");
 
         VBox wholeLayout = new VBox();
+        wholeLayout.setId("historyLayout");
+        wholeLayout.setMaxWidth(600);
         wholeLayout.getChildren().addAll(upperLayout, scrollPane);
         wholeLayout.setMargin(upperLayout, new Insets(10,0,0,0));
         wholeLayout.setMargin(scrollPane, new Insets(10, 0, 0, 0));
-        wholeLayout.setSpacing(40);
-        wholeLayout.setId("wholeLayout");
+        wholeLayout.setSpacing(20);
 
-        Pane base = new Pane();
-        base.getChildren().add(wholeLayout);
+        wrapper.getChildren().add(wholeLayout);
+        wrapper.setAlignment(Pos.CENTER);
+        base.getChildren().add(wrapper);
         this.setContent(base);
         wholeLayout.setFillWidth(true);
         wholeLayout.prefWidthProperty().bind(base.widthProperty());
         wholeLayout.prefHeightProperty().bind(base.heightProperty());
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
+
+        this.setOnSelectionChanged(event -> {
+            if (this.isSelected()) {
+                updateData();
+            }
+        });
 
     }
 
@@ -162,9 +151,37 @@ public class history extends Tab {
         historyItemLayout.setFillWidth(true);
         historyItemLayout.getChildren().addAll(this.idTransaction, this.totalPrice);
         historyItemLayout.setOnMouseClicked(e -> {
-            clickedHistory clickedHistoryTab = new clickedHistory(Integer.parseInt(idFixedBill));
+            clickedHistory clickedHistoryTab = new clickedHistory(Integer.parseInt(idFixedBill), name.getValue().toString());
             mainTabPane.getTabs().add(clickedHistoryTab);
         });
         historyLayout.add(historyItemLayout, 0, rowCount);
+        historyLayout.setAlignment(Pos.CENTER);
+    }
+
+    public void updateData() {
+        fixedBills = controller.getFixedBills();
+        customers = controller.getCustomers();
+        Customers customers = controller.getCustomers();
+        ArrayList<Integer> customersId = customers.getAllCustomersId();
+        ArrayList<String> optionsList = new ArrayList<String>();
+        for (Integer i : customersId) {
+            optionsList.add('(' + i.toString() + ") "  + customers.getCustomerNameById(i));
+        }
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+        this.name.setItems(options);
+
+        try {
+            displayFixedBill();
+        } catch (IOException err){
+            throw new RuntimeException(err);
+        }
+        name.setOnAction(e -> {
+            try {
+                historyLayout.getChildren().clear();
+                displayFixedBill();
+            } catch (IOException err){
+                throw new RuntimeException(err);
+            }
+        });
     }
 }

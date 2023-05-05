@@ -213,7 +213,7 @@
 }
 
 #historyItemLabel{
-    -fx-text-fill: #F3FFE7;
+    -fx-text-fill: #225C2A;
     -fx-font-size: 16px;
 }
 
@@ -221,8 +221,9 @@
     -fx-background-color: #6FA977;
     -fx-padding: 5;
     -fx-background-radius: 10;
-    -fx-pref-width: 300;
-    -fx-pref-height: 100;
+    -fx-pref-width: 400;
+    -fx-pref-height: 50;
+    -fx-effect: dropshadow(gaussian, rgba(44, 131, 56, 0.2), 0,4,5,2);
 }
 
 #billLayout{
@@ -289,4 +290,9 @@
     -fx-background-radius: 20;
     -fx-padding: 30;
     -fx-effect: dropshadow(gaussian, rgba(212, 212, 212, 0.8), 0,4,5,2);
+}
+
+#historyLayout {
+    -fx-background-color: #f4f4f4;
+    -fx-background-radius: 20;
 }
