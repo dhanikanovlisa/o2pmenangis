@@ -236,11 +236,11 @@ public class BillGUI extends Tab{
         Label total = new Label("Sub Total");
         Label point = new Label("Poin");
         b = bills.getBillByID(idInt);
-        totalBill = b.countTotalBill();
+        totalBill = b.getTotalBill();
         currentPoint = customers.getCurrentPoint(idInt);
 
 
-        totalPrice = new Label(Double.toString(b.countTotalBill()));
+        totalPrice = new Label(Double.toString(b.getTotalBill()));
         totalLayout.getChildren().addAll(total, totalPrice);
         totalLayout.setSpacing(20);
 
@@ -248,7 +248,6 @@ public class BillGUI extends Tab{
         totalPoint = new Label(Double.toString(currentPoint));
         pointLayout.getChildren().addAll(point, totalPoint);
         pointLayout.setSpacing(20);
-
     }
     public int checkIdCustomer(String textValue){
         int idCust = -1;
@@ -276,9 +275,11 @@ public class BillGUI extends Tab{
         if(c instanceof Member){
             ((Member) c).reducePoint(currentPoint);
             ((Member) c).addPoint(pointCount);
+            newBill.setPaidPoint(currentPoint);
         } else if(c instanceof VIP){
             ((VIP) c).reducePoint(currentPoint);
             ((VIP) c).addPoint(pointCount);
+            newBill.setPaidPoint(currentPoint);
         }
         c.addFixedBill(idBill);
         controller.saveDataBill(bills);

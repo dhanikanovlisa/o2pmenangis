@@ -22,9 +22,11 @@ public class signUp extends Tab {
     private Button register;
     private Customers customers;
     private Label message;
+    private AlertGUI alertGUI;
     public signUp() throws IOException, ParseException {
         this.setText("Sign Up");
         customers = controller.getCustomers();
+        alertGUI = new AlertGUI();
         this.idDropDown = new ComboBox<String>();
         this.idDropDown.setId("idDropDown");
         this.idDropDown.setPromptText("Pick Customer ID...");
@@ -43,6 +45,7 @@ public class signUp extends Tab {
         Label phoneLabel = new Label("Phone");
         phoneLabel.setId("signUpLabel");
         this.phoneField = new TextField();
+
         phoneLayout.getChildren().addAll(phoneLabel, this.phoneField);
         phoneLayout.setSpacing(30);
         phoneField.setId("textFieldSignUp");
@@ -107,22 +110,22 @@ public class signUp extends Tab {
                 this.message.setText("Please insert the required data");
             }
         } else {
-
-            String id = idDropDown.getValue();
             String name = nameField.getText();
             String phone = phoneField.getText();
+            String id = idDropDown.getValue();
+            if(!inputValidater(phone)){
+                alertGUI.alertWarning("Invalid phone number format. Please put number");
+            } else {
+                Customers customers = controller.getCustomers();
+                customers.registerMember(Integer.parseInt(id), name, phone);
+                controller.saveDataCustomer(customers);
 
-
-            Customers customers = controller.getCustomers();
-            customers.registerMember(Integer.parseInt(id), name, phone);
-            controller.saveDataCustomer(customers);
-
-            this.message.setText("successfully registered!");
-            nameField.setText("");
-            nameField.setPromptText("");
-            phoneField.setText("");
-            phoneField.setPromptText("");
-            idDropDown.getItems().remove(id);
+                this.message.setText("successfully registered!");
+                nameField.setText("");
+                nameField.setPromptText("");
+                phoneField.clear();
+                idDropDown.getItems().remove(id);
+            }
         }
     }
 
@@ -134,5 +137,16 @@ public class signUp extends Tab {
         }
         ObservableList<String> options = FXCollections.observableArrayList(optionsList);
         this.idDropDown.setItems(options);
+    }
+
+    public boolean inputValidater(String input){
+        boolean isDigit = true;
+        for (int i = 0; i < input.length(); i++) {
+            if (!Character.isDigit(input.charAt(i))) {
+                isDigit = false;
+                break;
+            }
+        }
+        return isDigit;
     }
 }

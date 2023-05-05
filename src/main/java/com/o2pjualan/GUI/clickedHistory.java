@@ -112,7 +112,7 @@ public class clickedHistory extends Tab {
         });
         totalLayout = new HBox();
         Label total = new Label("Total");
-        totalPrice = new Label(Integer.toString(fixBillCustomer.countTotalFixedBill()));
+        totalPrice = new Label(Double.toString(fixBillCustomer.getTotalFixedBill()));
         totalLayout.getChildren().addAll(total, totalPrice);
         totalLayout.setSpacing(900);
         totalLayout.setPadding(new Insets(10));

@@ -87,7 +87,6 @@ public class report extends Tab {
                      * Labu Erlenmeyer           x2      150000
                      * */
 
-
                     priceBillLayout = new HBox();
 //                    priceBillLayout.setStyle("-fx-background-color: green;");
                     priceBillLayout.setMinWidth(900);

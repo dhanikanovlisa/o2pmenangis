@@ -36,19 +36,29 @@ public class FixedBill implements Serializable, printToPDF {
     protected static int countBill;
     protected HashMap<Integer,Integer> ListOfProduct;
     protected HashMap<Integer,Double> ListPriceOfProduct;
+    protected double totalFixedBill;
+    protected double paidPoint;
 
     public FixedBill(int idCustomer)  {
         this.idBill = controller.getTotalFixedBills() + 2001;
         this.idCustomer = idCustomer;
         this.ListOfProduct = new HashMap<>();
         this.ListPriceOfProduct = new HashMap<>();
+        this.totalFixedBill = 0;
+        this.paidPoint = 0;
     }
 
-    public FixedBill(@JsonProperty("idBill") int idBill, @JsonProperty("idCustomer")int idCustomer, @JsonProperty("ListOfProduct")HashMap<Integer, Integer> listOfProduct, @JsonProperty("ListPriceOfProduct")HashMap<Integer, Double> listPriceOfProduct) {
+    public FixedBill(@JsonProperty("idBill") int idBill, @JsonProperty("idCustomer")int idCustomer,
+                     @JsonProperty("ListOfProduct")HashMap<Integer, Integer> listOfProduct,
+                     @JsonProperty("ListPriceOfProduct")HashMap<Integer, Double> listPriceOfProduct,
+                     @JsonProperty("TotalFixedBill")double totalFixedBill,
+                     @JsonProperty("Point")double point) {
         this.idBill = idBill;
         this.idCustomer = idCustomer;
         ListOfProduct = listOfProduct;
         ListPriceOfProduct = listPriceOfProduct;
+        this.totalFixedBill = totalFixedBill;
+        this.paidPoint = point;
     }
 
     public int getIdBill(){
@@ -111,12 +121,15 @@ public class FixedBill implements Serializable, printToPDF {
                 '}';
     }
 
-    public int countTotalFixedBill(){
-        int total = 0;
-        for (Map.Entry<Integer,Double> product:this.ListPriceOfProduct.entrySet()){
-            total += product.getValue();
-        }
-        return total;
+    public double getTotalFixedBill(){
+        return this.totalFixedBill;
+    }
+    public double getPaidPoint(){
+        return this.paidPoint;
+    }
+
+    public void setPaidPoint(double paidPoint){
+        this.paidPoint = paidPoint;
     }
 
     public void printPDF(Products products)  {
@@ -199,7 +212,7 @@ public class FixedBill implements Serializable, printToPDF {
 
 
             tableTotal.addCell(new PdfPCell(new Paragraph("Total", new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
-            tableTotal.addCell(new PdfPCell(new Paragraph(Integer.toString(countTotalFixedBill()),
+            tableTotal.addCell(new PdfPCell(new Paragraph(Double.toString(getTotalFixedBill()),
                     new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
 
             document.add(tableTotal);
