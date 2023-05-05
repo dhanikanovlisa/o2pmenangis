@@ -93,15 +93,6 @@ public class FixedBill implements Serializable, printToPDF {
         this.ListPriceOfProduct = listPriceOfProduct;
     }
 
-    public void AddProduct(int productCode, int quantity, double price){
-        this.ListOfProduct.put(productCode,quantity);
-        this.ListPriceOfProduct.put(productCode,price);
-    }
-
-    public void RemoveProduct(int productCode){
-        this.ListOfProduct.remove(productCode);
-    }
-
     public void print(){
         System.out.println(this.toString());
         int i=0;

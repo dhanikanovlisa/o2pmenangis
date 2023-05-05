@@ -103,14 +103,16 @@ public class Bill implements Serializable {
     }
 
 
-    public FixedBill checkOutBill(){
+    public FixedBill checkOutBill(double poin){
         FixedBill moveFromBill = new FixedBill(this.idCustomer);
         moveFromBill.setListOfProduct(new HashMap<>(this.ListOfProduct));
         moveFromBill.setListPriceOfProduct(new HashMap<>(this.ListPriceOfProduct));
         moveFromBill.setTotalFixedBill(this.totalBill);
+        moveFromBill.setPaidPoint(poin);
         this.ListOfProduct.clear();
         this.ListPriceOfProduct.clear();
         this.totalBill = 0;
+
 
         return moveFromBill;
     }

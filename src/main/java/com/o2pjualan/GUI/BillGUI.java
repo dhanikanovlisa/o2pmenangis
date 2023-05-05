@@ -267,7 +267,7 @@ public class BillGUI extends Tab{
 
     public void checkOut(int idCust){
         b = bills.getBillByID(idCust);
-        newBill = b.checkOutBill();
+        newBill = b.checkOutBill(currentPoint);
         fixedBills.addFixedBill(newBill);
         Customer c = customers.getCustomerByID(idCust);
         pointCount = customers.pointCalculation(idCust, totalBill,currentPoint);
