@@ -36,13 +36,23 @@ public class editCatalogMenu extends Tab {
     private Product getProd;
     private String finalPath;
     private AlertGUI alertGUI;
+    private Integer productCode;
 
 
     public editCatalogMenu(Integer productCode){
+        this.productCode =productCode;
+
+        Pane base = new Pane();
+        VBox wrapper = new VBox();
+        wrapper.prefHeightProperty().bind(base.heightProperty());
+        wrapper.prefWidthProperty().bind(base.widthProperty());
 
         /*Whole Layout*/
         VBox wholeLayout = new VBox();
-        wholeLayout.setId("layoutCatalog");
+        wholeLayout.setId("editCatalog");
+        wholeLayout.setMaxWidth(1000);
+        wholeLayout.setMinHeight(500);
+        wholeLayout.setAlignment(Pos.CENTER);
         listProducts = new Products();
         listProducts = controller.getProducts();
         alertGUI = new AlertGUI();
@@ -79,7 +89,6 @@ public class editCatalogMenu extends Tab {
                 } else {
                     String image = path.substring(crop);
                     this.finalPath = "file:" + image;
-//                System.out.println(finalPath);
                     this.imageItem = new Image(finalPath);
                     imageView.setImage(this.imageItem);
                 }
@@ -94,66 +103,54 @@ public class editCatalogMenu extends Tab {
 
         /*Edit Value Layout*/
         VBox editValueLayout = new VBox();
+        editValueLayout.setStyle("-fx-padding: 0 0 0 90");
+        VBox editField = new VBox();
 
 
-        HBox nameLayout = new HBox();
         Label nameText = new Label("Name");
         nameText.setId("catalogLabel");
         this.nameTextField = new TextField();
         this.nameTextField.setId("textFieldCatalog");
         this.nameTextField.setText(getProd.getProductName());
-        nameLayout.getChildren().addAll(nameText, this.nameTextField);
-        nameLayout.setSpacing(15);
 
-        HBox categoryLayout = new HBox();
         Label categoryText = new Label("Category");
         categoryText.setId("catalogLabel");
         this.categoryTextField = new TextField();
         this.categoryTextField.setText(getProd.getProductCategory());
         this.categoryTextField.setId("textFieldCatalog");
-        categoryLayout.getChildren().addAll(categoryText, this.categoryTextField);
-        categoryLayout.setSpacing(15);
 
-        HBox buyPriceLayout = new HBox();
         Label buyPriceText = new Label("Buy Price");
         buyPriceText.setId("catalogLabel");
         this.buyPriceTextField = new TextField();
         this.buyPriceTextField.setId("textFieldCatalog");
         this.buyPriceTextField.setText(Double.toString(getProd.getBuyPrice()));
-        buyPriceLayout.getChildren().addAll(buyPriceText, this.buyPriceTextField);
-        buyPriceLayout.setSpacing(15);
         buyPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d*\\.?\\d+")) {
+            if (newText.matches("\\d+(\\.\\d+)?")) {
                 return change;
             }
             return null;
         }));
 
-        HBox sellPriceLayout = new HBox();
+
         Label sellPriceText = new Label("Sell Price");
         sellPriceText.setId("catalogLabel");
         this.sellPriceTextField = new TextField();
         this.sellPriceTextField.setId("textFieldCatalog");
         this.sellPriceTextField.setText(Double.toString(getProd.getSellPrice()));
-        sellPriceLayout.getChildren().addAll(sellPriceText, this.sellPriceTextField);
-        sellPriceLayout.setSpacing(15);
         sellPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d*\\.?\\d+")) {
+            if (newText.matches("\\d+(\\.\\d+)?")) {
                 return change;
             }
             return null;
         }));
 
-        HBox stockLayout = new HBox();
         Label stockText = new Label("Stock");
         stockText.setId("catalogLabel");
         this.stockTextField = new TextField();
         this.stockTextField.setId("textFieldCatalog");
         this.stockTextField.setText(Integer.toString(getProd.getStock()));
-        stockLayout.getChildren().addAll(stockText, this.stockTextField);
-        stockLayout.setSpacing(15);
         stockTextField.setTextFormatter(new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
             if (newText.matches("\\d+")) {
@@ -162,10 +159,13 @@ public class editCatalogMenu extends Tab {
             return null;
         }));
 
-        editValueLayout.getChildren().addAll(nameLayout, categoryLayout, buyPriceLayout, sellPriceLayout, stockLayout);
-        editValueLayout.setSpacing(20);
+        editValueLayout.getChildren().addAll(nameText, categoryText, buyPriceText, sellPriceText, stockText);
+        editValueLayout.setSpacing(30);
 
-        editLayout.getChildren().addAll(editImageLayout, editValueLayout);
+        editField.getChildren().addAll(nameTextField, categoryTextField, buyPriceTextField, sellPriceTextField, stockTextField);
+        editField.setSpacing(20);
+
+        editLayout.getChildren().addAll(editImageLayout, editValueLayout, editField);
         editLayout.setSpacing(20);
         /*Bottom Button Layout*/
         HBox bottomButtonLayout = new HBox();
@@ -181,8 +181,6 @@ public class editCatalogMenu extends Tab {
                 throw new RuntimeException(err);
             }
         });
-/*        this.cancelButton = new Button("Cancel Button");
-        this.cancelButton.setId("buttonCatalog");*/
 
         bottomButtonLayout.getChildren().addAll(this.saveButton);
         bottomButtonLayout.setSpacing(450);
@@ -190,12 +188,18 @@ public class editCatalogMenu extends Tab {
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
 
-        Pane base = new Pane();
+
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
                 false, false, true, true);
 
-        base.getChildren().add(wholeLayout);
+        wrapper.getChildren().add(wholeLayout);
+        wrapper.setAlignment(Pos.CENTER);
+        base.getChildren().add(wrapper);
         this.setContent(base);
+
+        this.setOnSelectionChanged(event -> {
+            updateData();
+        }) ;
     }
     public void editItem() throws IOException, ParseException {
         if(this.nameTextField.getText().equals("")){
@@ -230,6 +234,15 @@ public class editCatalogMenu extends Tab {
             controller.saveDataProduct(listProducts);
             alertGUI.alertInformation("Succesfully change " + productName);
         }
+    }
+
+    public void updateData() {
+        getProd = controller.getProducts().getProductById(productCode);
+        this.sellPriceTextField.setText(Double.toString(getProd.getSellPrice()));
+        this.buyPriceTextField.setText(Double.toString(getProd.getBuyPrice()));
+        this.nameTextField.setText(getProd.getProductName());
+        this.categoryTextField.setText(getProd.getProductCategory());
+        this.stockTextField.setText(Integer.toString(getProd.getStock()));
     }
 
 }
