@@ -29,27 +29,30 @@ public class Bill implements Serializable {
     }
 
     public void addProduct(int productCode, int quantity, double price) {
+        /*Kalo produk udah ada trus nambah*/
         if (this.ListOfProduct.containsKey(productCode)) {
             int currentQuantity = this.ListOfProduct.get(productCode);
             double currentPrice = this.ListPriceOfProduct.get(productCode);
             this.ListOfProduct.put(productCode, quantity + currentQuantity);
-            this.ListPriceOfProduct.put(productCode, (quantity + currentQuantity) * price + currentPrice);
-        } else {
+            this.ListPriceOfProduct.put(productCode, price);
+        } else { /*Kalo produk belom ada sama sekali*/
             this.ListOfProduct.put(productCode, quantity);
-            this.ListPriceOfProduct.put(productCode, quantity * price);
+            this.ListPriceOfProduct.put(productCode, price);
         }
     }
 
     public void deleteProduct(int productCode, int quantity, double price) {
         if (this.ListOfProduct.containsKey(productCode)) {
+
             int currentQuantity = this.ListOfProduct.get(productCode);
             double currentPrice = this.ListPriceOfProduct.get(productCode);
             int newQuantity = currentQuantity - quantity;
             double newPrice = currentPrice - (quantity * price);
+            /*Kalo yang di delete lebih dari 0*/
             if (newQuantity > 0) {
                 this.ListOfProduct.put(productCode, newQuantity);
                 this.ListPriceOfProduct.put(productCode, newPrice);
-            } else {
+            } else { /*Kalo remove lebih banyak dari yang ada hapus sampe 0*/
                 this.ListOfProduct.remove(productCode);
                 this.ListPriceOfProduct.remove(productCode);
             }
@@ -88,6 +91,15 @@ public class Bill implements Serializable {
         return result;
     }
 
+    public double countTotalBill(){
+        double total = 0;
+        for (Map.Entry<Integer,Double> product:this.ListPriceOfProduct.entrySet()){
+            total += product.getValue();
+        }
+        return total;
+    }
+
+
     public FixedBill checkOutBill(){
         FixedBill moveFromBill = new FixedBill(this.idCustomer);
         moveFromBill.setListOfProduct(new HashMap<>(this.ListOfProduct));
@@ -96,6 +108,8 @@ public class Bill implements Serializable {
         this.ListPriceOfProduct.clear();
         return moveFromBill;
     }
+
+
 }
     /*
     public boolean alreadyFound(int K){
