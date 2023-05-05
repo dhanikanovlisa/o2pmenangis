@@ -36,6 +36,7 @@ public class FixedBill implements Serializable, printToPDF {
     protected static int countBill;
     protected HashMap<Integer,Integer> ListOfProduct;
     protected HashMap<Integer,Double> ListPriceOfProduct;
+    protected HashMap<Integer,String > ListNameOfProduct;
     protected double totalFixedBill;
     protected double paidPoint;
 
@@ -44,6 +45,7 @@ public class FixedBill implements Serializable, printToPDF {
         this.idCustomer = idCustomer;
         this.ListOfProduct = new HashMap<>();
         this.ListPriceOfProduct = new HashMap<>();
+        this.ListNameOfProduct = new HashMap<>();
         this.totalFixedBill = 0;
         this.paidPoint = 0;
     }
@@ -51,12 +53,14 @@ public class FixedBill implements Serializable, printToPDF {
     public FixedBill(@JsonProperty("idBill") int idBill, @JsonProperty("idCustomer")int idCustomer,
                      @JsonProperty("ListOfProduct")HashMap<Integer, Integer> listOfProduct,
                      @JsonProperty("ListPriceOfProduct")HashMap<Integer, Double> listPriceOfProduct,
+                     @JsonProperty("ListNameOfProduct")HashMap<Integer, String> listNameOfProduct,
                      @JsonProperty("TotalFixedBill")double totalFixedBill,
                      @JsonProperty("Point")double point) {
         this.idBill = idBill;
         this.idCustomer = idCustomer;
         ListOfProduct = listOfProduct;
         ListPriceOfProduct = listPriceOfProduct;
+        ListNameOfProduct = listNameOfProduct;
         this.totalFixedBill = totalFixedBill;
         this.paidPoint = point;
     }
@@ -122,6 +126,31 @@ public class FixedBill implements Serializable, printToPDF {
     public void setPaidPoint(double paidPoint){
         this.paidPoint = paidPoint;
     }
+    public ArrayList<String> getProductList() {
+        HashMap<String, Double> products = new HashMap<>();
+        for (int productCode : this.ListOfProduct.keySet()) {
+            int quantity = this.ListOfProduct.get(productCode);
+            double price = this.ListPriceOfProduct.get(productCode);
+            String name = this.ListNameOfProduct.get(productCode);
+            String key = name + " (" + price + ")";
+            if (products.containsKey(key)) {
+                double total = products.get(key) + (price * quantity);
+                products.put(key, total);
+            } else {
+                products.put(key, price * quantity);
+            }
+        }
+
+        ArrayList<String> productList = new ArrayList<>();
+        for (String key : products.keySet()) {
+            double total = products.get(key);
+            productList.add(key + " : " + total);
+        }
+        return productList;
+    }
+
+
+
 
     public void printPDF(Products products)  {
         Document document = new Document();

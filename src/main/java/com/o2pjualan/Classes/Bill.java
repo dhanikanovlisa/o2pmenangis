@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.*;
 
+import static com.o2pjualan.Main.controller;
+
 @Data
 @NoArgsConstructor
 @XmlRootElement(name = "bill")
@@ -104,9 +106,19 @@ public class Bill implements Serializable {
 
 
     public FixedBill checkOutBill(double poin){
+        Products p = controller.getProducts();
+        HashMap<Integer, String> listNameofProduct = new HashMap<>();
         FixedBill moveFromBill = new FixedBill(this.idCustomer);
         moveFromBill.setListOfProduct(new HashMap<>(this.ListOfProduct));
         moveFromBill.setListPriceOfProduct(new HashMap<>(this.ListPriceOfProduct));
+        for(Map.Entry<Integer, Integer> product : this.ListOfProduct.entrySet()){
+            for(Product prod: p.getProducts()){
+                if(prod.getProductCode() == product.getKey()){
+                    listNameofProduct.put(prod.getProductCode(), prod.getProductName());
+                }
+            }
+        }
+        moveFromBill.setListNameOfProduct(listNameofProduct);
         moveFromBill.setTotalFixedBill(this.totalBill);
         moveFromBill.setPaidPoint(poin);
         this.ListOfProduct.clear();
