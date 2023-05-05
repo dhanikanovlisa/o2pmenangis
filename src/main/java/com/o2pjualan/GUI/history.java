@@ -133,7 +133,7 @@ public class history extends Tab {
 
             for (FixedBill fix : fixedBill) {
                 String idFixedBill = Integer.toString(fix.getIdBill());
-                String totalPrice = Integer.toString(fix.countTotalFixedBill());
+                String totalPrice = Double.toString(fix.getTotalFixedBill());
                 System.out.println(idFixedBill + " " + totalPrice);
                 if (selectedId == fix.getIdCustomer()) {
                     displayPerItem(idFixedBill, totalPrice, rowCount);

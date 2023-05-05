@@ -201,6 +201,7 @@ public class Customers implements Serializable {
 
 
     public double pointCalculation(int idCust, double totalPrice, double currentPoint) {
+        /*Kalkulasi poin buat checkout bayar bill ke fixed bill*/
         double poin = 0;
         for (Customer cust : customers) {
             if(cust.getIdCustomer() == idCust){

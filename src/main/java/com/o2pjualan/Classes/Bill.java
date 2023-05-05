@@ -15,43 +15,54 @@ public class Bill implements Serializable {
     protected int idCustomer;
     protected HashMap<Integer, Integer> ListOfProduct;
     protected HashMap<Integer, Double> ListPriceOfProduct;
+    protected double totalBill;
 
     public Bill(int idCustomer) {
         this.idCustomer = idCustomer;
         this.ListOfProduct = new HashMap<Integer, Integer>();
         this.ListPriceOfProduct = new HashMap<Integer, Double>();
+        this.totalBill = 0;
     }
 
-    public Bill(@JsonProperty("idCustomer")int idCustomer, @JsonProperty("listOfProduct")HashMap<Integer, Integer> listOfProduct, @JsonProperty("listPriceOfProduct")HashMap<Integer, Double> listPriceOfProduct) {
+    public Bill(@JsonProperty("idCustomer")int idCustomer,
+                @JsonProperty("listOfProduct")HashMap<Integer, Integer> listOfProduct,
+                @JsonProperty("listPriceOfProduct")HashMap<Integer, Double> listPriceOfProduct,
+                @JsonProperty("totalBill")double totalBill) {
         this.idCustomer = idCustomer;
         ListOfProduct = listOfProduct;
         ListPriceOfProduct = listPriceOfProduct;
+        this.totalBill = totalBill;
+    }
+
+    public double getTotalBill(){
+        return this.totalBill;
     }
 
     public void addProduct(int productCode, int quantity, double price) {
         /*Kalo produk udah ada trus nambah*/
         if (this.ListOfProduct.containsKey(productCode)) {
             int currentQuantity = this.ListOfProduct.get(productCode);
-            double currentPrice = this.ListPriceOfProduct.get(productCode);
             this.ListOfProduct.put(productCode, quantity + currentQuantity);
+            this.totalBill += (price * (quantity));
+            // Update the price only if the product already exists in the map
             this.ListPriceOfProduct.put(productCode, price);
         } else { /*Kalo produk belom ada sama sekali*/
             this.ListOfProduct.put(productCode, quantity);
             this.ListPriceOfProduct.put(productCode, price);
+            this.totalBill += (price * quantity);
         }
     }
 
     public void deleteProduct(int productCode, int quantity, double price) {
         if (this.ListOfProduct.containsKey(productCode)) {
-
             int currentQuantity = this.ListOfProduct.get(productCode);
             double currentPrice = this.ListPriceOfProduct.get(productCode);
             int newQuantity = currentQuantity - quantity;
-            double newPrice = currentPrice - (quantity * price);
             /*Kalo yang di delete lebih dari 0*/
-            if (newQuantity > 0) {
+            if (newQuantity >= 0) {
                 this.ListOfProduct.put(productCode, newQuantity);
-                this.ListPriceOfProduct.put(productCode, newPrice);
+                this.ListPriceOfProduct.put(productCode, price);
+                this.totalBill -= (price * quantity);
             } else { /*Kalo remove lebih banyak dari yang ada hapus sampe 0*/
                 this.ListOfProduct.remove(productCode);
                 this.ListPriceOfProduct.remove(productCode);
@@ -72,7 +83,6 @@ public class Bill implements Serializable {
     public void RemoveProduct(int productCode) {
         this.ListOfProduct.remove(productCode);
     }
-
     public void print() {
         System.out.println("idCustomer: " + this.idCustomer);
         System.out.println("ListOfProducts: ");
@@ -80,6 +90,7 @@ public class Bill implements Serializable {
         System.out.println("ListPriceOfProdcuts: ");
         ListPriceOfProduct.forEach((key, value) -> System.out.println("   " + key + ":" + value));
     }
+
     @Override
     public String toString() {
         String result = new String();
@@ -91,21 +102,18 @@ public class Bill implements Serializable {
         return result;
     }
 
-    public double countTotalBill(){
-        double total = 0;
-        for (Map.Entry<Integer,Double> product:this.ListPriceOfProduct.entrySet()){
-            total += product.getValue();
-        }
-        return total;
-    }
 
-
-    public FixedBill checkOutBill(){
+    public FixedBill checkOutBill(double poin){
         FixedBill moveFromBill = new FixedBill(this.idCustomer);
         moveFromBill.setListOfProduct(new HashMap<>(this.ListOfProduct));
         moveFromBill.setListPriceOfProduct(new HashMap<>(this.ListPriceOfProduct));
+        moveFromBill.setTotalFixedBill(this.totalBill);
+        moveFromBill.setPaidPoint(poin);
         this.ListOfProduct.clear();
         this.ListPriceOfProduct.clear();
+        this.totalBill = 0;
+
+
         return moveFromBill;
     }
 

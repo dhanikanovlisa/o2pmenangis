@@ -114,37 +114,19 @@ public class addItemCatalog extends Tab {
         buyPriceText.setId("catalogLabel");
         this.buyPriceTextField = new TextField();
         this.buyPriceTextField.setId("textFieldCatalog");
-        buyPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("\\d*\\.?\\d+")) {
-                return change;
-            }
-            return null;
-        }));
+
 
         Label sellPriceText = new Label("Sell Price");
         sellPriceText.setId("catalogLabel");
         this.sellPriceTextField = new TextField();
         this.sellPriceTextField.setId("textFieldCatalog");
-        sellPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("\\d*\\.?\\d+")) {
-                return change;
-            }
-            return null;
-        }));
+
 
         Label stockText = new Label("Stock");
         stockText.setId("catalogLabel");
         this.stockTextField = new TextField();
         this.stockTextField.setId("textFieldCatalog");
-        stockTextField.setTextFormatter(new TextFormatter<>(change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("\\d+")) {
-                return change;
-            }
-            return null;
-        }));
+
 
         editValueLayout.getChildren().addAll(nameText, categoryText, buyPriceText, sellPriceText, stockText);
         editTextField.getChildren().addAll(nameTextField, categoryTextField, buyPriceTextField, sellPriceTextField, stockTextField);
@@ -180,7 +162,6 @@ public class addItemCatalog extends Tab {
         base.getChildren().add(wrapper);
         this.setContent(base);
 
-
     }
     public void addNewItem() throws IOException, ParseException {
         if(this.nameTextField.getText().equals("")){
@@ -197,27 +178,55 @@ public class addItemCatalog extends Tab {
             stockTextField.setStyle("-fx-prompt-text-fill: red;");
         } else {
             String productName = this.nameTextField.getText();
-            int buyPrice = Integer.parseInt(this.buyPriceTextField.getText());
-            int sellPrice = Integer.parseInt(this.sellPriceTextField.getText());
-            int stock = Integer.parseInt(this.stockTextField.getText());
             String categoryName = "";
-            if(categoryTextField.equals("")){
+            if(categoryTextField.equals("") || categoryTextField.equals(null) || categoryTextField == null){
                 categoryName = "etc";
             } else {
                 categoryName = this.categoryTextField.getText();
             }
 
-            Product newProduct = new Product(productName, categoryName, buyPrice, sellPrice, stock, finalPath);
-            Products products = controller.getProducts();
-            boolean success = products.validateProduct(newProduct);
-            if(success){
-                products.addProduct(newProduct);
-                controller.saveDataProduct(products);
-                alertGUI.alertInformation("Successfully add item to product database");
+            if(!inputValidater(this.buyPriceTextField.getText()) ||
+                    !inputValidater(this.sellPriceTextField.getText()) ||
+                    !inputValidater(this.stockTextField.getText()) ){
+                alertGUI.alertWarning("Please input number");
             } else {
-                alertGUI.alertWarning("Product name already exist");
+                int buyPrice = Integer.parseInt(this.buyPriceTextField.getText());
+                int sellPrice = Integer.parseInt(this.sellPriceTextField.getText());
+                int stock = Integer.parseInt(this.stockTextField.getText());
+                Product newProduct = new Product(productName, categoryName, buyPrice, sellPrice, stock, finalPath);
+                Products products = controller.getProducts();
+                boolean success = products.validateProduct(newProduct);
+                if(success){
+                    products.addProduct(newProduct);
+                    controller.saveDataProduct(products);
+                    alertGUI.alertInformation("Successfully add item to product database");
+                    this.nameTextField.setText("");
+                    this.nameTextField.setPromptText("");
+                    this.categoryTextField.setText("");
+                    this.categoryTextField.setPromptText("");
+                    this.buyPriceTextField.setText("");
+                    this.buyPriceTextField.setPromptText("");
+                    this.sellPriceTextField.setText("");
+                    this.sellPriceTextField.setPromptText("");
+                    this.stockTextField.setText("");
+                    this.stockTextField.setPromptText("");
+                    this.finalPath = "file:src/img/placeholderimg.png";
+                    this.imageView.setImage(new Image(finalPath));
+                } else {
+                    alertGUI.alertWarning("Product name already exist");
+                }
             }
         }
     }
 
+    public boolean inputValidater(String input){
+        boolean isDigit = true;
+        for (int i = 0; i < input.length(); i++) {
+            if (!Character.isDigit(input.charAt(i))) {
+                isDigit = false;
+                break;
+            }
+        }
+        return isDigit;
+    }
 }

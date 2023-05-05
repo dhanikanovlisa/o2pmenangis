@@ -167,7 +167,8 @@ public class itemtoBill extends Tab {
             try {
                 if (selectedId != null) {
                     addToBill(productCode, selectedId.toString());
-
+                } else {
+                    alertGUI.alertWarning("You have not selected the customer!");
                 }
             } catch (IOException | ParseException err) {
                 throw new RuntimeException(err);
@@ -196,7 +197,7 @@ public class itemtoBill extends Tab {
     }
 
     public void addToBill(int productCode, String customerId) throws  IOException, ParseException{
-        if(this.idDropDown.getValue() == null){
+        if(this.idDropDown.getValue() == null || this.idDropDown.getValue().equals("")){
             alertGUI.alertWarning("You haven't chose the customer");
         } else {
             Integer custId = Integer.parseInt(customerId);
@@ -215,8 +216,8 @@ public class itemtoBill extends Tab {
                 }
 
                 if(addItem.isSelected() && !deleteItem.isSelected()){
-                    customerBill.addProduct(productCode, stock, getterProduct.getSellPrice());
                     if(getterProduct.reduceStock(stock)){
+                        customerBill.addProduct(productCode, stock, getterProduct.getSellPrice());
                         controller.saveDataBill(bills);
                         controller.saveDataProduct(listProducts);
                         alertGUI.alertInformation("Successfully added " + stock + " " +  getterProduct.getProductName() +" to customer " + custId);
