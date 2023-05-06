@@ -4,17 +4,12 @@ import com.o2pjualan.Classes.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-
 import java.util.HashMap;
-import java.util.Map;
 
 import static com.o2pjualan.Main.controller;
 
@@ -31,6 +26,8 @@ public class report extends Tab {
     private HBox priceOnlyLayout;
     private Double totalPrice;
     private Label totalPriceLabel;
+    private SalesReport salesReport;
+    private Button printToPDF;
 
     public report() {
         this.setText("Report");
@@ -41,7 +38,6 @@ public class report extends Tab {
         totalPrice = 0.0;
         totalPriceLabel = new Label("");
         HBox upperLayout = new HBox();
-//        upperLayout.setStyle("-fx-background-color: purple");
         Label titleReport = new Label("Data Sales");
         titleReport.setId("h1");
         upperLayout.getChildren().add(titleReport);
@@ -49,6 +45,7 @@ public class report extends Tab {
         customers = controller.getCustomers();
         fixedBills = controller.getFixedBills();
         listProducts = controller.getProducts();
+        salesReport = new SalesReport(fixedBills);
 
         dataSalesLayout = new GridPane();
         dataSalesLayout.addColumn(1);
@@ -69,63 +66,52 @@ public class report extends Tab {
         scrollPane.setContent(dataSalesLayout);
         scrollPane.setId("scrollCatalog");
 
+
         int rowCount = 0;
-        HashMap<Integer, Integer> sales = fixedBills.salesReport();
+        HashMap<String, Integer> sales = salesReport.getListOfAllProductSales();
+        for(HashMap.Entry<String, Integer> product : sales.entrySet()){
+                HBox leftBox = new HBox();
+                productGetName = new Label(product.getKey());
+                leftBox.getChildren().add(productGetName);
+                leftBox.setAlignment(Pos.CENTER_LEFT);
+                productGetTotal = new Label("x" + product.getValue());
+                /*Layout Bill
+                 * Labu Erlenmeyer           x2      150000
+                 * */
 
-        for(Map.Entry<Integer, Integer> entry : sales.entrySet()){
-            for(Product a: listProducts.getProducts()){
-                if(a.getProductCode() == entry.getKey()){
-
-                    HBox leftBox = new HBox();
-                    productGetName = new Label(a.productName);
-                    leftBox.getChildren().add(productGetName);
-                    leftBox.setAlignment(Pos.CENTER_LEFT);
-                    productGetTotal = new Label("x" + entry.getValue().toString());
-                    productGetPrice = new Label(Double.toString(entry.getValue() * a.getBuyPrice()));
-                    this.totalPrice += entry.getValue() * a.getBuyPrice();
-                    /*Layout Bill
-                     * Labu Erlenmeyer           x2      150000
-                     * */
-
-                    priceBillLayout = new HBox();
+                priceBillLayout = new HBox();
 //                    priceBillLayout.setStyle("-fx-background-color: green;");
-                    priceBillLayout.setMinWidth(900);
-                    priceBillLayout.setPadding(new Insets(10));
-                    priceOnlyLayout = new HBox();
-                    priceOnlyLayout.setSpacing(10);
-                    priceOnlyLayout.setPadding(new Insets(10));
-                    leftBox.setPrefWidth(450);
-                    priceOnlyLayout.setPrefWidth(450);
+                priceBillLayout.setMinWidth(900);
+                priceBillLayout.setPadding(new Insets(10));
+                priceOnlyLayout = new HBox();
+                priceOnlyLayout.setSpacing(10);
+                priceOnlyLayout.setPadding(new Insets(10));
+                leftBox.setPrefWidth(450);
+                priceOnlyLayout.setPrefWidth(450);
 
 
-                    priceOnlyLayout.getChildren().addAll(productGetTotal, productGetPrice);
+                priceOnlyLayout.getChildren().addAll(productGetTotal);
 //                    priceOnlyLayout.setStyle("-fx-background-color: yellow;");
 
-                    /*Whole customers products
-                     * Labu Erlenmeyer           x2      150000
-                     * Labu Erlenmeyer           x2      150000
-                     * Labu Erlenmeyer           x2      150000
-                     * */
-                    priceBillLayout.getChildren().addAll(leftBox, priceOnlyLayout);
-                    dataSalesLayout.add(priceBillLayout, 0, rowCount);
-                    rowCount++;
-                }
-            }
+                /*Whole customers products
+                 * Labu Erlenmeyer           x2      150000
+                 * Labu Erlenmeyer           x2      150000
+                 * Labu Erlenmeyer           x2      150000
+                 * */
+                priceBillLayout.getChildren().addAll(leftBox, priceOnlyLayout);
+                dataSalesLayout.add(priceBillLayout, 0, rowCount);
+                rowCount++;
+
+
         }
 
-        if (this.totalPrice != 0) {
-            HBox wrapperPrice = new HBox();
-            wrapperPrice.setStyle("-fx-background-color: purple;");
-            totalPriceLabel.setText("Total: "  + totalPrice.toString());
-            wrapperPrice.getChildren().add(totalPriceLabel);
-            wrapperPrice.setAlignment(Pos.CENTER_RIGHT);
-            wrapperPrice.setStyle("-fx-padding: 10;");
-            dataSalesLayout.add(wrapperPrice, 0, rowCount);
-        }
+        printToPDF = new Button("Print To PDF");
+        printToPDF.setId("buttonClickedHistory");
+
 
         VBox wholeLayout = new VBox();
         wholeLayout.setMaxWidth(950);
-        wholeLayout.getChildren().addAll(upperLayout, scrollPane);
+        wholeLayout.getChildren().addAll(upperLayout, scrollPane, printToPDF);
         wholeLayout.setPadding(new Insets(10));
         wholeLayout.setId("reportLayout");
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
