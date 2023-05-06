@@ -58,7 +58,7 @@ public class FileManager {
             ext = "ser";
         }
 
-        String[] newFileNames = {"customer.", "bill.", "fixedBill.", "product."};
+        String[] newFileNames = {"customer.", "bill.", "fixedBill.", "product.", "plugin."};
         for (int i = 0; i < newFileNames.length; i++) {
             newFileNames[i] = newFileNames[i].concat(ext);
         }
@@ -66,12 +66,14 @@ public class FileManager {
         String customer = "";
         String fixedBill = "";
         String product = "";
+        String plugin = "";
 
         if (ext.equals("json")) {
             bill = "[ ]";
             customer = "[ ]";
             fixedBill = "[ ]";
             product = "[ ]";
+            plugin = " {\"plugins\": []}";
         } else if  (ext.equals("xml")) {
             customer = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                     "<customers></customers>";
@@ -81,6 +83,7 @@ public class FileManager {
                     "<fixedBills></fixedBills>";
             product = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                     "<products></products>";
+            plugin = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><PluginManager></PluginManager>\n";
         }
 
         for (String fileName : newFileNames) {
@@ -107,6 +110,9 @@ public class FileManager {
                         writer.write(fixedBill);
                         writer.close();
                         break;
+                    case "plugin":
+                        writer.write(plugin);
+                        writer.close();
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

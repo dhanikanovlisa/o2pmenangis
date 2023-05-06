@@ -16,11 +16,14 @@ public class JSONController implements FileController{
     private Products products;
     private Bills bills;
     private FixedBills fixedBills;
+    private PluginManager plugins;
+
     public JSONController() throws IOException {
         loadDataCustomer();
         loadDataProduct();
         loadDataBill();
         loadDataFixedBill();
+        loadDataPlugin();
     }
 
     public void saveDataCustomer (Customers customers) {
@@ -39,6 +42,12 @@ public class JSONController implements FileController{
         this.bills = bills;
         saveData(bills.getBills(), "bill.json") ;}
 
+
+    public void saveDataPluginManager(PluginManager plugins) {
+        this.plugins = plugins;
+        saveData(plugins.getPlugins(), "plugin.json");
+    }
+
     public Customers getCustomers() {
         return customers;
     }
@@ -55,6 +64,9 @@ public class JSONController implements FileController{
         return fixedBills;
     }
 
+    public PluginManager getPluginManager() {
+        return  this.plugins;
+    }
     public void loadDataCustomer() throws IOException {
         customers = new Customers();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -117,6 +129,14 @@ public class JSONController implements FileController{
             FixedBill fixedBill = objectMapper.<FixedBill>convertValue(object, FixedBill.class);
             fixedBills.addFixedBill(fixedBill);
         }
+    }
+
+    public void loadDataPlugin() throws IOException {
+        this.plugins = new PluginManager();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String fileName = folderName + "plugin.json";
+        File file = new File(fileName);
+        this.plugins = objectMapper.readValue(file, PluginManager.class);
     }
 
     public <T> void saveData(ArrayList<T> data, String file) {
