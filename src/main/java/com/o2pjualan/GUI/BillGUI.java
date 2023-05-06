@@ -267,7 +267,9 @@ public class BillGUI extends Tab{
 
     public void checkOut(int idCust){
         b = bills.getBillByID(idCust);
+        System.out.println(currentPoint);
         newBill = b.checkOutBill(currentPoint);
+        System.out.println(currentPoint);
         fixedBills.addFixedBill(newBill);
         Customer c = customers.getCustomerByID(idCust);
         pointCount = customers.pointCalculation(idCust, totalBill,currentPoint);
@@ -275,11 +277,9 @@ public class BillGUI extends Tab{
         if(c instanceof Member){
             ((Member) c).reducePoint(currentPoint);
             ((Member) c).addPoint(pointCount);
-            newBill.setPaidPoint(currentPoint);
         } else if(c instanceof VIP){
             ((VIP) c).reducePoint(currentPoint);
             ((VIP) c).addPoint(pointCount);
-            newBill.setPaidPoint(currentPoint);
         }
         c.addFixedBill(idBill);
         controller.saveDataBill(bills);
