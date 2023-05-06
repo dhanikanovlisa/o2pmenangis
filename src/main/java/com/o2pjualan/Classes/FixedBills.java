@@ -42,24 +42,4 @@ public class FixedBills implements Serializable {
             f.print();
         }
     }
-
-    public HashMap<Integer, Integer> salesReport(){
-        HashMap<Integer, Integer> sales = new HashMap<>();
-        for(FixedBill b : fixedBills){
-            for(Map.Entry<Integer, Integer> product : b.getListOfProduct().entrySet()){
-                Integer key = product.getKey();
-                Integer value = product.getValue();
-
-                // If the key already exists in the HashMap, add the new value to the existing value
-                if(sales.containsKey(key)){
-                    value += sales.get(key);
-                }
-
-                sales.put(key, value);
-            }
-        }
-        return sales;
-    }
-
-
 }
