@@ -12,7 +12,10 @@ import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
 
 public class pluginManager {
-    private HashMap<String,Class<?>> plugins;
+    private ArrayList<String> plugins;
+    public pluginManager(){
+        this.plugins = new ArrayList<>();
+    }
 
     public ArrayList<String> getClassNameFromJar(JarInputStream jarFile) throws Exception {
         ArrayList<String> classNames = new ArrayList<>();
@@ -46,13 +49,17 @@ public class pluginManager {
         for (String className : classNames) {
             try {
                 Class<?> c = classLoader.loadClass(className);
-                if(!className.contains(".pluginController")){
-                    plugins.put(className, c);
+                if(!className.contains(".pluginChartController")){
+                    addPlugin(className);
+                    return c;
                 }
             } catch (ClassNotFoundException e) {
                 System.out.println("Class " + className + " was not found!");
             }
         }
         return null;
+    }
+    public void addPlugin(String className){
+        this.plugins.add(className);
     }
 }

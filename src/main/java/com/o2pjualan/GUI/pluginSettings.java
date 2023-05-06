@@ -44,8 +44,7 @@ public class pluginSettings extends Tab {
             openFileDialog();
 
         });
-        pluginPieChart pie = new pluginPieChart();
-        pluginLineBarChart lineBar = new pluginLineBarChart();
+
         Button pieChart = new Button("Pie Chart");
         Button lineChart = new Button("Line Chart");
         HBox tes = new HBox();
@@ -59,14 +58,6 @@ public class pluginSettings extends Tab {
             dataSales.put("Barang 2", 100);
             dataSales.put("Barang 3", 100);
             dataSales.put("Barang 4", 100);
-            pluginPieChart chart = new pluginPieChart();
-            Node chartNode = chart.onLoadChart(dataSales);
-
-            basePlugin pluginTab = new basePlugin(mainTabPane);
-            pluginTab.addChart(chartNode);
-
-
-
         });
 
         lineChart.setOnAction(e -> {
@@ -77,19 +68,7 @@ public class pluginSettings extends Tab {
             dataSales.put("Barang 2", 100);
             dataSales.put("Barang 3", 100);
             dataSales.put("Barang 4", 100);
-
-            pluginPieChart chart = new pluginPieChart();
-            Node chartNode = chart.onLoadChart(dataSales);
-
-            basePlugin pluginTab = new basePlugin(mainTabPane);
-            pluginTab.addChart(chartNode);
-
-
-
-
         });
-
-
 
         pluginLayout.getChildren().addAll(titlePlugin, this.loadPlugin);
         pluginLayout.setSpacing(20);
@@ -134,15 +113,15 @@ public class pluginSettings extends Tab {
                         dataSales.put("Barang 4", 100);
 
 
-//                        Class<?> classTes = pluginController.loadJarFile(pathFile);
-//                        Method method = classTes.getDeclaredMethod("onLoadChart", HashMap.class);
-//                        Object pluginObject = classTes.getDeclaredConstructor().newInstance(); // Instantiate an object of classTes
-//                        Object chart = method.invoke(pluginObject, dataSales); // Invoke the method on the instantiated object
-//
-//                        alertGUI.alertInformation("Successfully loaded plugin");
-//                        Node chartNode = (Node) chart;
-//                        basePlugin pluginTab = new basePlugin(mainTabPane);
-//                        pluginTab.addChart(chartNode);
+                        Class<?> classTes = pluginController.loadJarFile(pathFile);
+                        Method method = classTes.getDeclaredMethod("onLoadChart", HashMap.class);
+                        Object pluginObject = classTes.getDeclaredConstructor().newInstance(); // Instantiate an object of classTes
+                        Object chart = method.invoke(pluginObject, dataSales); // Invoke the method on the instantiated object
+
+                        alertGUI.alertInformation("Successfully loaded plugin");
+                        Node chartNode = (Node) chart;
+                        basePlugin pluginTab = new basePlugin(mainTabPane);
+                        pluginTab.addChart(chartNode);
 
                     } catch (Exception err){
                         System.out.println(err);
