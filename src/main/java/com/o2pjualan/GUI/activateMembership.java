@@ -72,6 +72,12 @@ public class activateMembership extends Tab {
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true);
         base.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
+
+        this.setOnSelectionChanged(event -> {
+            if (this.isSelected()) {
+                updateData();
+            }
+        });
     }
 
     public void deactivateMember() {
@@ -92,5 +98,16 @@ public class activateMembership extends Tab {
             this.name.getItems().remove(str);
             this.message.setText("Customer chosen has been reactivated");
         }
+    }
+
+    public void updateData() {
+        ArrayList<Customer> activeMembers = customers.getActiveMembers(false);
+        ArrayList<String> optionsList = new ArrayList<>();
+        for (Customer cust : activeMembers) {
+            Integer id = cust.getIdCustomer();
+            optionsList.add('(' + id.toString() + ") "  + customers.getCustomerNameById(id));
+        }
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+        this.name.setItems(options);
     }
 }
