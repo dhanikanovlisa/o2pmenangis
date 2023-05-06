@@ -69,32 +69,33 @@ public class clickedHistory extends Tab {
         FixedBill fixBillCustomer = fixedBills.getFixedBillByID(idFixedBill);
         HashMap<Integer, Integer> listProd = fixBillCustomer.getListOfProduct();
         for(Map.Entry<Integer, Integer> entry : listProd.entrySet()){
-            for(Product a: listProducts.getProducts()){
-                if(a.getProductCode() == entry.getKey()){
-                    HBox productNameLayout = new HBox();
-                    productGetName = new Label(a.productName);
-                    productGetTotal = new Label("x" + entry.getValue().toString());
-                    productGetPrice = new Label(Double.toString(entry.getValue() * a.getBuyPrice()));
-                    /*Layout Bill
-                     * Labu Erlenmeyer           x2      150000
-                     * */
-                    priceBillLayout = new HBox();
-                    priceOnlyLayout = new HBox();
-                    priceOnlyLayout.getChildren().addAll(productGetTotal, productGetPrice);
-                    /*Whole customers products
-                     * Labu Erlenmeyer           x2      150000
-                     * Labu Erlenmeyer           x2      150000
-                     * Labu Erlenmeyer           x2      150000
-                     * */
-                    productNameLayout.getChildren().add(productGetName);
-                    productNameLayout.setMinWidth(500);
-                    priceOnlyLayout.setMinWidth(500);
-                    priceBillLayout.getChildren().addAll(productNameLayout, priceOnlyLayout);
-                    priceBillLayout.setStyle("-fx-padding: 10, 0, 0, 10");
-                    wholePriceLayout.add(priceBillLayout, 0, rowCount);
-                    rowCount++;
-                }
-            }
+            int quantity = entry.getValue();
+            double price = fixBillCustomer.getListPriceOfProduct().get(entry.getKey());
+            String prodName = fixBillCustomer.getListNameOfProduct().get(entry.getKey());
+            HBox productNameLayout = new HBox();
+            productGetName = new Label(prodName);
+            productGetTotal = new Label("x" + quantity);
+            productGetPrice = new Label(Double.toString(price));
+            /*Layout Bill
+             * Labu Erlenmeyer           x2      150000
+             * */
+            priceBillLayout = new HBox();
+            priceOnlyLayout = new HBox();
+            priceOnlyLayout.getChildren().addAll(productGetTotal, productGetPrice);
+            priceOnlyLayout.setSpacing(10);
+            /*Whole customers products
+             * Labu Erlenmeyer           x2      150000
+             * Labu Erlenmeyer           x2      150000
+             * Labu Erlenmeyer           x2      150000
+             * */
+            productNameLayout.getChildren().add(productGetName);
+            productNameLayout.setMinWidth(500);
+            priceOnlyLayout.setMinWidth(500);
+            priceBillLayout.getChildren().addAll(productNameLayout, priceOnlyLayout);
+            priceBillLayout.setStyle("-fx-padding: 10, 0, 0, 10");
+            wholePriceLayout.add(priceBillLayout, 0, rowCount);
+            rowCount++;
+
         }
 
 //        wholeLayout.setId("reportLayout");
