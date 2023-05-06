@@ -61,4 +61,5 @@ public class FixedBills implements Serializable {
         return sales;
     }
 
+
 }
