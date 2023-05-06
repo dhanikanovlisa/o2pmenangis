@@ -39,14 +39,23 @@ public class addItemCatalog extends Tab {
 
     public addItemCatalog(){
         this.setText("Add Catalog Item");
+        Pane base = new Pane();
+
+        VBox wrapper = new VBox();
+        wrapper.prefWidthProperty().bind(base.widthProperty());
+        wrapper.prefHeightProperty().bind(base.heightProperty());
+
 
         /*Whole Layout*/
         VBox wholeLayout = new VBox();
-        wholeLayout.setId("layoutCatalog");
+        wholeLayout.setId("addCatalogLayout");
+        wholeLayout.setMaxWidth(1000);
+        wholeLayout.setAlignment(Pos.CENTER);
         alertGUI = new AlertGUI();
 
         /*Edit Whole Item Layout*/
         HBox editLayout = new HBox();
+
 
         /*Edit Image Layout*/
         VBox editImageLayout = new VBox();
@@ -89,77 +98,46 @@ public class addItemCatalog extends Tab {
 
         /*Edit Value Layout*/
         VBox editValueLayout = new VBox();
+        VBox editTextField = new VBox();
 
-
-        HBox nameLayout = new HBox();
         Label nameText = new Label("Name");
         nameText.setId("catalogLabel");
         this.nameTextField = new TextField();
         this.nameTextField.setId("textFieldCatalog");
-        nameLayout.getChildren().addAll(nameText, this.nameTextField);
-        nameLayout.setSpacing(15);
 
-        HBox categoryLayout = new HBox();
         Label categoryText = new Label("Category");
         categoryText.setId("catalogLabel");
         this.categoryTextField = new TextField();
         this.categoryTextField.setId("textFieldCatalog");
-        categoryLayout.getChildren().addAll(categoryText, this.categoryTextField);
-        categoryLayout.setSpacing(15);
 
-        HBox buyPriceLayout = new HBox();
         Label buyPriceText = new Label("Buy Price");
         buyPriceText.setId("catalogLabel");
         this.buyPriceTextField = new TextField();
         this.buyPriceTextField.setId("textFieldCatalog");
-        buyPriceLayout.getChildren().addAll(buyPriceText, this.buyPriceTextField);
-        buyPriceLayout.setSpacing(15);
-        buyPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("\\d*")) {
-                return change;
-            }
-            return null;
-        }));
 
-        HBox sellPriceLayout = new HBox();
+
         Label sellPriceText = new Label("Sell Price");
         sellPriceText.setId("catalogLabel");
         this.sellPriceTextField = new TextField();
         this.sellPriceTextField.setId("textFieldCatalog");
-        sellPriceLayout.getChildren().addAll(sellPriceText, this.sellPriceTextField);
-        sellPriceLayout.setSpacing(15);
-        sellPriceTextField.setTextFormatter(new TextFormatter<>(change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("\\d*")) {
-                return change;
-            }
-            return null;
-        }));
 
-        HBox stockLayout = new HBox();
+
         Label stockText = new Label("Stock");
         stockText.setId("catalogLabel");
         this.stockTextField = new TextField();
         this.stockTextField.setId("textFieldCatalog");
-        stockLayout.getChildren().addAll(stockText, this.stockTextField);
-        stockLayout.setSpacing(15);
-        stockTextField.setTextFormatter(new TextFormatter<>(change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("\\d+")) {
-                return change;
-            }
-            return null;
-        }));
 
-        editValueLayout.getChildren().addAll(nameLayout, categoryLayout, buyPriceLayout, sellPriceLayout, stockLayout);
-        editValueLayout.setSpacing(20);
 
-        editLayout.getChildren().addAll(editImageLayout, editValueLayout);
+        editValueLayout.getChildren().addAll(nameText, categoryText, buyPriceText, sellPriceText, stockText);
+        editTextField.getChildren().addAll(nameTextField, categoryTextField, buyPriceTextField, sellPriceTextField, stockTextField);
+        editValueLayout.setSpacing(30);
+        editValueLayout.setStyle("-fx-padding: 0 0 0 50;");
+        editTextField.setSpacing(20);
+
+        editLayout.getChildren().addAll(editImageLayout, editValueLayout, editTextField);
         editLayout.setSpacing(20);
         /*Bottom Button Layout*/
         HBox bottomButtonLayout = new HBox();
-
 
 
         this.saveButton = new Button("Add Item");
@@ -179,9 +157,11 @@ public class addItemCatalog extends Tab {
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
 
-        Pane base = new Pane();
-        base.getChildren().add(wholeLayout);
+        wrapper.getChildren().add(wholeLayout);
+        wrapper.setAlignment(Pos.CENTER);
+        base.getChildren().add(wrapper);
         this.setContent(base);
+
     }
     public void addNewItem() throws IOException, ParseException {
         if(this.nameTextField.getText().equals("")){
@@ -198,27 +178,55 @@ public class addItemCatalog extends Tab {
             stockTextField.setStyle("-fx-prompt-text-fill: red;");
         } else {
             String productName = this.nameTextField.getText();
-            int buyPrice = Integer.parseInt(this.buyPriceTextField.getText());
-            int sellPrice = Integer.parseInt(this.sellPriceTextField.getText());
-            int stock = Integer.parseInt(this.stockTextField.getText());
             String categoryName = "";
-            if(categoryTextField.equals("")){
+            if(categoryTextField.equals("") || categoryTextField.equals(null) || categoryTextField == null){
                 categoryName = "etc";
             } else {
                 categoryName = this.categoryTextField.getText();
             }
 
-            Product newProduct = new Product(productName, categoryName, buyPrice, sellPrice, stock, finalPath);
-            Products products = controller.getProducts();
-            boolean success = products.validateProduct(newProduct);
-            if(success){
-                products.addProduct(newProduct);
-                controller.saveDataProduct(products);
-                alertGUI.alertInformation("Successfully add item to product database");
+            if(!inputValidater(this.buyPriceTextField.getText()) ||
+                    !inputValidater(this.sellPriceTextField.getText()) ||
+                    !inputValidater(this.stockTextField.getText()) ){
+                alertGUI.alertWarning("Please input number");
             } else {
-                alertGUI.alertWarning("Product name already exist");
+                int buyPrice = Integer.parseInt(this.buyPriceTextField.getText());
+                int sellPrice = Integer.parseInt(this.sellPriceTextField.getText());
+                int stock = Integer.parseInt(this.stockTextField.getText());
+                Product newProduct = new Product(productName, categoryName, buyPrice, sellPrice, stock, finalPath);
+                Products products = controller.getProducts();
+                boolean success = products.validateProduct(newProduct);
+                if(success){
+                    products.addProduct(newProduct);
+                    controller.saveDataProduct(products);
+                    alertGUI.alertInformation("Successfully add item to product database");
+                    this.nameTextField.setText("");
+                    this.nameTextField.setPromptText("");
+                    this.categoryTextField.setText("");
+                    this.categoryTextField.setPromptText("");
+                    this.buyPriceTextField.setText("");
+                    this.buyPriceTextField.setPromptText("");
+                    this.sellPriceTextField.setText("");
+                    this.sellPriceTextField.setPromptText("");
+                    this.stockTextField.setText("");
+                    this.stockTextField.setPromptText("");
+                    this.finalPath = "file:src/img/placeholderimg.png";
+                    this.imageView.setImage(new Image(finalPath));
+                } else {
+                    alertGUI.alertWarning("Product name already exist");
+                }
             }
         }
     }
 
+    public boolean inputValidater(String input){
+        boolean isDigit = true;
+        for (int i = 0; i < input.length(); i++) {
+            if (!Character.isDigit(input.charAt(i))) {
+                isDigit = false;
+                break;
+            }
+        }
+        return isDigit;
+    }
 }

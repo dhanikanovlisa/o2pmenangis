@@ -19,19 +19,14 @@ public class upgradeMembership extends Tab {
     private ComboBox<String> name;
     private Button upgrade;
     private Label message;
+    private Customers customers;
 
     public upgradeMembership(){
         this.setText("Upgrade Membership");
+        this.name = new ComboBox<String>();
 
-        Customers customers = controller.getCustomers();
-        ArrayList<Integer> customersId = customers.getIdsByMembership("Member");
-        ArrayList<String> optionsList = new ArrayList<String>();
-        for (Integer i : customersId) {
-            optionsList.add('(' + i.toString() + ") "  + customers.getCustomerNameById(i));
-        }
-        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+        updateData();
 
-        this.name = new ComboBox<String>(options);
         this.name.setId("nameDropDown");
         this.name.setPromptText("Pick Customer Name...");
 
@@ -74,6 +69,12 @@ public class upgradeMembership extends Tab {
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true);
         base.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
+
+        this.setOnSelectionChanged(event -> {
+            if (this.isSelected()) {
+                updateData();
+            }
+        });
     }
 
     public void upgradeMember() {
@@ -96,5 +97,16 @@ public class upgradeMembership extends Tab {
 
             this.message.setText("Upgraded to VIP");
         }
+    }
+
+    public void updateData() {
+        this.customers = controller.getCustomers();
+        ArrayList<Integer> customersId = customers.getIdsByMembership("Member");
+        ArrayList<String> optionsList = new ArrayList<String>();
+        for (Integer i : customersId) {
+            optionsList.add('(' + i.toString() + ") "  + customers.getCustomerNameById(i));
+        }
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+        this.name.setItems(options);
     }
 }

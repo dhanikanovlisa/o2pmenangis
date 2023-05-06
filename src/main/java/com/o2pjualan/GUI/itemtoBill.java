@@ -44,31 +44,30 @@ public class itemtoBill extends Tab {
     private HBox currentQuantityLayout;
     private ArrayList<Integer> customersId;
     private AlertGUI alertGUI;
+    private Integer productCode;
+    private Integer selectedId;
+
     public itemtoBill(Integer productCode){
         /*Whole Layout*/
+        Pane base = new Pane();
+        VBox wrapper = new VBox();
+        wrapper.prefHeightProperty().bind(base.heightProperty());
+        wrapper.prefWidthProperty().bind(base.widthProperty());
+        currentQuantity = new Label("");
         VBox wholeLayout = new VBox();
-        wholeLayout.setId("layoutCatalog");
+        wholeLayout.setMinHeight(350);
+        wholeLayout.setMaxWidth(900);
+        wholeLayout.setId("itemToBill");
         alertGUI = new AlertGUI();
-        listProducts = new Products();
-        listProducts = controller.getProducts();
-        bills = controller.getBills();
-        customers = controller.getCustomers();
-        customersId = customers.getCustomersId();
-        optionsList = new ArrayList<>();
-        for (Integer i : customersId) {
-            optionsList.add('(' + i.toString() + ") "  + customers.getCustomerNameById(i));
-        }
-        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+        this.productCode = productCode;
 
         /*Dropdown to search customer by id*/
-        this.idDropDown = new ComboBox<String>(options);
+        this.idDropDown = new ComboBox<String>();
         this.idDropDown.setId("idDropDown");
         this.idDropDown.setPromptText("Customer ID");
-        this.idDropDown.setValue("0");
 
-        getProd = new Product();
-        getProd = listProducts.getProductById(productCode);
-        this.setText("Add " + getProd.getProductName());
+        updateData();
+
 
         /*Edit Whole Item Layout*/
         HBox editLayout = new HBox();
@@ -81,26 +80,6 @@ public class itemtoBill extends Tab {
         imageView.setImage(imageItem);
         imageView.setFitHeight(150);
         imageView.setFitWidth(150);
-
-        this.idDropDown.setOnAction(event ->{
-            if (this.idDropDown.getValue() != null) {
-                String str = this.idDropDown.getValue().toString();
-                int startIndex = str.indexOf("(") + 1;
-                int endIndex = str.indexOf(")");
-                String digits = str.substring(startIndex, endIndex);
-                Integer selectedId = Integer.parseInt(digits);
-                Bill custBill = bills.getBillByID(selectedId);
-                currentQuantity.setText("0");
-                setTextField(custBill, productCode);
-                this.saveButton.setOnAction(e -> {
-                    try {
-                        addToBill(productCode, selectedId.toString());
-                    } catch (IOException | ParseException err) {
-                        throw new RuntimeException(err);
-                    }
-                });
-            }
-        });
 
         editImageLayout.getChildren().addAll(imageView);
         editImageLayout.setAlignment(Pos.CENTER);
@@ -130,7 +109,7 @@ public class itemtoBill extends Tab {
 
         currentQuantityLayout = new HBox();
         Label current = new Label("Current Quantity");
-        currentQuantity = new Label("");
+
         current.setId("catalogLabel");
         currentQuantityLayout.getChildren().addAll(current, currentQuantity);
         currentQuantityLayout.setSpacing(15);
@@ -161,8 +140,6 @@ public class itemtoBill extends Tab {
         this.saveButton = new Button("Save");
         this.saveButton.setId("buttonCatalog");
 
-
-
         HBox itemDelete = new HBox();
         itemDelete.getChildren().addAll(this.itemTotal, toggleLayout);
         itemDelete.setSpacing(20);
@@ -172,20 +149,59 @@ public class itemtoBill extends Tab {
         wholeLayout.getChildren().addAll(this.idDropDown, editLayout, bottomButtonLayout);
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
-
-        Pane base = new Pane();
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
                 false, false, true, true);
 
-        base.getChildren().add(wholeLayout);
+        wrapper.getChildren().add(wholeLayout);
+        wrapper.setAlignment(Pos.CENTER);
+        base.getChildren().add(wrapper);
         this.setContent(base);
+
+        this.setOnSelectionChanged(event ->  {
+            if (this.isSelected()) {
+                updateData();
+            }
+        });
+
+        this.saveButton.setOnAction(e -> {
+            try {
+                if (selectedId != null) {
+                    addToBill(productCode, selectedId.toString());
+                } else {
+                    alertGUI.alertWarning("You have not selected the customer!");
+                }
+            } catch (IOException | ParseException err) {
+                throw new RuntimeException(err);
+            }
+        });
+
+        this.idDropDown.setOnAction(event ->{
+            updateData();
+        });
+
+        this.addItem.setOnAction(event -> {
+            if (this.deleteItem.isSelected()) {
+                deleteItem.setSelected(false);
+            } else {
+                addItem.setSelected(true);
+            }
+        });
+
+        this.deleteItem.setOnAction(event -> {
+            if (this.addItem.isSelected()) {
+                addItem.setSelected(false);
+            } else {
+                deleteItem.setSelected(true);
+            }
+        });
     }
 
     public void addToBill(int productCode, String customerId) throws  IOException, ParseException{
-        if(customerId.equals("0")){
+        if(this.idDropDown.getValue() == null || this.idDropDown.getValue().equals("")){
             alertGUI.alertWarning("You haven't chose the customer");
         } else {
             Integer custId = Integer.parseInt(customerId);
+            bills = controller.getBills();
             Bill customerBill = bills.getBillByID(custId);
             if(itemTotal.getText().equals("") || itemTotal.getText().equals(null)){
                 alertGUI.alertWarning("You haven't specified how many item");
@@ -193,20 +209,24 @@ public class itemtoBill extends Tab {
                 String quantity = itemTotal.getText();
                 Integer stock = Integer.parseInt(quantity);
                 Product getterProduct = new Product();
+                listProducts = controller.getProducts();
                 for(Product a: listProducts.getProducts()){
                     if(a.getProductCode() == productCode)
                         getterProduct = a;
                 }
 
                 if(addItem.isSelected() && !deleteItem.isSelected()){
-                    customerBill.addProduct(productCode, stock, getterProduct.getSellPrice() * stock);
-                    getterProduct.setStock(getterProduct.getStock() - stock);
-                    controller.saveDataBill(bills);
-                    controller.saveDataProduct(listProducts);
-                    alertGUI.alertInformation("Successfully added " + stock + " " +  getterProduct.getProductName() +" to customer " + custId);
+                    if(getterProduct.reduceStock(stock)){
+                        customerBill.addProduct(productCode, stock, getterProduct.getSellPrice());
+                        controller.saveDataBill(bills);
+                        controller.saveDataProduct(listProducts);
+                        alertGUI.alertInformation("Successfully added " + stock + " " +  getterProduct.getProductName() +" to customer " + custId);
+                    } else {
+                        alertGUI.alertWarning("Not enough stock");
+                    }
                 } else if (deleteItem.isSelected() && !addItem.isSelected()){
                     if(customerBill.validateDeleteProduct(productCode, stock)){
-                        customerBill.deleteProduct(productCode, stock, getterProduct.getSellPrice() * stock);
+                        customerBill.deleteProduct(productCode, stock, getterProduct.getSellPrice());
                         getterProduct.setStock(getterProduct.getStock() + stock);
                         controller.saveDataBill(bills);
                         controller.saveDataProduct(listProducts);
@@ -219,15 +239,68 @@ public class itemtoBill extends Tab {
                 } else if(addItem.isSelected() && deleteItem.isSelected()){
                     alertGUI.alertWarning("You cannot choose both");
                 }
+                System.out.println(("DONE"));
+                setTextField(customerBill, productCode);
             }
         }
     }
 
     public void setTextField(Bill bill, Integer productCode){
+        boolean found = false;
         for(Map.Entry<Integer, Integer> product : bill.getListOfProduct().entrySet()){
             if(product.getKey() == productCode){
                 currentQuantity.setText(Integer.toString(product.getValue()));
+                found = true;
             }
         }
+        if (!found) {
+            currentQuantity.setText("0");
+        }
+    }
+
+    public void updateData () {
+        listProducts = new Products();
+        listProducts = controller.getProducts();
+        bills = controller.getBills();
+        customers = controller.getCustomers();
+        customersId = customers.getCustomersId();
+        optionsList = new ArrayList<>();
+        for (Integer i : customersId) {
+            optionsList.add('(' + i.toString() + ") "  + customers.getCustomerNameById(i));
+        }
+        ObservableList<String> options = FXCollections.observableArrayList(optionsList);
+        this.idDropDown.setItems(options);
+
+        getProd = new Product();
+        getProd = listProducts.getProductById(productCode);
+        this.setText("Add " + getProd.getProductName());
+
+
+        if (this.idDropDown.getValue() != null) {
+            String str = this.idDropDown.getValue().toString();
+            int startIndex = str.indexOf("(") + 1;
+            int endIndex = str.indexOf(")");
+            String digits = str.substring(startIndex, endIndex);
+            selectedId = Integer.parseInt(digits);
+            Bill custBill = bills.getBillByID(selectedId);
+            setTextField(custBill, productCode);
+        } else {
+            currentQuantity.setText("");
+        }
+
     }
 }
+
+//this.idDropDown.setOnAction(event ->{
+//        if (this.idDropDown.getValue() != null) {
+//        String str = this.idDropDown.getValue().toString();
+//        int startIndex = str.indexOf("(") + 1;
+//        int endIndex = str.indexOf(")");
+//        String digits = str.substring(startIndex, endIndex);
+//        selectedId = Integer.parseInt(digits);
+//        Bill custBill = bills.getBillByID(selectedId);
+//        currentQuantity.setText("0");
+//        setTextField(custBill, productCode);
+//
+//        }
+//        })

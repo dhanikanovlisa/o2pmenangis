@@ -22,7 +22,7 @@ public class Main extends Application {
     public MenuBar menuBar;
 
     public BorderPane holderTab;
-    public TabPane mainTabPane;
+    static public TabPane mainTabPane;
     public Scene tabPane;
 
 
@@ -168,7 +168,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws IOException {
-        folderName = "src/dataStore/dataStore1/";
+        folderName = "src/dataStore/dataStore4/";
         FileManager.initiateDataStore();
         Application.launch(args);
         System.out.println("DONE");

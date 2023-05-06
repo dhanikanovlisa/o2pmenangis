@@ -6,9 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Data
 @XmlRootElement(name = "customers")
@@ -62,9 +60,9 @@ public class Customers implements Serializable {
     public void deactivate (int id) {
         Customer selected = getCustomerByID(id);
         if (selected.getMembership().equals("Member")) {
-            ((Member) selected).setStatusMembership(false);
+            ((Member) selected).setStatusMembership(!((Member) selected).getStatusMembership());
         } else {
-            ((VIP) selected).setStatusMembership(false);
+            ((VIP) selected).setStatusMembership(!((VIP) selected).getStatusMembership());
         }
     }
 
@@ -187,6 +185,70 @@ public class Customers implements Serializable {
 
         return ret;
     }
+    public double getCurrentPoint(int idCust) {
+
+        for (Customer cust : customers) {
+            if(cust.getIdCustomer() == idCust){
+                if (cust instanceof Member) {
+                    return ((Member) cust).getPoint();
+                }else if (cust instanceof VIP) {
+                    return ((VIP) cust).getPoint();
+                }
+            }
+        }
+        return 0;
+    }
+
+
+    public double pointCalculation(int idCust, double totalPrice, double currentPoint) {
+        /*Kalkulasi poin buat checkout bayar bill ke fixed bill*/
+        double poin = 0;
+        for (Customer cust : customers) {
+            if(cust.getIdCustomer() == idCust){
+                if (cust.getMembership().equals("Member")) {
+                    if(currentPoint > totalPrice){
+                        poin += totalPrice * 0.01;
+                    } else {
+                        poin += (totalPrice-currentPoint) * 0.01;
+                    }
+                }else if (cust.getMembership().equals("VIP")) {
+                    if(currentPoint > totalPrice){
+                        poin += totalPrice * 0.05;
+                    } else {
+                        poin += (totalPrice-currentPoint) * 0.05;
+                    }
+                }
+            }
+        }
+        return poin;
+    }
+
+    public void addPoint(int idCust, double point) {
+
+        for (Customer cust : customers) {
+            if(cust.getIdCustomer() == idCust){
+                if (cust instanceof Member) {
+                    ((Member) cust).addPoint(point);
+                }else if (cust instanceof VIP) {
+                    ((VIP) cust).addPoint(point);
+                }
+            }
+        }
+
+    }
+
+    public void reducePoint(int idCust, double point) {
+        for (Customer cust : customers) {
+            if(cust.getIdCustomer() == idCust){
+                if (cust instanceof Member) {
+                    ((Member) cust).reducePoint(point);
+                }else if (cust instanceof VIP) {
+                    ((VIP) cust).reducePoint(point);
+                }
+            }
+        }
+
+    }
 
     public void addFixedBill(int idFixedBill, int idCust) {
         for(Customer c: customers){
@@ -195,7 +257,6 @@ public class Customers implements Serializable {
             }
         }
     }
-
 
     public void print() {
         for (Customer c : this.customers) {

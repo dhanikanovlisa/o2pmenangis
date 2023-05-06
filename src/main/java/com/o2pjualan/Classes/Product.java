@@ -71,8 +71,13 @@ public class Product implements Serializable {
                 '}';
     }
 
-    public void reduceStock(int stock){
-        this.stock -= stock;
+    public boolean reduceStock(int stock){
+        if(this.stock >= stock){
+            this.stock -= stock;
+            return true;
+        }
+        return false;
+
     }
 
 }

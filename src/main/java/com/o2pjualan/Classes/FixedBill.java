@@ -30,25 +30,39 @@ import static com.o2pjualan.Main.controller;
 @XmlRootElement(name = "fixedBill")
 @XmlAccessorType(XmlAccessType.FIELD)
 @NoArgsConstructor
-public class FixedBill implements Serializable, printToPDF {
+public class FixedBill implements Serializable {
     protected int idBill;
     protected int idCustomer;
     protected static int countBill;
     protected HashMap<Integer,Integer> ListOfProduct;
     protected HashMap<Integer,Double> ListPriceOfProduct;
+    protected HashMap<Integer,String > ListNameOfProduct;
+    protected double totalFixedBill;
+    protected double paidPoint;
 
     public FixedBill(int idCustomer)  {
         this.idBill = controller.getTotalFixedBills() + 2001;
         this.idCustomer = idCustomer;
         this.ListOfProduct = new HashMap<>();
         this.ListPriceOfProduct = new HashMap<>();
+        this.ListNameOfProduct = new HashMap<>();
+        this.totalFixedBill = 0;
+        this.paidPoint = 0;
     }
 
-    public FixedBill(@JsonProperty("idBill") int idBill, @JsonProperty("idCustomer")int idCustomer, @JsonProperty("ListOfProduct")HashMap<Integer, Integer> listOfProduct, @JsonProperty("ListPriceOfProduct")HashMap<Integer, Double> listPriceOfProduct) {
+    public FixedBill(@JsonProperty("idBill") int idBill, @JsonProperty("idCustomer")int idCustomer,
+                     @JsonProperty("ListOfProduct")HashMap<Integer, Integer> listOfProduct,
+                     @JsonProperty("ListPriceOfProduct")HashMap<Integer, Double> listPriceOfProduct,
+                     @JsonProperty("ListNameOfProduct")HashMap<Integer, String> listNameOfProduct,
+                     @JsonProperty("TotalFixedBill")double totalFixedBill,
+                     @JsonProperty("Point")double point) {
         this.idBill = idBill;
         this.idCustomer = idCustomer;
         ListOfProduct = listOfProduct;
         ListPriceOfProduct = listPriceOfProduct;
+        ListNameOfProduct = listNameOfProduct;
+        this.totalFixedBill = totalFixedBill;
+        this.paidPoint = point;
     }
 
     public int getIdBill(){
@@ -83,15 +97,6 @@ public class FixedBill implements Serializable, printToPDF {
         this.ListPriceOfProduct = listPriceOfProduct;
     }
 
-    public void AddProduct(int productCode, int quantity, double price){
-        this.ListOfProduct.put(productCode,quantity);
-        this.ListPriceOfProduct.put(productCode,quantity*price);
-    }
-
-    public void RemoveProduct(int productCode){
-        this.ListOfProduct.remove(productCode);
-    }
-
     public void print(){
         System.out.println(this.toString());
         int i=0;
@@ -111,32 +116,54 @@ public class FixedBill implements Serializable, printToPDF {
                 '}';
     }
 
-    public int countTotalFixedBill(){
-        int total = 0;
-        for (Map.Entry<Integer,Double> product:this.ListPriceOfProduct.entrySet()){
-            total += product.getValue();
-        }
-        return total;
+    public double getTotalFixedBill(){
+        return this.totalFixedBill;
+    }
+    public double getPaidPoint(){
+        return this.paidPoint;
     }
 
-    public void printPDF(Products products)  {
+    public void setPaidPoint(double paidPoint){
+        this.paidPoint = paidPoint;
+    }
+    public ArrayList<String> displayProductList() {
+        HashMap<String, Double> products = new HashMap<>();
+        for (int productCode : this.ListOfProduct.keySet()) {
+            int quantity = this.ListOfProduct.get(productCode);
+            double price = this.ListPriceOfProduct.get(productCode);
+            String name = this.ListNameOfProduct.get(productCode);
+            String key = name + "\t\t x" + quantity + " " + price;
+            if (products.containsKey(key)) {
+                double total = products.get(key) + (price * quantity);
+                products.put(key, total);
+            } else {
+                products.put(key, price * quantity);
+            }
+        }
+
+        ArrayList<String> productList = new ArrayList<>();
+        for (String key : products.keySet()) {
+            double total = products.get(key);
+            productList.add(key + " : " + total);
+        }
+        return productList;
+    }
+
+
+    public void printPDF(String name)  {
         Document document = new Document();
 
         try{
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save PDF");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-            File selectedFile = fileChooser.showSaveDialog(null);
-            if (selectedFile == null) {
-                return; // The user cancelled the file chooser
-            }
+            String directoryPath = "src/pdf/fixedBill/";
+            String fileName = directoryPath + this.idBill + "_" + name + ".pdf";
 
             // Create a PdfWriter to write the PDF to the selected file
-            PdfWriter.getInstance(document, new FileOutputStream(selectedFile));
+            PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();
 
             PdfPTable table = new PdfPTable(1);
             table.setWidthPercentage(100);
+
 
             PdfPCell cellHeader = new PdfPCell();
             cellHeader.setBorder(PdfPCell.NO_BORDER);
@@ -153,56 +180,29 @@ public class FixedBill implements Serializable, printToPDF {
             String idBill = "#" + this.idBill;
             Paragraph p = new Paragraph(idBill, header);
             p.setAlignment(Element.ALIGN_LEFT);
-            Paragraph nameCell = new Paragraph("Name: ", text);
-            Paragraph statusCell = new Paragraph("Status: ", text);
+            Paragraph nameCell = new Paragraph("Name: " + name, text);
 
             cellHeader.addElement(p);
             nameHeader.addElement(nameCell);
-            statusHeader.addElement(statusCell);
-
             table.addCell(cellHeader);
             table.addCell(nameHeader);
-            table.addCell(statusHeader);
-            document.add(table);
 
-            // Creating table for items
-            PdfPTable tableItem = new PdfPTable(3);
-            tableItem.setTotalWidth(new float[]{2f, 0.5f, 1f});
-            tableItem.setLockedWidth(true);
-
-            PdfPCell nameColumnHeader = new PdfPCell(new Paragraph("Product Name", new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
-            PdfPCell qtyColumnHeader = new PdfPCell(new Paragraph("Qty", new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
-            PdfPCell priceColumnHeader = new PdfPCell(new Paragraph("Price", new Font(Font.FontFamily.COURIER, 12, Font.BOLD)));
-
-            tableItem.addCell(nameColumnHeader);
-            tableItem.addCell(qtyColumnHeader);
-            tableItem.addCell(priceColumnHeader);
-
-            for (Map.Entry<Integer, Double> product : this.ListPriceOfProduct.entrySet()) {
-                for (Product a : products.getProducts()) {
-                    if (a.getProductCode() == product.getKey()) {
-                        String name = "Product " + product.getKey();
-                        String qty = Double.toString(product.getValue());
-                        String price = Double.toString(a.getSellPrice() * product.getValue());
-
-                        tableItem.addCell(new PdfPCell(new Paragraph(name, new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
-                        tableItem.addCell(new PdfPCell(new Paragraph(qty, new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
-                        tableItem.addCell(new PdfPCell(new Paragraph(price, new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
-                    }
-                }
+            ArrayList<String> productBill = displayProductList();
+            for(String product: productBill){
+                Paragraph line = new Paragraph(product, text);
+                PdfPCell lineHeader = new PdfPCell();
+                lineHeader.setBorder(PdfPCell.NO_BORDER);
+                lineHeader.addElement(line);
+                table.addCell(lineHeader);
             }
-            document.add(tableItem);
 
-            PdfPTable tableTotal = new PdfPTable(2);
-            tableTotal.setTotalWidth(new float[]{2.5f, 1f});
-            tableTotal.setLockedWidth(true);
+            Paragraph total = new Paragraph("Total\t\t : " + this.totalFixedBill, text);
+            PdfPCell totalHeader = new PdfPCell();
+            totalHeader.setBorder(PdfPCell.NO_BORDER);
+            totalHeader.addElement(total);
+            table.addCell(totalHeader);
 
-
-            tableTotal.addCell(new PdfPCell(new Paragraph("Total", new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
-            tableTotal.addCell(new PdfPCell(new Paragraph(Integer.toString(countTotalFixedBill()),
-                    new Font(Font.FontFamily.COURIER, 12, Font.NORMAL))));
-
-            document.add(tableTotal);
+            document.add(table);
             document.close();
         }catch (Exception e) {
             e.printStackTrace();

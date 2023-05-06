@@ -45,13 +45,27 @@ public class BillGUI extends Tab{
     private ArrayList<String> custName;
     private ArrayList<String> customerNames;
     private FixedBills fixedBills;
+    private AlertGUI alertGUI;
+    public Bill b;
+    public FixedBill newBill;
+    private HBox totalLayout;
+    private HBox pointLayout;
+    private Label totalPrice;
+    private Label totalPoint;
+    private VBox lowerLayout;
+    private double pointCount;
+    private double totalBill;
+    private HBox finalTotalLayout;
+    private double finalBillPrice;
+    private Label finalBillLabel;
+    private double currentPoint;
+
 
     public BillGUI(){
         this.setText("Bills");
-        customers = new Customers();
         customers = controller.getCustomers();
+        alertGUI = new AlertGUI();
 
-        listProducts = new Products();
         listProducts = controller.getProducts();
         bills = controller.getBills();
         fixedBills = controller.getFixedBills();
@@ -62,6 +76,8 @@ public class BillGUI extends Tab{
         /*Text Field Input Name*/
         enterName = new TextField();
         enterName.setPromptText("Pick Customer...");
+        enterName.setId("searchBar");
+
 
         allSugestions = new ArrayList<>();
 
@@ -72,6 +88,20 @@ public class BillGUI extends Tab{
         for(Integer i : customersId){
             customerNames.add(Integer.toString(i));
         }
+        invoiceLayout = new VBox();
+        invoiceLayout.setId("invoiceLayout");
+
+        totalLayout = new HBox();
+        pointLayout = new HBox();
+        finalTotalLayout = new HBox();
+
+        Label finalLabel = new Label("Total");
+        finalBillLabel = new Label(Double.toString(totalBill - pointCount));
+        finalTotalLayout.getChildren().addAll(finalLabel, finalBillLabel);
+
+
+        lowerLayout = new VBox();
+        lowerLayout.getChildren().addAll(totalLayout, pointLayout);
 
         customerNames.addAll(custName);
 
@@ -89,7 +119,7 @@ public class BillGUI extends Tab{
             bills.addBill(b1);
             controller.saveDataCustomer(customers);
             controller.saveDataBill(bills);
-            alert("Succesfully added new customer " + addCustomer.getIdCustomer());
+            alertGUI.alertInformation("Succesfully added new customer " + addCustomer.getIdCustomer());
         });
 
         this.enterName.setOnAction(e-> {
@@ -103,11 +133,13 @@ public class BillGUI extends Tab{
 
 
         /*Pay Button
-        * TODO:
-        *  1. Move bill to fixed bill
-        * 2. Update the bill to empty
-        * 3. Pay with point too
-        * */
+         * TODO:
+         *  1. Move bill to fixed bill
+         * 2. Update the bill to empty
+         * 3. Pay with point too
+         * */
+
+
 
         this.payButton = new Button("Check Out");
         upperLayout.getChildren().addAll(enterName, addNewCustomer);
@@ -124,9 +156,6 @@ public class BillGUI extends Tab{
 
 
         /*Layout to display shopping cart*/
-        invoiceLayout = new VBox();
-        invoiceLayout.setId("invoiceLayout");
-
 
         /*Set Scroll Bar*/
         scrollPane = new ScrollPane();
@@ -136,7 +165,7 @@ public class BillGUI extends Tab{
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setVmax(1);
         scrollPane.setVvalue(0);
-        scrollPane.setPrefViewportHeight(500);
+        scrollPane.setPrefViewportHeight(400);
         scrollPane.setPrefViewportWidth(400);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
@@ -151,10 +180,11 @@ public class BillGUI extends Tab{
         scrollPane.setContent(wholePriceLayout);
 
         /*Left layout containing dropdown id, list of printed items, button*/
-        //invoiceLayout.getChildren().addAll(scrollPane);
+        invoiceLayout.getChildren().addAll(scrollPane, totalLayout, pointLayout, finalTotalLayout);
+        invoiceLayout.setSpacing(10);
         leftLayout = new VBox();
         leftLayout.setId("leftLayout");
-        leftLayout.getChildren().addAll(upperLayout, scrollPane, buttonLayout);
+        leftLayout.getChildren().addAll(upperLayout, invoiceLayout, buttonLayout);
         leftLayout.setPrefWidth(500);
         leftLayout.setPrefHeight(600);
         leftLayout.setSpacing(10);
@@ -169,13 +199,14 @@ public class BillGUI extends Tab{
         Bill b = bills.getBillByID(idInt);
         HashMap<Integer, Integer> listProd = b.getListOfProduct();
         wholePriceLayout.addRow(listProd.size());
+        int getRowTotal = 0;
 
         for(Map.Entry<Integer, Integer> entry : listProd.entrySet()){
             for(Product a: listProducts.getProducts()){
                 if(a.getProductCode() == entry.getKey()){
                     productGetName = new Label(a.productName);
                     productGetTotal = new Label("x" + entry.getValue().toString());
-                    productGetPrice = new Label(Double.toString(entry.getValue() * a.getBuyPrice()));
+                    productGetPrice = new Label(Double.toString(entry.getValue() * a.getSellPrice()));
                     /*Layout Bill
                      * Labu Erlenmeyer           x2      150000
                      * */
@@ -202,7 +233,21 @@ public class BillGUI extends Tab{
                 }
             }
         }
+        Label total = new Label("Sub Total");
+        Label point = new Label("Poin");
+        b = bills.getBillByID(idInt);
+        totalBill = b.getTotalBill();
+        currentPoint = customers.getCurrentPoint(idInt);
 
+
+        totalPrice = new Label(Double.toString(b.getTotalBill()));
+        totalLayout.getChildren().addAll(total, totalPrice);
+        totalLayout.setSpacing(20);
+
+
+        totalPoint = new Label(Double.toString(currentPoint));
+        pointLayout.getChildren().addAll(point, totalPoint);
+        pointLayout.setSpacing(20);
     }
     public int checkIdCustomer(String textValue){
         int idCust = -1;
@@ -221,25 +266,43 @@ public class BillGUI extends Tab{
     }
 
     public void checkOut(int idCust){
-        Bill b = bills.getBillByID(idCust);
-        FixedBill newBill = b.checkOutBill();
+        b = bills.getBillByID(idCust);
+        System.out.println(currentPoint);
+        newBill = b.checkOutBill(currentPoint);
+        System.out.println(currentPoint);
         fixedBills.addFixedBill(newBill);
         Customer c = customers.getCustomerByID(idCust);
+        pointCount = customers.pointCalculation(idCust, totalBill,currentPoint);
         Integer idBill = newBill.getIdBill();
+        if(c instanceof Member){
+            ((Member) c).reducePoint(currentPoint);
+            ((Member) c).addPoint(pointCount);
+        } else if(c instanceof VIP){
+            ((VIP) c).reducePoint(currentPoint);
+            ((VIP) c).addPoint(pointCount);
+        }
         c.addFixedBill(idBill);
         controller.saveDataBill(bills);
         controller.saveDataFixedBill(fixedBills);
         controller.saveDataCustomer(customers);
-        alert("Successfully checkout");
+        alertGUI.alertInformation("Successfully checkout");
     }
-
-    public void alert(String message){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        alert.show();
-    }
-
+//    public void displayTotal(int idCust){
+//        b = bills.getBillByID(idCust);
+//        double pointCount = customers.pointCalculation(idCust, b.countTotalBill());
+//
+//        Label total = new Label("Sub Total");
+//        totalPrice = new Label(Double.toString(b.countTotalBill()));
+//        totalLayout.getChildren().addAll(total, totalPrice);
+//        totalLayout.setSpacing(15);
+//
+//
+//        Label point = new Label("Poin");
+//        totalPoint = new Label("-" + ((pointCount)));
+//        pointLayout.getChildren().addAll(point, totalPoint);
+//
+//        lowerLayout.getChildren().addAll(totalLayout, pointLayout);
+//        lowerLayout.setSpacing(15);
+//
+//    }
 }
