@@ -47,11 +47,6 @@ public class Controller implements FileController {
     }
 
     @Override
-    public void saveDataPluginManager(PluginManager pluginManager) {
-        fileController.saveDataPluginManager(pluginManager);
-    }
-
-    @Override
     public Customers getCustomers() {
         return fileController.getCustomers();
     }
@@ -69,10 +64,6 @@ public class Controller implements FileController {
     @Override
     public FixedBills getFixedBills() {
         return fileController.getFixedBills();
-    }
-    @Override
-    public PluginManager getPluginManager(){
-        return fileController.getPluginManager();
     }
 
     @Override

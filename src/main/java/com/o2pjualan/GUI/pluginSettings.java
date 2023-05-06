@@ -1,5 +1,7 @@
 package com.o2pjualan.GUI;
 
+import com.o2pjualan.Classes.Pair;
+import com.o2pjualan.Classes.PluginManager;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -8,7 +10,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
-import com.o2pjualan.Classes.pluginManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,10 +21,8 @@ public class pluginSettings extends Tab {
     private Button loadPlugin;
     private VBox pluginLayout;
     private HBox wholeLayout;
-    private pluginManager pluginController;
     private AlertGUI alertGUI;
     private TabPane mainTabPane;
-    private pluginManager pluginManager;
     private ArrayList<Class<?>> classes;
 
     public pluginSettings(TabPane mainTabPane){
@@ -35,10 +34,8 @@ public class pluginSettings extends Tab {
         titlePlugin.setId("h1");
         this.loadPlugin = new Button("Upload Plugin");
         this.loadPlugin.setId("settingsButton");
-        pluginController = new pluginManager();
 
         alertGUI = new AlertGUI();
-        pluginManager = new pluginManager();
 
         loadPlugin.setOnAction(e-> {
             openFileDialog();
@@ -113,7 +110,8 @@ public class pluginSettings extends Tab {
                         dataSales.put("Barang 4", 100);
 
 
-                        Class<?> classTes = pluginController.loadJarFile(pathFile);
+                        Pair<String, Class<?>> classloaded = PluginManager.loadJarFile(pathFile);
+                        Class<?> classTes = classloaded.getValue();
                         Method method = classTes.getDeclaredMethod("onLoadChart", HashMap.class);
                         Object pluginObject = classTes.getDeclaredConstructor().newInstance(); // Instantiate an object of classTes
                         Object chart = method.invoke(pluginObject, dataSales); // Invoke the method on the instantiated object
