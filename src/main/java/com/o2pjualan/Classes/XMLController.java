@@ -14,14 +14,12 @@ public class XMLController implements FileController {
     private Products products;
     private Bills bills;
     private FixedBills fixedBills;
-    private PluginManager plugins;
 
     public XMLController() {
         this.customers = getData(Customers.class, "customer.xml");
         this.products = getData(Products.class, "product.xml");
         this.bills = getData(Bills.class, "bill.xml");
         this.fixedBills = getData(FixedBills.class, "fixedBill.xml");
-        this.plugins = getData(PluginManager.class, "plugin.xml");
     }
 
     @Override
@@ -64,15 +62,6 @@ public class XMLController implements FileController {
         }
     }
 
-    @Override
-    public void saveDataPluginManager(PluginManager plugins) {
-        try {
-            this.plugins = plugins;
-            saveData(plugins, PluginManager.class, "plugin.xml");
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public <T> void saveData(T data, Class<T> tClass, String fileName) throws JsonProcessingException {
         String path = folderName + fileName;
@@ -103,11 +92,6 @@ public class XMLController implements FileController {
     @Override
     public FixedBills getFixedBills() {
         return this.fixedBills;
-    }
-
-    @Override
-    public PluginManager getPluginManager() {
-        return this.plugins;
     }
 
     public <T> T getData(Class<T> tClass, String fileName) {

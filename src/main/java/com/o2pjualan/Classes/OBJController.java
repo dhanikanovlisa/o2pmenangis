@@ -9,7 +9,6 @@ public class OBJController implements FileController{
     private Products products;
     private Bills bills;
     private FixedBills fixedBills;
-    private PluginManager plugins;
 
     public OBJController() {
 //        this.customers = getData("customer.ser");
@@ -39,12 +38,6 @@ public class OBJController implements FileController{
     public void saveDataBill(Bills bills) {
         this.bills = bills;
         saveData(bills, "bill.ser");
-    }
-
-    @Override
-    public void saveDataPluginManager(PluginManager plugins) {
-        this.plugins = plugins;
-        saveData(plugins, "plugin.ser");
     }
 
     public <T> void saveData(T data, String fileName) {
@@ -83,11 +76,6 @@ public class OBJController implements FileController{
         return this.fixedBills;
     }
 
-    @Override
-    public PluginManager getPluginManager() {
-        this.plugins = getData("plugin.ser");
-        return this.plugins;
-    }
 
     public <T> T getData(String fileName) {
         String path = folderName + fileName;
