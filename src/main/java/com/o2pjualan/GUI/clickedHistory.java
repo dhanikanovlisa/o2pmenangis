@@ -6,6 +6,8 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,7 +105,11 @@ public class clickedHistory extends Tab {
         this.printBill.setOnAction(err -> {
             FixedBill printFixedBill = fixedBills.getFixedBillByID(idFixedBill);
             try{
-                printFixedBill.printPDF(listProducts);
+                printFixedBill.printPDF(name);
+//                ArrayList<String> tes = printFixedBill.displayProductList();
+//                for(String a: tes){
+//                    System.out.println(a);
+//                }
 
             } catch (Exception e){
                 System.out.println(e);
