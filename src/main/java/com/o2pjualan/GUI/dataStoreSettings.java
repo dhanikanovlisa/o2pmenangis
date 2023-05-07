@@ -2,6 +2,7 @@ package com.o2pjualan.GUI;
 
 import com.o2pjualan.Classes.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -27,6 +28,7 @@ public class dataStoreSettings extends Tab {
     private Button buttonFolder;
     private Label message;
     private Label message2;
+    private AlertGUI alertGUI;
 
 
     public dataStoreSettings(){
@@ -42,6 +44,7 @@ public class dataStoreSettings extends Tab {
         baseWrapper.setFillWidth(true);
         baseWrapper.prefWidthProperty().bind(base.widthProperty());
         baseWrapper.prefHeightProperty().bind(base.heightProperty());
+        alertGUI = new AlertGUI();
 
         VBox dataLayout = new VBox();
         HBox titleLayout = new HBox();
@@ -74,7 +77,25 @@ public class dataStoreSettings extends Tab {
         this.dataDropDown.setId("settingsDropDown");
         this.buttonChange = new Button("change");
         this.buttonChange.setId("settingsButton");
-        this.buttonChange.setOnAction(e -> convertData());
+        this.buttonChange.setOnAction(e ->{
+            Thread thread = new Thread(() -> {
+                Integer retcode = convertData();
+                Platform.runLater(() -> {
+                    if (retcode == 0) {
+                        alertGUI.alertWarning("The file extension has been updated.");
+                    } else if (retcode == 1) {
+                        alertGUI.alertWarning("Files already in the requested extension.");
+                    } else if (retcode == -1){
+                        alertGUI.alertWarning("You have not selected the extension");
+                    }
+                    else {
+                        alertGUI.alertWarning("An error occurred. Please try again later.");
+                    }
+                });
+            });
+            thread.start();
+        }
+        );
         this.message = new Label("");
         this.message.setFont(new Font(14));
         buttonLayout.getChildren().addAll(dataDropDown, buttonChange);
@@ -92,7 +113,7 @@ public class dataStoreSettings extends Tab {
         this.setContent(base);
     }
 
-    public void convertData() {
+    public Integer convertData() {
         if (dataDropDown.getValue() != null) {
             String newFormat = dataDropDown.getValue().toLowerCase();
             newFormat = newFormat.toLowerCase();
@@ -100,27 +121,16 @@ public class dataStoreSettings extends Tab {
                 newFormat = "ser";
             }
             Integer retcode = FileManager.changeExt(newFormat);
-            if (retcode == 0) {
-                this.message.setText("The file extension has been updated.");
-                this.message.setTextFill(Paint.valueOf("#599962"));
-            } else if (retcode == 1) {
-                this.message.setText("Files already in the requested extension.");
-                this.message.setTextFill(Paint.valueOf("#599962"));
-            } else {
-                this.message.setText("An error occurred. Please try again later.");
-                this.message.setTextFill(Paint.valueOf("#d0342c"));
-            }
-        } else {
-            this.message.setText("Please choose the extension");
-            this.message.setTextFill(Paint.valueOf("#878787"));
+
+            return retcode;
         }
+        return -1;
     }
 
     public void changeFolder() {
         File currentFile = new File(".");
         File relativeFolder  = new File(currentFile.getAbsolutePath() + "/src/dataStore");
 
-        System.out.println(relativeFolder.getName());
         if (!relativeFolder.canRead()) {
             this.message2.setText("You do not have permission to access the target folder");
             this.message2.setTextFill(Paint.valueOf("#d0342c"));

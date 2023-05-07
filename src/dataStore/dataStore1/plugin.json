@@ -1,9 +1,1 @@
-[ {
-  "pluginName" : "org.example.pluginLineBarChart",
-  "jarFilePath" : "src/lib/pluginLineBarChart-1.0-SNAPSHOT.jar",
-  "className" : "org.example.pluginLineBarChart"
-}, {
-  "pluginName" : "org.example.pluginPieChart",
-  "jarFilePath" : "src/lib/pluginPieChart-1.0-SNAPSHOT.jar",
-  "className" : "org.example.pluginPieChart"
-} ]
+ [ ]

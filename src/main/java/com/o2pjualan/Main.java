@@ -171,7 +171,5 @@ public class Main extends Application {
         folderName = "src/dataStore/dataStore1/";
         FileManager.initiateDataStore();
         Application.launch(args);
-        System.out.println("DONE");
-
     }
 }

@@ -87,10 +87,7 @@ public class Bill implements Serializable {
         this.ListPriceOfProduct.remove(productCode);
     }
     public void print() {
-        System.out.println("idCustomer: " + this.idCustomer);
-        System.out.println("ListOfProducts: ");
         ListOfProduct.forEach((key, value) -> System.out.println("   " + key + ":" + value));
-        System.out.println("ListPriceOfProdcuts: ");
         ListPriceOfProduct.forEach((key, value) -> System.out.println("   " + key + ":" + value));
     }
 
