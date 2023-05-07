@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static com.o2pjualan.Main.controller;
 
-public class BillGUI extends Tab {
+public class BillGUI extends Tab implements updatingData {
     private VBox leftLayout;
     private HBox buttonLayout;
     private VBox invoiceLayout;

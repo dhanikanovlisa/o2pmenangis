@@ -2,6 +2,7 @@ package com.o2pjualan.GUI;
 
 import com.o2pjualan.Classes.Customer;
 import com.o2pjualan.Classes.Customers;
+import com.o2pjualan.Classes.updatingData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 
 import static com.o2pjualan.Main.controller;
 
-public class activateMembership extends Tab {
+public class activateMembership extends Tab implements updatingData {
     private ComboBox<String> name;
     private Button activate;
     private Label message;

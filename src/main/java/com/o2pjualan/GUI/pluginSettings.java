@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import static com.o2pjualan.Main.controller;
 
-public class pluginSettings extends Tab {
+public class pluginSettings extends Tab implements updatingData {
     private Button loadPlugin;
     private VBox pluginLayout;
     private HBox wholeLayout;

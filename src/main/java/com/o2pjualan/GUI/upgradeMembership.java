@@ -1,6 +1,7 @@
 package com.o2pjualan.GUI;
 
 import com.o2pjualan.Classes.Customers;
+import com.o2pjualan.Classes.updatingData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 import static com.o2pjualan.Main.controller;
 
-public class upgradeMembership extends Tab {
+public class upgradeMembership extends Tab implements updatingData {
     private ComboBox<String> name;
     private Button upgrade;
     private Label message;

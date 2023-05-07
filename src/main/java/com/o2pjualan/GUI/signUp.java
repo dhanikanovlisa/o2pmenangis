@@ -1,6 +1,7 @@
 package com.o2pjualan.GUI;
 
 import com.o2pjualan.Classes.Customers;
+import com.o2pjualan.Classes.updatingData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 import static com.o2pjualan.Main.controller;
 
-public class signUp extends Tab {
+public class signUp extends Tab implements updatingData {
     private ComboBox<String> idDropDown;
     private TextField nameField;
     private TextField phoneField;

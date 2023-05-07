@@ -22,7 +22,7 @@ import java.util.Map;
 
 import static com.o2pjualan.Main.controller;
 
-public class itemtoBill extends Tab {
+public class itemtoBill extends Tab implements updatingData {
     private Bills bills;
     private Button saveButton;
     private Image imageItem;

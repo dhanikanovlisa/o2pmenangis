@@ -3,6 +3,7 @@ package com.o2pjualan.GUI;
 import com.o2pjualan.Classes.Bills;
 import com.o2pjualan.Classes.Product;
 import com.o2pjualan.Classes.Products;
+import com.o2pjualan.Classes.updatingData;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import static com.o2pjualan.Main.controller;
 import static com.o2pjualan.Main.mainTabPane;
 
-public class editCatalogMenu extends Tab {
+public class editCatalogMenu extends Tab implements updatingData {
     private Button saveButton;
     private Button deleteButton;
     private Button cancelButton;

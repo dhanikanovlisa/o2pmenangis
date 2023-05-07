@@ -18,7 +18,7 @@ import static com.o2pjualan.Main.controller;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
-public class catalogMenu extends Tab {
+public class catalogMenu extends Tab implements updatingData {
     private Products listProducts;
     public Bills customerBill;
     private TextField searchBar;

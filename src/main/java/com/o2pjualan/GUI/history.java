@@ -1,9 +1,6 @@
 package com.o2pjualan.GUI;
 
-import com.o2pjualan.Classes.Customer;
-import com.o2pjualan.Classes.Customers;
-import com.o2pjualan.Classes.FixedBill;
-import com.o2pjualan.Classes.FixedBills;
+import com.o2pjualan.Classes.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -23,7 +20,7 @@ import java.util.ArrayList;
 import static com.o2pjualan.Main.controller;
 import static com.o2pjualan.Main.main;
 
-public class history extends Tab {
+public class history extends Tab implements updatingData {
     public ComboBox<String> name;
     public Label idTransaction;
     public Label firstItem;
