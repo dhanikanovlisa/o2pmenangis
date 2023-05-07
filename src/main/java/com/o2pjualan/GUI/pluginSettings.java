@@ -150,17 +150,19 @@ public class pluginSettings extends Tab {
 
     public void runPlugin(String className){
         for(Plugin p: loadedPlugins.getPlugins()){
-            if(p.getPluginName() == className){
+            if(p.getPluginName().equals(className)){
                 try{
                     if(p.getPluginName().contains("chart")){
                         Pair<String, Class<?>> classloaded = PluginManager.loadJarFile(p.getJarFilePath());
                         Class<?> classTes = classloaded.getValue();
-                        Method method = classTes.getDeclaredMethod("onLoadChart", HashMap.class);
-                        Object pluginObject = classTes.getDeclaredConstructor().newInstance();
-                        Object chart = method.invoke(pluginObject, sales);
+                        pluginChartController pluginChartController = (pluginChartController) classTes.getDeclaredConstructor().newInstance();
+
+//                        Method method = classTes.getDeclaredMethod("onLoadChart", HashMap.class);
+//                        Object pluginObject = classTes.getDeclaredConstructor().newInstance();
+//                        Object chart = method.invoke(pluginObject, sales);
 
                         alertGUI.alertInformation("Successfully loaded plugin");
-                        Node chartNode = (Node) chart;
+                        Node chartNode = pluginChartController.onLoadChart(salesData.getListOfAllProductSales());
                         basePlugin pluginTab = new basePlugin(mainTabPane);
                         pluginTab.addChart(chartNode);
                     }

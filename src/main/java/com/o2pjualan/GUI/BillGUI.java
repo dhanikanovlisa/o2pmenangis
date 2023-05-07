@@ -3,7 +3,6 @@ package com.o2pjualan.GUI;
 import com.o2pjualan.Classes.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -11,7 +10,6 @@ import javafx.scene.layout.*;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -159,8 +157,6 @@ public class BillGUI extends Tab {
          * 3. Pay with point too
          * */
 
-
-
         this.payButton = new Button("Check Out");
         upperLayout.getChildren().addAll(enterName, addNewCustomer);
         upperLayout.setSpacing(10);
@@ -196,8 +192,6 @@ public class BillGUI extends Tab {
         wholePriceLayout.setHgap(15);
         wholePriceLayout.setVgap(15);
         wholePriceLayout.addColumn(0);
-
-
 
         scrollPane.setContent(wholePriceLayout);
 
@@ -294,9 +288,6 @@ public class BillGUI extends Tab {
                 }
             }
 
-        totalPrice = new Label(Double.toString(b.getTotalBill()));
-        totalLayout.getChildren().addAll(total, totalPrice);
-        totalLayout.setSpacing(20);
 
         }
 
@@ -378,7 +369,7 @@ public class BillGUI extends Tab {
         rewardLabel.setText("");
         finalBillLabel.setText("");
 
-       wholePriceLayout.getChildren().clear();
+        wholePriceLayout.getChildren().clear();
 
         totalBill = 0.0;
         discount = 0.0;

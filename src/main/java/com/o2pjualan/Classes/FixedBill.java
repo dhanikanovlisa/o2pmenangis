@@ -13,15 +13,9 @@ import lombok.NoArgsConstructor;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.common.PDRectangle;
 
 import static com.o2pjualan.Main.controller;
 
