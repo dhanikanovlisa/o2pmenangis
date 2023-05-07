@@ -1,5 +1,6 @@
 package com.o2pjualan.GUI;
 
+import com.o2pjualan.Classes.Bills;
 import com.o2pjualan.Classes.Product;
 import com.o2pjualan.Classes.Products;
 import javafx.geometry.Pos;
@@ -22,6 +23,7 @@ import static com.o2pjualan.Main.controller;
 
 public class editCatalogMenu extends Tab {
     private Button saveButton;
+    private Button deleteButton;
     private Button cancelButton;
 
     private Image imageItem;
@@ -168,9 +170,12 @@ public class editCatalogMenu extends Tab {
         editLayout.getChildren().addAll(editImageLayout, editValueLayout, editField);
         editLayout.setSpacing(20);
         /*Bottom Button Layout*/
-        HBox bottomButtonLayout = new HBox();
+        VBox bottomButtonLayout = new VBox();
 
-        this.saveButton = new Button("Save Button");
+        this.deleteButton = new Button("Delete Product");
+        this.deleteButton.setId("buttonCatalog");
+        this.deleteButton.setStyle("-fx-background-color: #8f2929");
+        this.saveButton = new Button("Save Product");
         this.saveButton.setId("buttonCatalog");
 
 
@@ -182,8 +187,12 @@ public class editCatalogMenu extends Tab {
             }
         });
 
-        bottomButtonLayout.getChildren().addAll(this.saveButton);
-        bottomButtonLayout.setSpacing(450);
+        this.deleteButton.setOnAction(e -> {
+            deleteItem(productCode);
+        });
+
+        bottomButtonLayout.getChildren().addAll(this.saveButton, this.deleteButton);
+        bottomButtonLayout.setSpacing(20);
         wholeLayout.getChildren().addAll(editLayout, bottomButtonLayout);
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
 
@@ -200,6 +209,8 @@ public class editCatalogMenu extends Tab {
         this.setOnSelectionChanged(event -> {
             updateData();
         }) ;
+
+
     }
     public void editItem() throws IOException, ParseException {
         if(this.nameTextField.getText().equals("")){
@@ -243,6 +254,19 @@ public class editCatalogMenu extends Tab {
         this.nameTextField.setText(getProd.getProductName());
         this.categoryTextField.setText(getProd.getProductCategory());
         this.stockTextField.setText(Integer.toString(getProd.getStock()));
+    }
+
+    public void deleteItem(int productCode) {
+        Products products = controller.getProducts();
+        if (products.deleteProduct(productCode) == 0) {
+            controller.saveDataProduct(products);
+            Bills bills = controller.getBills();
+            bills.removeProduct(productCode);
+            controller.saveDataBill(bills);
+            alertGUI.alertInformation("Product has been removed");
+        } else {
+            alertGUI.alertWarning("Product doesn't exist");
+        }
     }
 
 }

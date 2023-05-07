@@ -27,13 +27,14 @@ public class Products implements Serializable {
         return true;
     }
 
-    public void deleteProduct(int id) {
+    public int deleteProduct(int id) {
         for (int i = 0; i < this.productCodes.size(); i++) {
             if (this.productCodes.get(i).getProductCode() == id) {
                 this.productCodes.remove(i);
-                break;
+                return 0;
             }
         }
+        return 1;
     }
 
     public ArrayList<Product> getProducts() {

@@ -50,6 +50,11 @@ public class Bills implements Serializable {
     public ArrayList<String> getAllCustomersName(Customers customers){
         ArrayList<String> customersName = new ArrayList<>();
         return customersName;
+    }
 
+    public void removeProduct(int productCode) {
+        for (Bill b: bills) {
+            b.RemoveProduct(productCode);
+        }
     }
 }
