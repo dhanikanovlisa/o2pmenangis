@@ -27,13 +27,13 @@ public class Plugins implements Serializable {
     }
 
     public boolean addPlugin(Plugin plugin) {
-        for(Plugin p: plugins){
-            if(!p.getPluginName().equals(plugin.getPluginName())){
-                plugins.add(plugin);
-                return true;
+        for (Plugin p : plugins) {
+            if (p.getPluginName().equals(plugin.getPluginName())) {
+                return false;
             }
         }
-        return false;
+        plugins.add(plugin);
+        return true;
     }
 
     public void removePlugin(Plugin plugin){

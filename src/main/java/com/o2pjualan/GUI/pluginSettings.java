@@ -49,6 +49,7 @@ public class pluginSettings extends Tab {
         alertGUI = new AlertGUI();
         plugins = new ComboBox<>();
         plugins.setId("idDropDown");
+
         updateData();
 
         loadPlugin.setOnAction(e-> {
@@ -126,6 +127,7 @@ public class pluginSettings extends Tab {
                         boolean validate = loadedPlugins.addPlugin(newPlugin);
                         if(validate){
                             controller.saveDataPlugins(loadedPlugins);
+                            alertGUI.alertInformation("Plugin added successfully");
                         } else {
                             alertGUI.alertWarning("Plugin already exist");
                         }
@@ -140,9 +142,9 @@ public class pluginSettings extends Tab {
     public void updateData(){
         salesData = new SalesReport(fixedBills);
         sales = salesData.getListOfAllProductSales();
-        ArrayList<Plugin> plugin = controller.getPlugins().getPlugins();
+        ArrayList<Plugin> plugin = loadedPlugins.getPlugins();
         if (plugin != null) {
-            ArrayList<String> listPlugin = new ArrayList<>();
+            listPlugin = new ArrayList<>();
             for (Plugin p : plugin) {
                 listPlugin.add(p.getPluginName());
             }
@@ -151,11 +153,13 @@ public class pluginSettings extends Tab {
         }
     }
 
-    public void runPlugin(String className){
-        for(Plugin p: loadedPlugins.getPlugins()){
-            if(p.getPluginName().equals(className)){
-                try{
-                    if(p.getPluginName().contains("chart")){
+    public void runPlugin(String className) {
+        for (Plugin p : loadedPlugins.getPlugins()) {
+            if (p.getPluginName().equals(className)) {
+                System.out.println(p.getPluginName());
+                try {
+                    if (p.getPluginName().contains("Chart") || p.getPluginName().contains("chart")) {
+
                         Pair<String, Class<?>> classloaded = PluginManager.loadJarFile(p.getJarFilePath());
                         Class<?> classTes = classloaded.getValue();
                         Method method = classTes.getDeclaredMethod("onLoadChart", HashMap.class);
@@ -168,7 +172,7 @@ public class pluginSettings extends Tab {
 
                         alertGUI.alertInformation("Plugin is running");
                     }
-                } catch (Exception err){
+                } catch (Exception err) {
                     System.out.println(err);
                 }
             }
@@ -179,6 +183,7 @@ public class pluginSettings extends Tab {
        Plugin p =  loadedPlugins.getPluginByName(pluginName);
        if(p != null){
            loadedPlugins.removePlugin(p);
+           controller.saveDataPlugins(loadedPlugins);
            alertGUI.alertInformation("Succesfully remove plugin");
        }
        updateData();
@@ -186,12 +191,10 @@ public class pluginSettings extends Tab {
 
     public String validatePlugin(){
         String selectedPlugin = this.plugins.getValue();
-        if(selectedPlugin == null){
-            alertGUI.alertWarning("You have not selected the plugin");
-        } else{
-            return selectedPlugin;
+        if (selectedPlugin == null) {
+            alertGUI.alertWarning("You have not selected a plugin");
         }
-        return "";
+        return selectedPlugin != null ? selectedPlugin : "";
     }
 
 }

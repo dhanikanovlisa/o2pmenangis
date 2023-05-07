@@ -30,6 +30,7 @@ public class clickedHistory extends Tab {
     private ScrollPane scrollPane;
     private HBox totalLayout;
     private Label totalPrice;
+    private AlertGUI alertGUI;
     public clickedHistory(int idFixedBill, String name){
         Pane base = new Pane();
         VBox wrapper = new VBox();
@@ -38,6 +39,7 @@ public class clickedHistory extends Tab {
         this.setText("#" + idFixedBill + ": " + name);
         this.printBill = new Button("Print Bill");
         this.printBill.setId("buttonClickedHistory");
+        alertGUI = new AlertGUI();
 
         fixedBills = controller.getFixedBills();
         customers = controller.getCustomers();
@@ -100,18 +102,14 @@ public class clickedHistory extends Tab {
 
         }
 
-//        wholeLayout.setId("reportLayout");
-
         this.printBill.setOnAction(err -> {
             FixedBill printFixedBill = fixedBills.getFixedBillByID(idFixedBill);
             try{
                 printFixedBill.printPDF(name);
-//                ArrayList<String> tes = printFixedBill.displayProductList();
-//                for(String a: tes){
-//                    System.out.println(a);
-//                }
+                alertGUI.alertInformation("Succesfully print PDF. Please check in pdf/fixed bill folder");
 
             } catch (Exception e){
+                alertGUI.alertWarning("Failed to print to PDF");
                 System.out.println(e);
             }
         });
@@ -119,7 +117,6 @@ public class clickedHistory extends Tab {
         Label total = new Label("Total:      ");
         totalPrice = new Label(Double.toString(fixBillCustomer.getTotalFixedBill()));
         totalLayout.getChildren().addAll(total, totalPrice);
-//        totalLayout.setSpacing(900);
         totalLayout.setPadding(new Insets(10));
 
         wholePriceLayout.add(totalLayout, 0, fixBillCustomer.getListOfProduct().size()+1);
