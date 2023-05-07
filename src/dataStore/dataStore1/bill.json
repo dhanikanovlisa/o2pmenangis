@@ -5,9 +5,13 @@
   "totalBill" : 0.0
 }, {
   "idCustomer" : 2,
-  "listOfProduct" : { },
-  "listPriceOfProduct" : { },
-  "totalBill" : 0.0
+  "listOfProduct" : {
+    "101" : 6
+  },
+  "listPriceOfProduct" : {
+    "101" : 60000.0
+  },
+  "totalBill" : 360000.0
 }, {
   "idCustomer" : 3,
   "listOfProduct" : {

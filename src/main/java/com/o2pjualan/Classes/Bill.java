@@ -40,47 +40,6 @@ public class Bill implements Serializable {
         return this.totalBill;
     }
 
-    public void addProduct(int productCode, int quantity, double price) {
-        /*Kalo produk udah ada trus nambah*/
-        if (this.ListOfProduct.containsKey(productCode)) {
-            int currentQuantity = this.ListOfProduct.get(productCode);
-            this.ListOfProduct.put(productCode, quantity + currentQuantity);
-            this.totalBill += (price * (quantity));
-            // Update the price only if the product already exists in the map
-            this.ListPriceOfProduct.put(productCode, price);
-        } else { /*Kalo produk belom ada sama sekali*/
-            this.ListOfProduct.put(productCode, quantity);
-            this.ListPriceOfProduct.put(productCode, price);
-            this.totalBill += (price * quantity);
-        }
-    }
-
-    public void deleteProduct(int productCode, int quantity, double price) {
-        if (this.ListOfProduct.containsKey(productCode)) {
-            int currentQuantity = this.ListOfProduct.get(productCode);
-            double currentPrice = this.ListPriceOfProduct.get(productCode);
-            int newQuantity = currentQuantity - quantity;
-            /*Kalo yang di delete lebih dari 0*/
-            if (newQuantity >= 0) {
-                this.ListOfProduct.put(productCode, newQuantity);
-                this.ListPriceOfProduct.put(productCode, price);
-                this.totalBill -= (price * quantity);
-            } else { /*Kalo remove lebih banyak dari yang ada hapus sampe 0*/
-                this.ListOfProduct.remove(productCode);
-                this.ListPriceOfProduct.remove(productCode);
-            }
-        }
-    }
-
-    public boolean validateDeleteProduct(int productCode, int quantity) {
-        if (this.ListOfProduct.containsKey(productCode)) {
-            int currentQuantity = this.ListOfProduct.get(productCode);
-            if (quantity <= currentQuantity) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void RemoveProduct(int productCode) {
         this.ListOfProduct.remove(productCode);

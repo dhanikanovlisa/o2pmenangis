@@ -201,6 +201,7 @@ public class itemtoBill extends Tab {
             alertGUI.alertWarning("You haven't chose the customer");
         } else {
             Integer custId = Integer.parseInt(customerId);
+            Product p = new Product();
             bills = controller.getBills();
             Bill customerBill = bills.getBillByID(custId);
             if(itemTotal.getText().equals("") || itemTotal.getText().equals(null)){
@@ -217,7 +218,7 @@ public class itemtoBill extends Tab {
 
                 if(addItem.isSelected() && !deleteItem.isSelected()){
                     if(getterProduct.reduceStock(stock)){
-                        customerBill.addProduct(productCode, stock, getterProduct.getSellPrice());
+                        p.addProduct(customerBill, productCode, stock, getterProduct.getSellPrice());
                         controller.saveDataBill(bills);
                         controller.saveDataProduct(listProducts);
                         alertGUI.alertInformation("Successfully added " + stock + " " +  getterProduct.getProductName() +" to customer " + custId);
@@ -225,8 +226,8 @@ public class itemtoBill extends Tab {
                         alertGUI.alertWarning("Not enough stock");
                     }
                 } else if (deleteItem.isSelected() && !addItem.isSelected()){
-                    if(customerBill.validateDeleteProduct(productCode, stock)){
-                        customerBill.deleteProduct(productCode, stock, getterProduct.getSellPrice());
+                    if(p.validateDeleteProduct(customerBill, productCode, stock)){
+                        p.deleteProduct(customerBill, productCode, stock, getterProduct.getSellPrice());
                         getterProduct.setStock(getterProduct.getStock() + stock);
                         controller.saveDataBill(bills);
                         controller.saveDataProduct(listProducts);

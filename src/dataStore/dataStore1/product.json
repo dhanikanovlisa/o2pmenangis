@@ -4,7 +4,7 @@
   "productCategory" : "Alat Laboratorium",
   "buyPrice" : 50000.0,
   "sellPrice" : 60000.0,
-  "stock" : 10,
+  "stock" : 4,
   "imagePath" : "file:src/img/cawanpetri.jpg"
 }, {
   "productCode" : 102,

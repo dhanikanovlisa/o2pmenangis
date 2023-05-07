@@ -53,8 +53,9 @@ public class Bills implements Serializable {
     }
 
     public void removeProduct(int productCode) {
+        Product p = new Product();
         for (Bill b: bills) {
-            b.RemoveProduct(productCode);
+            p.RemoveProduct(b, productCode);
         }
     }
 }
