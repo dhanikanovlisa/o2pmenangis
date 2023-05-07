@@ -1,6 +1,7 @@
 package com.o2pjualan.GUI;
 
 import com.o2pjualan.Classes.*;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -104,14 +105,17 @@ public class clickedHistory extends Tab {
 
         this.printBill.setOnAction(err -> {
             FixedBill printFixedBill = fixedBills.getFixedBillByID(idFixedBill);
-            try{
-                printFixedBill.printPDF(name);
-                alertGUI.alertInformation("Succesfully print PDF. Please check in pdf/fixed bill folder");
-
-            } catch (Exception e){
-                alertGUI.alertWarning("Failed to print to PDF");
-                System.out.println(e);
-            }
+            Thread thread = new Thread(() -> {
+                try{
+                    printFixedBill.printPDF(name);
+                } catch (Exception e){
+                    System.out.println(e);
+                }
+                Platform.runLater(() -> {
+                    alertGUI.alertInformation("Successfully printed to PDF. Check pdf/report folder");
+                });
+            });
+            thread.start();
         });
         totalLayout = new HBox();
         Label total = new Label("Total:      ");

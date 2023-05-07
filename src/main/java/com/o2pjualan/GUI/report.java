@@ -1,6 +1,7 @@
 package com.o2pjualan.GUI;
 
 import com.o2pjualan.Classes.*;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -110,8 +111,13 @@ public class report extends Tab {
         printToPDF = new Button("Print To PDF");
         printToPDF.setId("buttonClickedHistory");
         printToPDF.setOnAction(e->{
-            salesReport.printPDF();
-            alertGUI.alertInformation("Succesfully print to PDF. Check pdf/report folder");
+            Thread thread = new Thread(() -> {
+                salesReport.printPDF();
+                Platform.runLater(() -> {
+                    alertGUI.alertInformation("Successfully printed to PDF. Check pdf/report folder");
+                });
+            });
+            thread.start();
 
         });
 
