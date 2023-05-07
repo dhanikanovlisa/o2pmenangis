@@ -17,9 +17,23 @@ public class Plugins implements Serializable {
     public Plugins() {
         this.plugins = new ArrayList<Plugin>();
     }
+    public Plugin getPluginByName(String pluginName){
+        for(Plugin p: plugins){
+            if(p.getPluginName().equals(pluginName)){
+                return p;
+            }
+        }
+        return null;
+    }
 
-    public void addPlugin(Plugin plugin) {
-        this.plugins.add(plugin);
+    public boolean addPlugin(Plugin plugin) {
+        for(Plugin p: plugins){
+            if(!p.getPluginName().equals(plugin.getPluginName())){
+                plugins.add(plugin);
+                return true;
+            }
+        }
+        return false;
     }
 
     public void removePlugin(Plugin plugin){

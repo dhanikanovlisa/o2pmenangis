@@ -56,12 +56,12 @@ public class pluginSettings extends Tab {
         });
 
         pluginExec = new HBox();
-        runPlugin = new Button("Load Plugin");
+        runPlugin = new Button("Run and Load Plugin");
         removePlugin = new Button("Remove Plugin");
         runPlugin.setId("settingsButton");
         removePlugin.setId("settingsButton");
 
-        this.loadPlugin.setOnAction(e->{
+        this.runPlugin.setOnAction(e->{
             String selected = validatePlugin();
             if(!selected.equals("")){
                 runPlugin(selected);
@@ -71,7 +71,7 @@ public class pluginSettings extends Tab {
         this.removePlugin.setOnAction(e->{
             String selected = validatePlugin();
             if(!selected.equals("")){
-
+                removePlugin(selected);
             }
         });
         pluginExec.getChildren().addAll(runPlugin, removePlugin);
@@ -123,15 +123,18 @@ public class pluginSettings extends Tab {
                     try{
                         Pair<String, Class<?>> classloaded = PluginManager.loadJarFile(pathFile);
                         Plugin newPlugin = new Plugin(classloaded.getKey(), pathFile, classloaded.getValue().getName());
-                        loadedPlugins.addPlugin(newPlugin);
-                        controller.saveDataPlugins(loadedPlugins);
+                        boolean validate = loadedPlugins.addPlugin(newPlugin);
+                        if(validate){
+                            controller.saveDataPlugins(loadedPlugins);
+                        } else {
+                            alertGUI.alertWarning("Plugin already exist");
+                        }
                         updateData();
                     } catch (Exception err){
                         System.out.println(err);
                     }
             }
         }
-
     }
 
     public void updateData(){
@@ -155,22 +158,30 @@ public class pluginSettings extends Tab {
                     if(p.getPluginName().contains("chart")){
                         Pair<String, Class<?>> classloaded = PluginManager.loadJarFile(p.getJarFilePath());
                         Class<?> classTes = classloaded.getValue();
-                        pluginChartController pluginChartController = (pluginChartController) classTes.getDeclaredConstructor().newInstance();
+                        Method method = classTes.getDeclaredMethod("onLoadChart", HashMap.class);
+                        Object pluginObject = classTes.getDeclaredConstructor().newInstance();
+                        Object chart = method.invoke(pluginObject, sales);
 
-//                        Method method = classTes.getDeclaredMethod("onLoadChart", HashMap.class);
-//                        Object pluginObject = classTes.getDeclaredConstructor().newInstance();
-//                        Object chart = method.invoke(pluginObject, sales);
-
-                        alertGUI.alertInformation("Successfully loaded plugin");
-                        Node chartNode = pluginChartController.onLoadChart(salesData.getListOfAllProductSales());
+                        Node chartNode = (Node) chart;
                         basePlugin pluginTab = new basePlugin(mainTabPane);
                         pluginTab.addChart(chartNode);
+
+                        alertGUI.alertInformation("Plugin is running");
                     }
                 } catch (Exception err){
                     System.out.println(err);
                 }
             }
         }
+    }
+
+    public void removePlugin(String pluginName){
+       Plugin p =  loadedPlugins.getPluginByName(pluginName);
+       if(p != null){
+           loadedPlugins.removePlugin(p);
+           alertGUI.alertInformation("Succesfully remove plugin");
+       }
+       updateData();
     }
 
     public String validatePlugin(){
@@ -182,4 +193,5 @@ public class pluginSettings extends Tab {
         }
         return "";
     }
+
 }
