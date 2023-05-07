@@ -369,7 +369,7 @@ public class BillGUI extends Tab {
         rewardLabel.setText("");
         finalBillLabel.setText("");
 
-       wholePriceLayout.getChildren().clear();
+        wholePriceLayout.getChildren().clear();
 
         totalBill = 0.0;
         discount = 0.0;

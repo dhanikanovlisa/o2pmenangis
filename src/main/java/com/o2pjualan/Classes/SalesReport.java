@@ -9,7 +9,9 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.FileOutputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,9 +56,12 @@ public class SalesReport {
         Document document = new Document();
 
         try {
-            LocalDateTime currentDateTime = LocalDateTime.now();
+            LocalDateTime dateTime = LocalDateTime.now();
+            String pattern = "yyyy-MM-dd HH:mm:ss";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+            String formattedDateTime = dateTime.format(formatter);
             String directoryPath = "src/pdf/report/";
-            String fileName = directoryPath + currentDateTime + "_salesReport" + ".pdf";
+            String fileName = directoryPath + formattedDateTime + "_salesReport" + ".pdf";
 
             // Create a PdfWriter to write the PDF to the selected file
             PdfWriter.getInstance(document, new FileOutputStream(fileName));
@@ -77,7 +82,7 @@ public class SalesReport {
             String idBill = "Sales Report ";
             Paragraph p = new Paragraph(idBill, header);
             p.setAlignment(Element.ALIGN_LEFT);
-            Paragraph nameCell = new Paragraph(currentDateTime.toString(), text);
+            Paragraph nameCell = new Paragraph(formattedDateTime, text);
 
             cellHeader.addElement(p);
             nameHeader.addElement(nameCell);

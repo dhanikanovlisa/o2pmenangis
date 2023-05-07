@@ -28,6 +28,7 @@ public class report extends Tab {
     private Label totalPriceLabel;
     private SalesReport salesReport;
     private Button printToPDF;
+    private AlertGUI alertGUI;
 
     public report() {
         this.setText("Report");
@@ -51,6 +52,7 @@ public class report extends Tab {
         dataSalesLayout.addColumn(1);
         dataSalesLayout.setHgap(15);
         dataSalesLayout.setVgap(15);
+        alertGUI = new AlertGUI();
 
         scrollPane = new ScrollPane();
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -107,6 +109,11 @@ public class report extends Tab {
 
         printToPDF = new Button("Print To PDF");
         printToPDF.setId("buttonClickedHistory");
+        printToPDF.setOnAction(e->{
+            salesReport.printPDF();
+            alertGUI.alertInformation("Succesfully print to PDF. Check pdf/report folder");
+
+        });
 
 
         VBox wholeLayout = new VBox();

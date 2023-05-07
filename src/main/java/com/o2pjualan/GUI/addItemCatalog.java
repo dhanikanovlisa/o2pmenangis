@@ -83,7 +83,6 @@ public class addItemCatalog extends Tab {
                 } else {
                     String image = path.substring(crop);
                     this.finalPath = "file:" + image;
-//                System.out.println(finalPath);
                     this.image = new Image(finalPath);
                     imageView.setImage(this.image);
                 }

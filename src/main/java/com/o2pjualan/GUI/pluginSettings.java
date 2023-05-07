@@ -1,21 +1,19 @@
 package com.o2pjualan.GUI;
 
-import com.o2pjualan.Classes.Pair;
-import com.o2pjualan.Classes.PluginManager;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import com.o2pjualan.Classes.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
-
+import javafx.scene.Node;
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import static com.o2pjualan.Main.controller;
 
 public class pluginSettings extends Tab {
     private Button loadPlugin;
@@ -23,7 +21,16 @@ public class pluginSettings extends Tab {
     private HBox wholeLayout;
     private AlertGUI alertGUI;
     private TabPane mainTabPane;
-    private ArrayList<Class<?>> classes;
+    private ComboBox<String> plugins;
+    private ArrayList<String> listPlugin;
+    private Plugins loadedPlugins;
+    private Button runPlugin;
+    private Button removePlugin;
+    private HBox pluginExec;
+    private FixedBills fixedBills;
+    private HashMap<String, Integer> sales;
+    private SalesReport salesData;
+
 
     public pluginSettings(TabPane mainTabPane){
         this.mainTabPane = mainTabPane;
@@ -34,47 +41,51 @@ public class pluginSettings extends Tab {
         titlePlugin.setId("h1");
         this.loadPlugin = new Button("Upload Plugin");
         this.loadPlugin.setId("settingsButton");
+        loadedPlugins = controller.getPlugins();
+        fixedBills = controller.getFixedBills();
 
         alertGUI = new AlertGUI();
+        plugins = new ComboBox<>();
+        plugins.setId("idDropDown");
+
+        updateData();
 
         loadPlugin.setOnAction(e-> {
             openFileDialog();
-
         });
 
-        Button pieChart = new Button("Pie Chart");
-        Button lineChart = new Button("Line Chart");
-        HBox tes = new HBox();
-        tes.getChildren().addAll(pieChart, lineChart);
+        pluginExec = new HBox();
+        runPlugin = new Button("Run and Load Plugin");
+        removePlugin = new Button("Remove Plugin");
+        runPlugin.setId("settingsButton");
+        removePlugin.setId("settingsButton");
 
-        pieChart.setOnAction(e -> {
-//            plugin1 pieplug = new plugin1();
-//            mainTabPane.getTabs().add(pieplug);
-            HashMap<String, Integer> dataSales = new HashMap<>();
-            dataSales.put("Barang 1", 100);
-            dataSales.put("Barang 2", 100);
-            dataSales.put("Barang 3", 100);
-            dataSales.put("Barang 4", 100);
+        this.runPlugin.setOnAction(e->{
+            String selected = validatePlugin();
+            if(!selected.equals("")){
+                runPlugin(selected);
+            }
         });
 
-        lineChart.setOnAction(e -> {
-//            plugin1 pieplug = new plugin1();
-//            mainTabPane.getTabs().add(pieplug);
-            HashMap<String, Integer> dataSales = new HashMap<>();
-            dataSales.put("Barang 1", 100);
-            dataSales.put("Barang 2", 100);
-            dataSales.put("Barang 3", 100);
-            dataSales.put("Barang 4", 100);
+        this.removePlugin.setOnAction(e->{
+            String selected = validatePlugin();
+            if(!selected.equals("")){
+                removePlugin(selected);
+            }
         });
+        pluginExec.getChildren().addAll(runPlugin, removePlugin);
+        pluginExec.setSpacing(50);
 
-        pluginLayout.getChildren().addAll(titlePlugin, this.loadPlugin);
-        pluginLayout.setSpacing(20);
+
+        pluginLayout.getChildren().addAll(titlePlugin, this.loadPlugin, plugins, pluginExec);
+        pluginLayout.setAlignment(Pos.CENTER);
+        pluginLayout.setSpacing(60);
 
         wholeLayout = new HBox();
         wholeLayout.setId("wholeLayout");
-        wholeLayout.getChildren().addAll(pluginLayout, tes);
+        wholeLayout.getChildren().addAll(pluginLayout);
         wholeLayout.getStylesheets().add("file:src/main/java/com/o2pjualan/style/style.css");
-
+        wholeLayout.setAlignment(Pos.CENTER);
         Pane base = new Pane();
         Image illus = new Image("file:src/img/illustration1.png");
         BackgroundSize backgroundSize = new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO,
@@ -83,6 +94,13 @@ public class pluginSettings extends Tab {
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize)));
         base.getChildren().add(wholeLayout);
         this.setContent(base);
+        wholeLayout.prefWidthProperty().bind(base.widthProperty());
+        wholeLayout.prefHeightProperty().bind(base.heightProperty());
+        this.setOnSelectionChanged(event -> {
+            if (this.isSelected()) {
+                updateData();
+            }
+        });
     }
 
     public void openFileDialog(){
@@ -101,31 +119,80 @@ public class pluginSettings extends Tab {
                 alertGUI.alertWarning("Cannot find in src file");
             } else {
                 String pathFile = path.substring(crop);
-
                     try{
-                        HashMap<String, Integer> dataSales = new HashMap<>();
-                        dataSales.put("Barang 1", 100);
-                        dataSales.put("Barang 2", 100);
-                        dataSales.put("Barang 3", 100);
-                        dataSales.put("Barang 4", 100);
-
-
                         Pair<String, Class<?>> classloaded = PluginManager.loadJarFile(pathFile);
-                        Class<?> classTes = classloaded.getValue();
-                        Method method = classTes.getDeclaredMethod("onLoadChart", HashMap.class);
-                        Object pluginObject = classTes.getDeclaredConstructor().newInstance(); // Instantiate an object of classTes
-                        Object chart = method.invoke(pluginObject, dataSales); // Invoke the method on the instantiated object
-
-                        alertGUI.alertInformation("Successfully loaded plugin");
-                        Node chartNode = (Node) chart;
-                        basePlugin pluginTab = new basePlugin(mainTabPane);
-                        pluginTab.addChart(chartNode);
-
+                        Plugin newPlugin = new Plugin(classloaded.getKey(), pathFile, classloaded.getValue().getName());
+                        boolean validate = loadedPlugins.addPlugin(newPlugin);
+                        if(validate){
+                            controller.saveDataPlugins(loadedPlugins);
+                            alertGUI.alertInformation("Plugin added successfully");
+                        } else {
+                            alertGUI.alertWarning("Plugin already exist");
+                        }
+                        updateData();
                     } catch (Exception err){
                         System.out.println(err);
                     }
             }
         }
-
     }
+
+    public void updateData(){
+        salesData = new SalesReport(fixedBills);
+        sales = salesData.getListOfAllProductSales();
+        ArrayList<Plugin> plugin = loadedPlugins.getPlugins();
+        if (plugin != null) {
+            listPlugin = new ArrayList<>();
+            for (Plugin p : plugin) {
+                listPlugin.add(p.getPluginName());
+            }
+            ObservableList<String> options = FXCollections.observableArrayList(listPlugin);
+            plugins.setItems(options);
+        }
+    }
+
+    public void runPlugin(String className) {
+        for (Plugin p : loadedPlugins.getPlugins()) {
+            if (p.getPluginName().equals(className)) {
+                System.out.println(p.getPluginName());
+                try {
+                    if (p.getPluginName().contains("Chart") || p.getPluginName().contains("chart")) {
+
+                        Pair<String, Class<?>> classloaded = PluginManager.loadJarFile(p.getJarFilePath());
+                        Class<?> classTes = classloaded.getValue();
+                        Method method = classTes.getDeclaredMethod("onLoadChart", HashMap.class);
+                        Object pluginObject = classTes.getDeclaredConstructor().newInstance();
+                        Object chart = method.invoke(pluginObject, sales);
+
+                        Node chartNode = (Node) chart;
+                        basePlugin pluginTab = new basePlugin(mainTabPane);
+                        pluginTab.addChart(chartNode);
+
+                        alertGUI.alertInformation("Plugin is running");
+                    }
+                } catch (Exception err) {
+                    System.out.println(err);
+                }
+            }
+        }
+    }
+
+    public void removePlugin(String pluginName){
+       Plugin p =  loadedPlugins.getPluginByName(pluginName);
+       if(p != null){
+           loadedPlugins.removePlugin(p);
+           controller.saveDataPlugins(loadedPlugins);
+           alertGUI.alertInformation("Succesfully remove plugin");
+       }
+       updateData();
+    }
+
+    public String validatePlugin(){
+        String selectedPlugin = this.plugins.getValue();
+        if (selectedPlugin == null) {
+            alertGUI.alertWarning("You have not selected a plugin");
+        }
+        return selectedPlugin != null ? selectedPlugin : "";
+    }
+
 }
