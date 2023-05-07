@@ -21,9 +21,9 @@ Indra dan Doni ingin meminta kalian, mahasiswa IF’ 21, untuk menambahkan fitur
 
 # How To Run
 1. Clone this github
-2. Build the gradle project
-    a. Go to build.gradle and click the reload build gradle button
-    b. Go to command line and in the root project type `gradle build`
+2. Build the gradle project <br>
+    a. Go to build.gradle and click the reload build gradle button <br>
+    b. Go to command line and in the root project type `gradle build` <br>
 3. Run the program with `gradle run`
 
 # Project Structure
