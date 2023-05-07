@@ -37,6 +37,7 @@ public class Plugins implements Serializable {
     }
 
     public void removePlugin(Plugin plugin){
+
         this.plugins.remove(plugin);
     }
 }

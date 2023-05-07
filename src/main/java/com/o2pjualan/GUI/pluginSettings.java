@@ -9,12 +9,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.scene.Node;
-
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import static com.o2pjualan.Main.controller;
 
 public class pluginSettings extends Tab {
