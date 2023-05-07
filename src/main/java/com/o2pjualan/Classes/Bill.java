@@ -84,6 +84,7 @@ public class Bill implements Serializable {
 
     public void RemoveProduct(int productCode) {
         this.ListOfProduct.remove(productCode);
+        this.ListPriceOfProduct.remove(productCode);
     }
     public void print() {
         System.out.println("idCustomer: " + this.idCustomer);

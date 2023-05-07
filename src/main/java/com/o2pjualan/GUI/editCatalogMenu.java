@@ -3,6 +3,7 @@ package com.o2pjualan.GUI;
 import com.o2pjualan.Classes.Bills;
 import com.o2pjualan.Classes.Product;
 import com.o2pjualan.Classes.Products;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.skin.TextInputControlSkin;
@@ -190,7 +191,15 @@ public class editCatalogMenu extends Tab {
         });
 
         this.deleteButton.setOnAction(e -> {
-            deleteItem(productCode);
+            Thread thread = new Thread(() -> {
+                deleteItem(productCode);
+                Platform.runLater(() -> {
+                    alertGUI.alertInformation("Product has been removed");
+                    mainTabPane.getTabs().remove(this);
+                });
+            });
+            thread.start();
+
         });
 
         bottomButtonLayout.getChildren().addAll(this.saveButton, this.deleteButton);
@@ -261,10 +270,6 @@ public class editCatalogMenu extends Tab {
             Bills bills = controller.getBills();
             bills.removeProduct(productCode);
             controller.saveDataBill(bills);
-            alertGUI.alertInformation("Product has been removed");
-            mainTabPane.getTabs().remove(this);
-        } else {
-            alertGUI.alertWarning("Product doesn't exist");
         }
     }
 }
