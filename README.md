@@ -167,7 +167,7 @@ Indra dan Doni ingin meminta kalian, mahasiswa IF’ 21, untuk menambahkan fitur
 | NIM  | Nama |
 | ------------- | ------------- |
 | 13521042 | Kevin John Wesley Hutabarat |
-| 1352120 | Febryan Arota Hia |
+| 13521120 | Febryan Arota Hia |
 | 13521132 | Dhanika Novlisariyanti |
 | 13521133 | Cetta Reswara Parahita |
 | 13521140 | Ryan Samuel Chandra |
