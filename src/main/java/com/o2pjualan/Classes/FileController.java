@@ -5,10 +5,12 @@ public interface FileController {
     void saveDataProduct (Products products);
     void saveDataFixedBill (FixedBills fixedBills);
     void saveDataBill (Bills bills);
+    void saveDataPlugins(Plugins plugins);
     Customers getCustomers();
     Products getProducts();
     Bills getBills();
     FixedBills getFixedBills();
+    Plugins getPlugins();
     int getTotalCustomers();
     int getTotalProducts();
     int getTotalFixedBills();

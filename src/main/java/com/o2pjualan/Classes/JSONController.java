@@ -16,12 +16,14 @@ public class JSONController implements FileController{
     private Products products;
     private Bills bills;
     private FixedBills fixedBills;
+    private Plugins plugins;
 
     public JSONController() throws IOException {
         loadDataCustomer();
         loadDataProduct();
         loadDataBill();
         loadDataFixedBill();
+        loadDataPlugin();
     }
 
     public void saveDataCustomer (Customers customers) {
@@ -40,6 +42,12 @@ public class JSONController implements FileController{
         this.bills = bills;
         saveData(bills.getBills(), "bill.json") ;}
 
+    @Override
+    public void saveDataPlugins(Plugins plugins) {
+        this.plugins = plugins;
+        saveData(plugins.getPlugins(), "plugin.json");
+    }
+
 
     public Customers getCustomers() {
         return customers;
@@ -55,6 +63,11 @@ public class JSONController implements FileController{
 
     public FixedBills getFixedBills() {
         return fixedBills;
+    }
+
+    @Override
+    public Plugins getPlugins() {
+        return plugins;
     }
 
     public void loadDataCustomer() throws IOException {
@@ -122,9 +135,16 @@ public class JSONController implements FileController{
     }
 
     public void loadDataPlugin() throws IOException {
+        this.plugins = new Plugins();
         ObjectMapper objectMapper = new ObjectMapper();
         String fileName = folderName + "plugin.json";
         File file = new File(fileName);
+        List<Plugin> pluginList = Arrays.asList(objectMapper.readValue(file, Plugin[].class));
+        List<Object> objects = objectMapper.readValue(file, new TypeReference<List<Object>>(){});
+        for (Object object: objects) {
+            Plugin plugin = objectMapper.<Plugin>convertValue(object, Plugin.class);
+            plugins.addPlugin(plugin);
+        }
     }
 
     public <T> void saveData(ArrayList<T> data, String file) {

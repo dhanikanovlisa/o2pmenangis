@@ -9,6 +9,8 @@ public class OBJController implements FileController{
     private Products products;
     private Bills bills;
     private FixedBills fixedBills;
+    private Plugins plugins;
+
 
     public OBJController() {
 //        this.customers = getData("customer.ser");
@@ -38,6 +40,12 @@ public class OBJController implements FileController{
     public void saveDataBill(Bills bills) {
         this.bills = bills;
         saveData(bills, "bill.ser");
+    }
+
+    @Override
+    public void saveDataPlugins(Plugins plugins) {
+        this.plugins = plugins;
+        saveData(plugins, "plugin.ser");
     }
 
     public <T> void saveData(T data, String fileName) {
@@ -74,6 +82,12 @@ public class OBJController implements FileController{
     public FixedBills getFixedBills() {
         this.fixedBills = getData("fixedBill.ser");
         return this.fixedBills;
+    }
+
+    @Override
+    public Plugins getPlugins() {
+        this.plugins = getData("plugin.ser");
+        return this.plugins;
     }
 
 

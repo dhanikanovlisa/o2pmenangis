@@ -73,7 +73,7 @@ public class FileManager {
             customer = "[ ]";
             fixedBill = "[ ]";
             product = "[ ]";
-            plugin = " {\"plugins\": []}";
+            plugin = " [ ]";
         } else if  (ext.equals("xml")) {
             customer = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                     "<customers></customers>";
@@ -83,7 +83,7 @@ public class FileManager {
                     "<fixedBills></fixedBills>";
             product = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                     "<products></products>";
-            plugin = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><PluginManager></PluginManager>\n";
+            plugin = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><plugins></plugins>\n";
         }
 
         for (String fileName : newFileNames) {
