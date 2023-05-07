@@ -1,5 +1,6 @@
 package com.o2pjualan;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.o2pjualan.Classes.*;
 import com.o2pjualan.GUI.*;
 import javafx.application.Application;
@@ -9,7 +10,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 
 
@@ -168,7 +168,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws IOException {
-        folderName = "src/dataStore/dataStore4/";
+        folderName = "src/dataStore/dataStore1/";
         FileManager.initiateDataStore();
         Application.launch(args);
         System.out.println("DONE");
