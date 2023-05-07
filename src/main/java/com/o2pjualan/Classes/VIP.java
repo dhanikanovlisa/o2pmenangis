@@ -14,7 +14,7 @@ import java.util.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class VIP extends Customer implements Serializable, Discount {
+public class VIP extends Customer implements Serializable {
     @XmlElement
     private String name;
     private String phoneNumber;

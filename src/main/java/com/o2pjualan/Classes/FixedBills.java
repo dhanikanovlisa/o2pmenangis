@@ -37,9 +37,5 @@ public class FixedBills implements Serializable {
         return null;
     }
 
-    public void print () {
-        for (FixedBill f: this.fixedBills) {
-            f.print();
-        }
-    }
+
 }

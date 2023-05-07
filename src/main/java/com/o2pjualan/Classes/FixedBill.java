@@ -32,7 +32,7 @@ public class FixedBill implements Serializable {
     protected HashMap<Integer,String > ListNameOfProduct;
     protected double totalFixedBill;
     protected double paidPoint;
-    protected double dicsount;
+    protected double discount;
 
     public FixedBill(int idCustomer)  {
         this.idBill = controller.getTotalFixedBills() + 2001;
@@ -58,7 +58,7 @@ public class FixedBill implements Serializable {
         ListNameOfProduct = listNameOfProduct;
         this.totalFixedBill = totalFixedBill;
         this.paidPoint = point;
-        this.dicsount = discount;
+        this.discount = discount;
     }
 
     public int getIdBill(){
@@ -77,30 +77,11 @@ public class FixedBill implements Serializable {
         return this.ListPriceOfProduct;
     }
 
-    public void setIdBill(int idBill) {
-        this.idBill = idBill;
-    }
-
-    public void setIdCustomer(int idCustomer) {
-        this.idCustomer = idCustomer;
-    }
-
-    public void setListOfProduct(HashMap<Integer, Integer> listOfProduct) {
-        this.ListOfProduct = listOfProduct;
-    }
 
     public void setListPriceOfProduct(HashMap<Integer, Double> listPriceOfProduct) {
         this.ListPriceOfProduct = listPriceOfProduct;
     }
 
-    public void print(){
-        System.out.println(this.toString());
-        int i=0;
-        for (Map.Entry<Integer,Integer> product:this.ListOfProduct.entrySet()){
-            i++;
-            System.out.printf("%d. productCode: %d - quantity: %d - price: %d \n",i,product.getKey(),product.getValue(),ListPriceOfProduct.get(product.getKey()));
-        }
-    }
 
     @Override
     public String toString() {
@@ -115,9 +96,7 @@ public class FixedBill implements Serializable {
     public double getTotalFixedBill(){
         return this.totalFixedBill;
     }
-    public double getPaidPoint(){
-        return this.paidPoint;
-    }
+
 
     public void setPaidPoint(double paidPoint){
         this.paidPoint = paidPoint;

@@ -13,10 +13,7 @@ public class OBJController implements FileController{
 
 
     public OBJController() {
-//        this.customers = getData("customer.ser");
-//        this.products = getData("product.ser");
-//        this.bills = getData("bill.ser");
-//        this.fixedBills = getData("fixedBill.ser");
+
     }
     @Override
     public void saveDataCustomer(Customers customers) {

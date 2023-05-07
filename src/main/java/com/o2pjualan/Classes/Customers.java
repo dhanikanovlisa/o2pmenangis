@@ -15,7 +15,7 @@ import java.util.*;
 public class Customers implements Serializable {
     private ArrayList<Customer> customers;
     public Customers() {
-        this.customers = new ArrayList<Customer>();
+        this.customers = new ArrayList<>();
     }
 
     public Customers(ArrayList<Customer> customers) {this.customers = customers; }
@@ -70,7 +70,7 @@ public class Customers implements Serializable {
 
     // get Id by membership, parameter Both buat get VIP sama Member sekaligus
     public ArrayList<Integer> getIdsByMembership(String membership) {
-        ArrayList<Integer> ret = new ArrayList<Integer>();
+        ArrayList<Integer> ret = new ArrayList<>();
         if (membership.equals("Both")) {
             for (Customer cust : customers) {
                 if (cust.getMembership().equals("VIP") || cust.getMembership().equals("Member")) {
@@ -198,47 +198,4 @@ public class Customers implements Serializable {
         }
         return 0;
     }
-
-//    public void addPoint(int idCust, double point) {
-//
-//        for (Customer cust : customers) {
-//            if(cust.getIdCustomer() == idCust){
-//                if (cust instanceof Member) {
-//                    ((Member) cust).addPoint(point);
-//                }else if (cust instanceof VIP) {
-//                    ((VIP) cust).addPoint(point);
-//                }
-//            }
-//        }
-//
-//    }
-
-//    public void reducePoint(int idCust, double point) {
-//        for (Customer cust : customers) {
-//            if(cust.getIdCustomer() == idCust){
-//                if (cust instanceof Member) {
-//                    ((Member) cust).reducePoint(point);
-//                }else if (cust instanceof VIP) {
-//                    ((VIP) cust).reducePoint(point);
-//                }
-//            }
-//        }
-//
-//    }
-//
-//    public void addFixedBill(int idFixedBill, int idCust) {
-//        for(Customer c: customers){
-//            if(c.getIdCustomer() == idCust){
-//                c.addFixedBill(idFixedBill);
-//            }
-//        }
-//    }
-
-    public void print() {
-        for (Customer c : this.customers) {
-            System.out.println(c.toString());
-        }
-    }
-
-
 }

@@ -12,7 +12,7 @@ public class Products implements Serializable {
     private ArrayList<Product> productCodes;
 
     public Products() {
-        this.productCodes = new ArrayList<Product>();
+        this.productCodes = new ArrayList<>();
     }
     public void addProduct(Product product) {
         this.productCodes.add(product);
@@ -50,11 +50,6 @@ public class Products implements Serializable {
         return null;
     }
 
-    public void print() {
-        for (Product p : this.productCodes) {
-            System.out.println(p.toString());
-        }
-    }
 
     public ArrayList<String> getAllCategory() {
         Set<String> categories = new HashSet<>();

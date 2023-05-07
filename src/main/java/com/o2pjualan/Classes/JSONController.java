@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import static com.o2pjualan.Main.folderName;
@@ -114,10 +113,9 @@ public class JSONController implements FileController{
         ObjectMapper objectMapper = new ObjectMapper();
         String fileName = folderName + "bill.json";
         File file = new File(fileName);
-        List<Bill> billList = Arrays.asList(objectMapper.readValue(file, Bill[].class));
         List<Object> objects = objectMapper.readValue(file, new TypeReference<List<Object>>(){});
         for (Object object: objects) {
-            Bill bill = objectMapper.<Bill>convertValue(object, Bill.class);
+            Bill bill = objectMapper.convertValue(object, Bill.class);
             bills.addBill(bill);
         }
     }
@@ -126,10 +124,9 @@ public class JSONController implements FileController{
         ObjectMapper objectMapper = new ObjectMapper();
         String fileName = folderName + "fixedBill.json";
         File file = new File(fileName);
-        List<FixedBill> billList = Arrays.asList(objectMapper.readValue(file, FixedBill[].class));
         List<Object> objects = objectMapper.readValue(file, new TypeReference<List<Object>>(){});
         for (Object object: objects) {
-            FixedBill fixedBill = objectMapper.<FixedBill>convertValue(object, FixedBill.class);
+            FixedBill fixedBill = objectMapper.convertValue(object, FixedBill.class);
             fixedBills.addFixedBill(fixedBill);
         }
     }
@@ -139,10 +136,9 @@ public class JSONController implements FileController{
         ObjectMapper objectMapper = new ObjectMapper();
         String fileName = folderName + "plugin.json";
         File file = new File(fileName);
-        List<Plugin> pluginList = Arrays.asList(objectMapper.readValue(file, Plugin[].class));
         List<Object> objects = objectMapper.readValue(file, new TypeReference<List<Object>>(){});
         for (Object object: objects) {
-            Plugin plugin = objectMapper.<Plugin>convertValue(object, Plugin.class);
+            Plugin plugin = objectMapper.convertValue(object, Plugin.class);
             plugins.addPlugin(plugin);
         }
     }

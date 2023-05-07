@@ -30,23 +30,9 @@ public class Plugin implements Serializable {
         return pluginName;
     }
 
-    public void setPluginName(String pluginName) {
-        this.pluginName = pluginName;
-    }
 
     public String getJarFilePath() {
         return jarFilePath;
     }
 
-    public void setJarFilePath(String jarFilePath) {
-        this.jarFilePath = jarFilePath;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
 }

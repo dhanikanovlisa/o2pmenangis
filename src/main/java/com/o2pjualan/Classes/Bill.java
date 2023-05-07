@@ -122,7 +122,7 @@ public class Bill implements Serializable {
 
         if (isActive) {
             if (membership.equals("VIP")) {
-                moveFromBill.setDicsount(this.totalBill * 0.1);
+                moveFromBill.setDiscount(this.totalBill * 0.1);
             }
             moveFromBill.setPaidPoint(point);
         }

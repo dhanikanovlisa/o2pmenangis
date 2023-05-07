@@ -1,8 +1,12 @@
 [ {
   "idCustomer" : 1,
-  "listOfProduct" : { },
-  "listPriceOfProduct" : { },
-  "totalBill" : 0.0
+  "listOfProduct" : {
+    "101" : 3
+  },
+  "listPriceOfProduct" : {
+    "101" : 60000.0
+  },
+  "totalBill" : 180000.0
 }, {
   "idCustomer" : 2,
   "listOfProduct" : { },
@@ -10,15 +14,9 @@
   "totalBill" : 0.0
 }, {
   "idCustomer" : 3,
-  "listOfProduct" : {
-    "101" : 1,
-    "102" : 1
-  },
-  "listPriceOfProduct" : {
-    "101" : 60000.0,
-    "102" : 50000.0
-  },
-  "totalBill" : 110000.0
+  "listOfProduct" : { },
+  "listPriceOfProduct" : { },
+  "totalBill" : 0.0
 }, {
   "idCustomer" : 4,
   "listOfProduct" : {

@@ -18,7 +18,7 @@
   "statusMembership" : true
 }, {
   "idCustomer" : 3,
-  "idFixedBill" : [ 2003 ],
+  "idFixedBill" : [ 2003, 2006 ],
   "idBill" : 3,
   "membership" : "VIP",
   "name" : "Juju",

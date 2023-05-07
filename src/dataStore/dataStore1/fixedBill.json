@@ -3,16 +3,16 @@
   "idCustomer" : 1,
   "totalFixedBill" : 527000.0,
   "paidPoint" : 0.0,
-  "dicsount" : 0.0,
+  "discount" : 0.0,
   "listOfProduct" : {
+    "103" : 3,
     "104" : 3,
-    "106" : 2,
-    "103" : 3
+    "106" : 2
   },
   "listPriceOfProduct" : {
+    "103" : 70000.0,
     "104" : 25000.0,
-    "106" : 121000.0,
-    "103" : 70000.0
+    "106" : 121000.0
   },
   "listNameOfProduct" : {
     "103" : "Jas Laboratorium",
@@ -24,7 +24,7 @@
   "idCustomer" : 2,
   "totalFixedBill" : 210000.0,
   "paidPoint" : 0.0,
-  "dicsount" : 0.0,
+  "discount" : 0.0,
   "listOfProduct" : {
     "103" : 3
   },
@@ -39,7 +39,7 @@
   "idCustomer" : 3,
   "totalFixedBill" : 75000.0,
   "paidPoint" : 0.0,
-  "dicsount" : 0.0,
+  "discount" : 0.0,
   "listOfProduct" : {
     "104" : 3
   },
@@ -54,7 +54,7 @@
   "idCustomer" : 2,
   "totalFixedBill" : 2230000.0,
   "paidPoint" : 0.0,
-  "dicsount" : 0.0,
+  "discount" : 0.0,
   "listOfProduct" : {
     "101" : 1,
     "103" : 31
@@ -72,7 +72,7 @@
   "idCustomer" : 1,
   "totalFixedBill" : 270000.0,
   "paidPoint" : 0.0,
-  "dicsount" : 27000.0,
+  "discount" : 27000.0,
   "listOfProduct" : {
     "101" : 1,
     "103" : 3
@@ -84,5 +84,23 @@
   "listNameOfProduct" : {
     "101" : "Cawan Petri",
     "103" : "Jas Laboratorium"
+  }
+}, {
+  "idBill" : 2006,
+  "idCustomer" : 3,
+  "totalFixedBill" : 110000.0,
+  "paidPoint" : 0.0,
+  "discount" : 0.0,
+  "listOfProduct" : {
+    "101" : 1,
+    "102" : 1
+  },
+  "listPriceOfProduct" : {
+    "101" : 60000.0,
+    "102" : 50000.0
+  },
+  "listNameOfProduct" : {
+    "101" : "Cawan Petri",
+    "102" : "Gelas Beker"
   }
 } ]
