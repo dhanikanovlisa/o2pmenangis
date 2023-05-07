@@ -104,6 +104,7 @@ public class Bill implements Serializable {
         return result;
     }
 
+    public FixedBill checkOutBill(double point, String membership, boolean isActive){
 
     public FixedBill checkOutBill(double poin){
         Products p = controller.getProducts();
@@ -118,6 +119,14 @@ public class Bill implements Serializable {
                 }
             }
         }
+
+        if (isActive) {
+            if (membership.equals("VIP")) {
+                moveFromBill.setDicsount(this.totalBill * 0.1);
+            }
+            moveFromBill.setPaidPoint(point);
+        }
+
         moveFromBill.setListNameOfProduct(listNameofProduct);
         moveFromBill.setTotalFixedBill(this.totalBill);
         moveFromBill.setPaidPoint(poin);

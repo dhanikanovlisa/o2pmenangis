@@ -4,7 +4,7 @@
   "productCategory" : "Alat Laboratorium",
   "buyPrice" : 50000.0,
   "sellPrice" : 60000.0,
-  "stock" : 13,
+  "stock" : 10,
   "imagePath" : "file:src/img/cawanpetri.jpg"
 }, {
   "productCode" : 102,
@@ -12,7 +12,7 @@
   "productCategory" : "Alat Laboratorium",
   "buyPrice" : 40000.0,
   "sellPrice" : 50000.0,
-  "stock" : 100,
+  "stock" : 99,
   "imagePath" : "file:src/img/gelasbeker.jpg"
 }, {
   "productCode" : 103,
@@ -20,7 +20,7 @@
   "productCategory" : "Seragam Medis",
   "buyPrice" : 60000.0,
   "sellPrice" : 70000.0,
-  "stock" : 100,
+  "stock" : 60,
   "imagePath" : "file:src/img/jaslab.jpg"
 }, {
   "productCode" : 104,
@@ -28,7 +28,7 @@
   "productCategory" : "Alat Laboratorium",
   "buyPrice" : 20000.0,
   "sellPrice" : 25000.0,
-  "stock" : 75,
+  "stock" : 69,
   "imagePath" : "file:src/img/kakitiga.jpg"
 }, {
   "productCode" : 106,
@@ -36,7 +36,7 @@
   "productCategory" : "Alat Laboratorium",
   "buyPrice" : 90000.0,
   "sellPrice" : 121000.0,
-  "stock" : 100,
+  "stock" : 98,
   "imagePath" : "file:src/img/labuerlenmeyer.png"
 }, {
   "productCode" : 107,

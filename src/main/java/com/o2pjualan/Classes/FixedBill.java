@@ -7,7 +7,6 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import javafx.stage.FileChooser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -39,6 +38,7 @@ public class FixedBill implements Serializable {
     protected HashMap<Integer,String > ListNameOfProduct;
     protected double totalFixedBill;
     protected double paidPoint;
+    protected double dicsount;
 
     public FixedBill(int idCustomer)  {
         this.idBill = controller.getTotalFixedBills() + 2001;
@@ -55,7 +55,8 @@ public class FixedBill implements Serializable {
                      @JsonProperty("ListPriceOfProduct")HashMap<Integer, Double> listPriceOfProduct,
                      @JsonProperty("ListNameOfProduct")HashMap<Integer, String> listNameOfProduct,
                      @JsonProperty("TotalFixedBill")double totalFixedBill,
-                     @JsonProperty("Point")double point) {
+                     @JsonProperty("Point")double point,
+                     @JsonProperty("Discount")double discount) {
         this.idBill = idBill;
         this.idCustomer = idCustomer;
         ListOfProduct = listOfProduct;
@@ -63,6 +64,7 @@ public class FixedBill implements Serializable {
         ListNameOfProduct = listNameOfProduct;
         this.totalFixedBill = totalFixedBill;
         this.paidPoint = point;
+        this.dicsount = discount;
     }
 
     public int getIdBill(){

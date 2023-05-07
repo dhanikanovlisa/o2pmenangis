@@ -199,64 +199,40 @@ public class Customers implements Serializable {
         return 0;
     }
 
+//    public void addPoint(int idCust, double point) {
+//
+//        for (Customer cust : customers) {
+//            if(cust.getIdCustomer() == idCust){
+//                if (cust instanceof Member) {
+//                    ((Member) cust).addPoint(point);
+//                }else if (cust instanceof VIP) {
+//                    ((VIP) cust).addPoint(point);
+//                }
+//            }
+//        }
+//
+//    }
 
-    public double pointCalculation(int idCust, double totalPrice, double currentPoint) {
-        /*Kalkulasi poin buat checkout bayar bill ke fixed bill*/
-        double poin = 0;
-        for (Customer cust : customers) {
-            if(cust.getIdCustomer() == idCust){
-                if (cust.getMembership().equals("Member")) {
-                    if(currentPoint > totalPrice){
-                        poin += totalPrice * 0.01;
-                    } else {
-                        poin += (totalPrice-currentPoint) * 0.01;
-                    }
-                }else if (cust.getMembership().equals("VIP")) {
-                    if(currentPoint > totalPrice){
-                        poin += totalPrice * 0.05;
-                    } else {
-                        poin += (totalPrice-currentPoint) * 0.05;
-                    }
-                }
-            }
-        }
-        return poin;
-    }
-
-    public void addPoint(int idCust, double point) {
-
-        for (Customer cust : customers) {
-            if(cust.getIdCustomer() == idCust){
-                if (cust instanceof Member) {
-                    ((Member) cust).addPoint(point);
-                }else if (cust instanceof VIP) {
-                    ((VIP) cust).addPoint(point);
-                }
-            }
-        }
-
-    }
-
-    public void reducePoint(int idCust, double point) {
-        for (Customer cust : customers) {
-            if(cust.getIdCustomer() == idCust){
-                if (cust instanceof Member) {
-                    ((Member) cust).reducePoint(point);
-                }else if (cust instanceof VIP) {
-                    ((VIP) cust).reducePoint(point);
-                }
-            }
-        }
-
-    }
-
-    public void addFixedBill(int idFixedBill, int idCust) {
-        for(Customer c: customers){
-            if(c.getIdCustomer() == idCust){
-                c.addFixedBill(idFixedBill);
-            }
-        }
-    }
+//    public void reducePoint(int idCust, double point) {
+//        for (Customer cust : customers) {
+//            if(cust.getIdCustomer() == idCust){
+//                if (cust instanceof Member) {
+//                    ((Member) cust).reducePoint(point);
+//                }else if (cust instanceof VIP) {
+//                    ((VIP) cust).reducePoint(point);
+//                }
+//            }
+//        }
+//
+//    }
+//
+//    public void addFixedBill(int idFixedBill, int idCust) {
+//        for(Customer c: customers){
+//            if(c.getIdCustomer() == idCust){
+//                c.addFixedBill(idFixedBill);
+//            }
+//        }
+//    }
 
     public void print() {
         for (Customer c : this.customers) {

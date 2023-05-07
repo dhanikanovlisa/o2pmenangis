@@ -1,107 +1,46 @@
 [ {
   "idCustomer" : 1,
-  "listOfProduct" : {
-    "101" : 4,
-    "102" : 1,
-    "103" : 3
-  },
-  "listPriceOfProduct" : {
-    "101" : 240000.0,
-    "102" : 50000.0,
-    "103" : 210000.0
-  }
+  "listOfProduct" : { },
+  "listPriceOfProduct" : { },
+  "totalBill" : 0.0
 }, {
   "idCustomer" : 2,
-  "listOfProduct" : {
-    "101" : 2,
-    "104" : 2
-  },
-  "listPriceOfProduct" : {
-    "101" : 240000.0,
-    "104" : 50000.0
-  }
+  "listOfProduct" : { },
+  "listPriceOfProduct" : { },
+  "totalBill" : 0.0
 }, {
   "idCustomer" : 3,
   "listOfProduct" : {
-    "103" : 2,
-    "108" : 1,
-    "110" : 2
+    "101" : 1,
+    "102" : 1
   },
   "listPriceOfProduct" : {
-    "103" : 140000.0,
-    "108" : 3000.0,
-    "110" : 240000.0
-  }
+    "101" : 60000.0,
+    "102" : 50000.0
+  },
+  "totalBill" : 110000.0
 }, {
   "idCustomer" : 4,
   "listOfProduct" : {
-    "112" : 2,
-    "101" : 1,
-    "109" : 5,
-    "111" : 2
+    "1" : 1
   },
   "listPriceOfProduct" : {
-    "112" : 14000.0,
-    "101" : 60000.0,
-    "109" : 100000.0,
-    "111" : 40000.0
-  }
+    "1" : 1000.0
+  },
+  "totalBill" : 1000.0
 }, {
-  "idCustomer" : 5,
-  "listOfProduct" : {
-    "114" : 1
-  },
-  "listPriceOfProduct" : {
-    "114" : 130000.0
-  }
+  "idCustomer" : 1,
+  "listOfProduct" : { },
+  "listPriceOfProduct" : { },
+  "totalBill" : 0.0
 }, {
-  "idCustomer" : 6,
-  "listOfProduct" : {
-    "101" : 1,
-    "102" : 1,
-    "103" : 1,
-    "104" : 1,
-    "106" : 1,
-    "107" : 1,
-    "108" : 1,
-    "109" : 1,
-    "110" : 1,
-    "111" : 1,
-    "112" : 1,
-    "113" : 1,
-    "114" : 1,
-    "115" : 1
-  },
-  "listPriceOfProduct" : {
-    "101" : 60000.0,
-    "102" : 50000.0,
-    "103" : 70000.0,
-    "104" : 25000.0,
-    "106" : 121000.0,
-    "107" : 35000.0,
-    "108" : 3000.0,
-    "109" : 20000.0,
-    "110" : 120000.0,
-    "111" : 20000.0,
-    "112" : 70000.0,
-    "113" : 90000.0,
-    "114" : 65000.0,
-    "115" : 15000.0
-  }
+  "idCustomer" : 2,
+  "listOfProduct" : { },
+  "listPriceOfProduct" : { },
+  "totalBill" : 0.0
 }, {
-  "idCustomer" : 7,
-  "listOfProduct" : {
-    "117" : 2
-  },
-  "listPriceOfProduct" : {
-    "117" : 140000.0
-  }
-}, {
-  "idCustomer" : 8,
-  "listOfProduct" : {
-    "107" : 10
-  },
-  "listPriceOfProduct" : {
-    "107" : 350000.0
-  }
+  "idCustomer" : 3,
+  "listOfProduct" : { },
+  "listPriceOfProduct" : { },
+  "totalBill" : 0.0
 } ]
