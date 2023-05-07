@@ -18,8 +18,10 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import static com.o2pjualan.Main.controller;
+import static com.o2pjualan.Main.mainTabPane;
 
 public class editCatalogMenu extends Tab {
     private Button saveButton;
@@ -206,10 +208,6 @@ public class editCatalogMenu extends Tab {
         base.getChildren().add(wrapper);
         this.setContent(base);
 
-        this.setOnSelectionChanged(event -> {
-            updateData();
-        }) ;
-
 
     }
     public void editItem() throws IOException, ParseException {
@@ -264,9 +262,9 @@ public class editCatalogMenu extends Tab {
             bills.removeProduct(productCode);
             controller.saveDataBill(bills);
             alertGUI.alertInformation("Product has been removed");
+            mainTabPane.getTabs().remove(this);
         } else {
             alertGUI.alertWarning("Product doesn't exist");
         }
     }
-
 }
