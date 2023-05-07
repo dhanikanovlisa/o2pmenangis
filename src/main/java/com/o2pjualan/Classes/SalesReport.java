@@ -57,7 +57,7 @@ public class SalesReport {
 
         try {
             LocalDateTime dateTime = LocalDateTime.now();
-            String pattern = "yyyy-MM-dd HH:mm:ss";
+            String pattern = "yyyy-MM-dd_HH-mm-ss";
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
             String formattedDateTime = dateTime.format(formatter);
             String directoryPath = "src/pdf/report/";
