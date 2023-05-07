@@ -21,4 +21,8 @@ public class Plugins implements Serializable {
     public void addPlugin(Plugin plugin) {
         this.plugins.add(plugin);
     }
+
+    public void removePlugin(Plugin plugin){
+        this.plugins.remove(plugin);
+    }
 }

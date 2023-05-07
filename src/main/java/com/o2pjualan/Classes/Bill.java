@@ -61,7 +61,7 @@ public class Bill implements Serializable {
             double currentPrice = this.ListPriceOfProduct.get(productCode);
             int newQuantity = currentQuantity - quantity;
             /*Kalo yang di delete lebih dari 0*/
-            if (newQuantity >= 0) {
+            if (newQuantity > 0) {
                 this.ListOfProduct.put(productCode, newQuantity);
                 this.ListPriceOfProduct.put(productCode, price);
                 this.totalBill -= (price * quantity);
