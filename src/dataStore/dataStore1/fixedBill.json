@@ -1,50 +1,88 @@
 [ {
   "idBill" : 2001,
-  "idCustomer" : 2,
+  "idCustomer" : 1,
+  "totalFixedBill" : 527000.0,
+  "paidPoint" : 0.0,
+  "dicsount" : 0.0,
   "listOfProduct" : {
-    "101" : 20,
-    "103" : 10,
-    "106" : 90
+    "104" : 3,
+    "106" : 2,
+    "103" : 3
   },
   "listPriceOfProduct" : {
-    "101" : 1200000,
-    "103" : 210000,
-    "106" : 10890000
+    "104" : 25000.0,
+    "106" : 121000.0,
+    "103" : 70000.0
+  },
+  "listNameOfProduct" : {
+    "103" : "Jas Laboratorium",
+    "104" : "Kaki Tiga",
+    "106" : "Labu Erlenmeyer"
   }
 }, {
   "idBill" : 2002,
   "idCustomer" : 2,
+  "totalFixedBill" : 210000.0,
+  "paidPoint" : 0.0,
+  "dicsount" : 0.0,
   "listOfProduct" : {
-    "110" : 5
+    "103" : 3
   },
   "listPriceOfProduct" : {
-    "110" : 600000
+    "103" : 70000.0
+  },
+  "listNameOfProduct" : {
+    "103" : "Jas Laboratorium"
   }
-} , {
+}, {
   "idBill" : 2003,
-  "idCustomer" : 4,
+  "idCustomer" : 3,
+  "totalFixedBill" : 75000.0,
+  "paidPoint" : 0.0,
+  "dicsount" : 0.0,
   "listOfProduct" : {
-    "111" : 2
+    "104" : 3
   },
   "listPriceOfProduct" : {
-    "111" : 40000
+    "104" : 25000.0
+  },
+  "listNameOfProduct" : {
+    "104" : "Kaki Tiga"
   }
 }, {
   "idBill" : 2004,
-  "idCustomer" : 4,
+  "idCustomer" : 2,
+  "totalFixedBill" : 2230000.0,
+  "paidPoint" : 0.0,
+  "dicsount" : 0.0,
   "listOfProduct" : {
-    "110" : 5
+    "101" : 1,
+    "103" : 31
   },
   "listPriceOfProduct" : {
-    "110" : 600000
+    "101" : 60000.0,
+    "103" : 70000.0
+  },
+  "listNameOfProduct" : {
+    "101" : "Cawan Petri",
+    "103" : "Jas Laboratorium"
   }
 }, {
   "idBill" : 2005,
-  "idCustomer" : 4,
+  "idCustomer" : 1,
+  "totalFixedBill" : 270000.0,
+  "paidPoint" : 0.0,
+  "dicsount" : 27000.0,
   "listOfProduct" : {
-    "119" : 5
+    "101" : 1,
+    "103" : 3
   },
   "listPriceOfProduct" : {
-    "110" : 50000
+    "101" : 60000.0,
+    "103" : 70000.0
+  },
+  "listNameOfProduct" : {
+    "101" : "Cawan Petri",
+    "103" : "Jas Laboratorium"
   }
-}]
+} ]
