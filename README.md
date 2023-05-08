@@ -26,6 +26,11 @@ Indra dan Doni ingin meminta kalian, mahasiswa IF’ 21, untuk menambahkan fitur
     b. Go to command line and in the root project type `gradle clean build` <br>
 3. Run the program with `gradle run`
 
+# How To Run From JAR
+1. Make sure you have javafx installed in your laptop
+2. Change the $MODULE_PATH to where you store your javafx installed lib MODULE_PATH=/path/to/javafx-sdk-VERSION/lib
+3. Run java --module-path $MODULE_PATH --add-modules javafx.controls,javafx.fxml -jar tokoO2P.jar
+
 # Project Structure
 ```
 └───src
